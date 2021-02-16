@@ -1,0 +1,108 @@
+/*
+	Global CSS
+*/
+	html {
+		overflow-y: auto;
+		background-color: #f6f8f9;
+	}
+	pre {
+		border-left: none;
+		border-radius: 9px;
+	}
+	.input, .textarea {
+		border-radius: 0.75em;
+	}
+	:focus {
+		outline: none;
+	}
+
+/*
+	Scrollbar CSS
+*/
+	::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+	::-webkit-scrollbar-thumb {
+		background-color: #065F9E;
+		border-radius: 10px;
+	}
+	* {
+		scrollbar-color: #065F9E #fff;
+		scrollbar-width: thin;
+	}
+/*::-webkit-scrollbar-thumb:hover {
+	background-color: #00707D;
+}*/
+/*::-webkit-scrollbar-thumb:active {
+	background-color: #00707D;
+}*/
+/*::-webkit-scrollbar-corner {
+	background-color: rgba(0,0,0,0.1);
+}*/
+/*::-webkit-scrollbar-track {
+	background: #f3e9d2;
+}*/
+
+/*
+	Selection CSS
+*/
+	::selection {
+		background-color: #065F9E !important;
+		color: #f6f8f9 !important;
+	}
+	::-moz-selection {
+		background-color: #065F9E !important;
+		color: #f6f8f9 !important;
+	}
+/*
+	BDS/Buefy/Bulma input CSS
+*/
+	.field>.checkbox:active, .field>.checkbox:focus, .field>.is-active.checkbox, .field>.is-active.radio, .field>.is-focused.checkbox, .field>.is-focused.radio, .field>.radio:active, .field>.radio:focus, .input:active, .input:focus, .is-active.input, .is-active.textarea, .is-focused.input, .is-focused.textarea, .select select.is-active, .select select.is-focused, .select select:active, .select select:focus, .textarea:active, .textarea:focus {
+		border-color: #065F9E;
+	}
+	.field>.checkbox, .field>.radio, .input, .select select, .textarea {
+		background-color: #efecf2;
+	}
+	.checkbox.is-toggle>input:checked~.checkbox-mark {
+		background-color: #065F9E;
+	}
+	.input:hover:not(:focus), .select:not(.field):hover>select, .textarea:hover:not(:focus)	{
+		background-color: #efecf2;
+	}
+
+.filepond--file-status {
+	opacity: 1 !important;
+	visibility: visible !important;
+}
+
+[data-filepond-item-state='processing-warn'] .filepond--item-panel {
+	background-color: #D97A37;
+}
+
+[data-filepond-item-state*='processing-warn'] .filepond--panel,
+[data-filepond-item-state*='processing-warn'] .filepond--file-wrapper {
+	-webkit-animation: shake 0.65s linear both;
+	animation: shake 0.65s linear both;
+}
+
+/*
+	NUXT Transition CSS
+*/
+	.layout-enter-active, .layout-leave-active {
+		transition: opacity 0.5s;
+	}
+	.layout-enter, .layout-leave-active {
+		opacity: 0;
+	}
+	.page-enter-active, .page-leave-active {
+		transition: opacity 0.3s;
+	}
+	.page-enter, .page-leave-to {
+		opacity: 0;
+	}
+
+.table.is-hoverable.is-striped tbody tr:not(.is-selected):hover, .table.is-hoverable.is-striped tbody tr:not(.is-selected):hover:nth-child(2n), .table.is-hoverable tbody tr:not(.is-selected):hover {
+	background-color: #D5CABD55;
+}
+
