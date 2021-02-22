@@ -74,10 +74,33 @@
 			<section class="section py-2">
 				<div class="columns">
 					<div class="column">
-						<div class="box is-raised is-unselectable"></div>
+						<div class="box is-raised is-unselectable">
+							<div class="dropdown is-hoverable is-fullwidth">
+								<div class="dropdown-trigger">
+									<div class="button is-light is-fullwidth has-text-grey-dark">
+										{{ selected_state }}
+									</div>
+								</div>
+								<div class="dropdown-menu">
+									<div class="dropdown-content has-background-light">
+										<a
+											:key="state_name"
+											@click="select_state(state_name, state_info)"
+											v-for="(state_info, state_name) in map_config"
+											:class="selected_state == state_name ? 'dropdown-item is-active has-text-weight-medium has-text-grey-dark' : 'dropdown-item has-text-weight-medium has-text-grey-dark'"
+										>
+											{{ state_name }}
+										</a>
+									</div>
+								</div>
+							</div>
+							<MapChart :show="selected_state_code"/>
+						</div>
 					</div>
 					<div class="column">
-						<div class="box is-raised is-unselectable"></div>
+						<div class="box is-raised is-unselectable">
+							<ScatterChart/>
+						</div>
 					</div>
 				</div>
 			</section>
@@ -100,9 +123,12 @@
 </template>
 
 <script>
-import { map, forEach } from "lodash"
-import { mapFields } from 'vuex-map-fields'
+import { map, forEach, uniq } from "lodash"
+import { mapFields } from "vuex-map-fields"
+import MapChart from "@/components/charts/map-chart.vue"
 import Table from "@/components/table/table-advanced.vue"
+import { MAP_META } from "@/components/charts/map_config"
+import ScatterChart from "@/components/charts/scatter-chart.vue"
 
 export default {
 	layout: 'normal',
@@ -110,9 +136,14 @@ export default {
 	data: () => ({
 		all_metadata: null,
 		table_loading: true,
+		map_config: MAP_META,
+		selected_state: 'India',
+		selected_state_code: MAP_META['India'],
 	}),
 	components: {
 		Table,
+		MapChart,
+		ScatterChart
 	},
 	computed: {
 		...mapFields([
@@ -128,6 +159,12 @@ export default {
 		},
 	},
 	methods: {
+		select_state(state, info) {
+			let temp = info
+			temp.name = state
+			this.selected_state = state
+			this.selected_state_code = temp
+		},
 		get_websocket_data() {
 			let vm = this
 			this.$options.sockets = new WebSocket(`${process.env.WS_BASE_URL}/frontend/`)
@@ -164,5 +201,9 @@ export default {
 <style scoped>
 	.medium {
 		height: 770px;
+	}
+	.dropdown-content {
+		height: 15em;
+		overflow: auto;
 	}
 </style>
