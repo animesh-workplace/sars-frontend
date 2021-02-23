@@ -37,15 +37,19 @@ export default {
 			},
 			title: {
 				textBaseline: 'middle',
-				top: (0 + 0.5) * 100 / 7 + '%',
-				text: 'Saturday'
+				top: '7%',
+				text: 'India'
 			},
+	        grid: [
+	          { height: 50, top: 60, left: 40, right: 20 },
+	          { top: 160, bottom: 110, left: 40, right: 20 },
+	        ],
 			singleAxis: {
-				left: 150,
+				left: 100,
 				type: 'category',
 				boundaryGap: false,
-				top: (0 * 100 / 7 + 5) + '%',
-				height: (100 / 7 - 10) + '%',
+				top: '5%',
+				height: '5%',
 				data: ['12a', '1a', '2a', '3a', '4a', '5a', '6a', '7a', '8a', '9a','10a','11a', '12p', '1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p', '10p', '11p'],
 				axisLabel: {
 					interval: 2
@@ -69,6 +73,14 @@ export default {
 		[THEME_KEY]: "light"
 	},
 	props: {
+		name: {
+			type: String
+		}
+	},
+	watch: {
+		name(value) {
+			this.options.title.text = value
+		}
 	},
 	computed: {
 	},
