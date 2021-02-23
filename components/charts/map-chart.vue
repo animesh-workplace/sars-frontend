@@ -199,7 +199,8 @@ export default {
 			} else {
 				this.options.series[0].nameProperty = 'st_nm'
 			}
-			this.options.series[0].map = value.code
+			this.options.series[0].map = value.name
+			// this.options.series[0].nameProperty = 'st_nm'
 		}
 	},
 	computed: {
