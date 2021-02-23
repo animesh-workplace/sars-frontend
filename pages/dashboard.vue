@@ -14,7 +14,7 @@
 									Genomes Sequenced
 								</div>
 								<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
-									{{ Intl.NumberFormat('en-IN').format('10000') }}
+									{{ Intl.NumberFormat('en-IN').format(dashboard['genomes_sequenced'] || 0 ) }}
 								</span>
 							</div>
 						</div>
@@ -30,7 +30,7 @@
 									Variants Catalogued
 								</div>
 								<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
-									{{ Intl.NumberFormat('en-IN').format('10000') }}
+									{{ Intl.NumberFormat('en-IN').format(dashboard['variants_catalogued'] || 0) }}
 								</span>
 							</div>
 						</div>
@@ -46,7 +46,7 @@
 									Lineages
 								</div>
 								<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
-									{{ Intl.NumberFormat('en-IN').format('10000') }}
+									{{ Intl.NumberFormat('en-IN').format(dashboard['lineages_catalogued'] || 0) }}
 								</span>
 							</div>
 						</div>
@@ -62,12 +62,19 @@
 									States Covered
 								</div>
 								<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
-									{{ Intl.NumberFormat('en-IN').format('10000') }}
+									{{ Intl.NumberFormat('en-IN').format(dashboard['states_covered'] || 0) }}
 								</span>
 							</div>
 						</div>
 					</div>
 
+				</div>
+			</section>
+
+			<section class="section py-2">
+				<div class="box is-raised is-unselectable">
+					{{ map_output }}
+					<ScatterChart :name="scatter_name"/>
 				</div>
 			</section>
 
@@ -94,13 +101,11 @@
 									</div>
 								</div>
 							</div>
-							<MapChart :show="selected_state_code" v-model="map_output"/>
+							<MapChart :show="selected_state_code" v-model="map_output" :mapData="map_data"/>
 						</div>
 					</div>
 					<div class="column">
 						<div class="box is-raised is-unselectable">
-							{{ map_output }}
-							<ScatterChart/>
 						</div>
 					</div>
 				</div>
@@ -141,6 +146,8 @@ export default {
 		selected_state: 'India',
 		selected_state_code: MAP_META['India'],
 		map_output: null,
+		dashboard: {},
+		map_data: []
 	}),
 	components: {
 		Table,
@@ -159,6 +166,13 @@ export default {
 			}
 			return false
 		},
+		scatter_name() {
+			if(this.map_output == null) {
+				return 'India'
+			} else {
+				return this.map_output.district
+			}
+		}
 	},
 	methods: {
 		select_state(state, info) {
@@ -175,12 +189,22 @@ export default {
 					vm.all_metadata = websocket_data.length ? websocket_data : null
 					vm.table_loading = false
 				}
+				if(JSON.parse(event.data)['type'] == 'DASHBOARD') {
+					let websocket_data = JSON.parse(event.data)['data']
+					vm.dashboard = websocket_data
+				}
+				if(JSON.parse(event.data)['type'] == 'MAP_DATA') {
+					let websocket_data = JSON.parse(event.data)['data']
+					vm.map_data = websocket_data
+				}
 			}
 			this.$options.sockets.onerror = function(event) {
 				console.log(event)
 			}
 			this.$options.sockets.onopen = function(event) {
 				vm.$options.sockets.send(JSON.stringify({'type': 'ALL_METADATA'}))
+				vm.$options.sockets.send(JSON.stringify({'type': 'DASHBOARD'}))
+				vm.$options.sockets.send(JSON.stringify({'type': 'MAP_DATA'}))
 			}
 
 		}
