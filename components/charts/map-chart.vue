@@ -137,16 +137,16 @@ export default {
 				// 	console.log(params.name)
 				// }
 			},
-			// visualMap: {
-			// 	min: 0,
-			// 	max: 2000,
-			// 	text: ['High', 'Low'],
-			// 	realtime: false,
-			// 	calculable: true,
-			// 	inRange: {
-			// 		color: ['#EEDCF0', '#AA50B5']
-			// 	}
-			// },
+			visualMap: {
+				min: 0,
+				max: 2000,
+				text: ['High', 'Low'],
+				realtime: false,
+				calculable: true,
+				inRange: {
+					color: ['#EEDCF0', '#AA50B5']
+				}
+			},
 			series: [{
 				name: 'MAP_OF_INDIAN_STATES',
 				type: 'map',
@@ -194,6 +194,9 @@ export default {
 	props: {
 		show: {
 			type: Object
+		},
+		mapData: {
+			type: Array
 		}
 	},
 	watch: {
@@ -204,6 +207,7 @@ export default {
 				this.options.series[0].nameProperty = 'st_nm'
 			}
 			this.options.series[0].map = value.name
+			this.options.series[0].data = this.mapData
 		},
 	},
 	computed: {
@@ -215,7 +219,8 @@ export default {
 				let data = {
 					mapType: this.show.mapType,
 					state: this.show.name,
-					district: event.name
+					district: event.name,
+					code: this.show.code
 				}
 				this.$emit('input', data)
 			}
