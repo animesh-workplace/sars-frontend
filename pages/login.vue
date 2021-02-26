@@ -33,10 +33,10 @@
 			</div>
 
 			<div class="column is-4 has-text-centered">
-				<div class="is-size-4 has-text-weight-semibold is-inline has-text-grey-darker">
-					Sequences Uploaded
+<!-- 				<div class="is-size-4 has-text-weight-semibold is-inline has-text-grey-darker">
+					Sequences Upload Statistics
 				</div>
-				<PieChartStats/>
+				<PieChartStats/> -->
 			</div>
 		</div>
 	</section>
