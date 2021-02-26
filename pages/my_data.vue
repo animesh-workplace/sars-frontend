@@ -7,6 +7,9 @@
 					<vs-pagination color="#D5CCBF" :dotted-number="10" v-model="page" :length="$vs.getLength(metadata, 30)" />
 				</div>
 			</div>
+			<div v-else>
+				<span class="subtitle is-5 has-text-grey-dark">No data uploaded yet</span>
+			</div>
 		</div>
 	</section>
 </template>
