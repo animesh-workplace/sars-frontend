@@ -375,8 +375,8 @@ export default {
 		upload_data() {
 			let payload = new FormData()
 			let time_now = Date.now()
-			let metadata_file_name = this.metadata.file.filenameWithoutExtension + '_' + time_now + '.' + this.metadata.file.fileExtension
-			let sequence_file_name = this.sequence.file.filenameWithoutExtension + '_' + time_now + '.' +this.sequence.file.fileExtension
+			let metadata_file_name = 'metadata' + '_' + time_now + '.' + this.metadata.file.fileExtension
+			let sequence_file_name = 'sequence' + '_' + time_now + '.' +this.sequence.file.fileExtension
 			payload.append("metadata", this.metadata.file.file, metadata_file_name)
 			payload.append("sequences", this.sequence.file.file, sequence_file_name)
 			let vm = this
