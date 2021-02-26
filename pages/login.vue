@@ -33,10 +33,10 @@
 			</div>
 
 			<div class="column is-4 has-text-centered">
-<!-- 				<div class="is-size-4 has-text-weight-semibold is-inline has-text-grey-darker">
+				<div class="is-size-4 has-text-weight-semibold is-inline has-text-grey-darker">
 					Sequences Upload Statistics
 				</div>
-				<PieChartStats/> -->
+				<PieChartStats/>
 			</div>
 		</div>
 	</section>
@@ -66,6 +66,9 @@ export default {
 		PieChartStats,
 	},
 	methods: {
+	},
+	mounted() {
+		// $cookies.remove('c_uid')
 	}
 };
 </script>
