@@ -73,11 +73,6 @@ export default {
 	methods: {
 		logout() {
 			this.$store.dispatch('user-info-store/user_logout')
-			this.$buefy.toast.open({
-				type: 'is-info',
-				message:'Logged Out',
-				position: 'is-bottom'
-			});
 		},
 	}
 };
