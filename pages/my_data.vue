@@ -21,6 +21,7 @@ import Table from "@/components/table/table.vue"
 
 export default {
 	layout: 'normal',
+	middleware: ['auth', 'auth_logout'],
 	data: () => ({
 		page: 1,
 		metadata: null
