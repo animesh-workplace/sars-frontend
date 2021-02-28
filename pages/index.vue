@@ -18,7 +18,7 @@ import { mapFields } from 'vuex-map-fields'
 
 export default {
 	layout: 'normal',
-	middleware: 'redirect',
+	middleware: ['auth', 'redirect'],
 	data: () => ({
 	}),
 	components: {
