@@ -24,7 +24,7 @@ export default {
 		meta: [
 			{ charset: 'utf-8' },
 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-			{ hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+			{ hid: 'description', name: 'description', content: '' }
 		],
 		link: [
 			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -50,7 +50,6 @@ export default {
 		'@/plugins/vuesax',
 		'@/plugins/vue-moment',
 		{ src: '@/plugins/vue-chart', ssr: false },
-		{ src: '@/plugins/vue-cookies', ssr: false },
 		{ src: '@/plugins/vue-localstorage', ssr: false },
 		{ src: '@/plugins/vue-sessionstorage', ssr: false },
 	],
@@ -64,8 +63,6 @@ export default {
 */
 	buildModules: [
 		'@nuxtjs/svg',
-		'@nuxtjs/color-mode',
-		'@nuxtjs/fontawesome',
 		'@nuxtjs/style-resources',
 	],
 /*
@@ -76,6 +73,7 @@ export default {
 		'@nuxtjs/axios',
 		'nuxt-validate',
 		'@nuxtjs/dotenv',
+		'cookie-universal-nuxt',
 		['nuxt-buefy', { materialDesignIcons: false }],
 	],
 /*
