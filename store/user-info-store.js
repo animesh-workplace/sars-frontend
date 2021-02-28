@@ -61,7 +61,8 @@ export const actions = {
 			this.$auth.setUser(data.username)
 			this.$auth.ctx.app.$axios.setHeader('Authorization', `JWT ${ data.token }`)
 			await commit('SET_TOKEN_EXPIRY', data.expires)
-			localStorage.setItem('token_expiry', data.expires)
+			this.$auth.$storage.setCookie('token_expiry', data.expires)
+			// localStorage.setItem('token_expiry', data.expires)
 			this.$router.push('/upload')
 			Toast.open({
 				message: `Logged In Successfully`,
@@ -78,7 +79,20 @@ export const actions = {
 	},
 	async user_logout({ commit, dispatch }) {
 		this.$auth.logout()
-		$cookies.remove('c_uid')
+		this.$cookies.remove('c_uid')
+		this.$auth.$storage.setCookie('token_expiry', false)
+		await commit('SET_TOKEN_EXPIRY', '')
+		await dispatch('set_activateforgotpasswordmodal', false)
+		Toast.open({
+			type: 'is-info',
+			message:'Logged Out',
+			position: 'is-bottom'
+		})
+	},
+	async user_logout_server({ commit, dispatch }) {
+		this.$auth.logout()
+		this.$auth.$storage.setCookie('token_expiry', false)
+		this.$cookies.remove('c_uid')
 		await commit('SET_TOKEN_EXPIRY', '')
 		await dispatch('set_activateforgotpasswordmodal', false)
 	},
