@@ -31,7 +31,9 @@
 					    	<hr class="is-visible is-size-3 is-size-4-mobile has-background-primary-claim-gradient my-3">
 					    	<div class="subtitle is-5 has-text-grey-dark">
 					    		<p>Metadata needs to contain the following column names</p>
-					    		<p>The columns in red cannot be empty</p>
+					    		<p class="has-text-weight-semibold has-text-red-dark">
+					    			The column headers marked in red are mandatory
+					    		</p>
 					    		<ul>
 									<li>
 										<b class="has-text-red">Virus name</b> - e.g. India/CH-ICMR-51800/2020 (Must be FASTA-Header from the FASTA file)
@@ -288,6 +290,7 @@ import LoginLayout from "@/components/authentication/login-layout.vue"
 
 export default {
 	layout: 'normal',
+	middleware: ['auth', 'auth_logout'],
 	data: () => ({
 		loader: null,
 		metadata: null,
