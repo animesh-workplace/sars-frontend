@@ -5,6 +5,7 @@ import { getField, updateField } from 'vuex-map-fields'
 export const state = () => ({
 	active: 'Home',
 	timeout: null,
+	missing_columns: [],
 });
 
 export const getters = {
