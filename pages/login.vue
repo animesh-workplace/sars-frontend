@@ -1,45 +1,61 @@
 <template>
-	<section class="section">
-		<div class="columns is-vcentered">
-			<div class="column is-3 has-text-centered mt-6">
-				<div class="is-size-4 has-text-weight-semibold is-inline has-text-grey-darker">
-					Participating Institutes
-				</div>
-				<div
-					class="box is-raised is-small hover-to-box"
-					v-for="name in institutes"
-					:key="name"
-				>
-					<span class="has-text-weight-semibold has-text-grey-dark">{{ name }}</span>
-				</div>
-			</div>
-
-			<div class="column is-5">
-				<div class="column">
-					<div class="has-text-centered">
-						<nuxt-link  to="/upload">
-							<div class="is-size-2 has-text-weight-semibold is-inline has-text-grey-darker">
-								INSACOG
-							</div>
-							<div class="is-size-2 is-inline has-text-grey-dark">
-								&nbsp;DataHub
-							</div>
-						</nuxt-link>
+	<div>
+		<section class="section">
+			<div class="columns is-vcentered">
+				<div class="column is-3 has-text-centered mt-5">
+					<div class="is-size-4 has-text-weight-semibold is-inline has-text-grey-darker">
+						Participating Institutes
 					</div>
-					<div class="box is-floating">
-						<LoginLayout/>
+					<div
+						class="box is-raised is-small hover-to-box"
+						v-for="name in institutes"
+						:key="name"
+					>
+						<span class="has-text-weight-semibold has-text-grey-dark">{{ name }}</span>
 					</div>
 				</div>
-			</div>
 
-			<div class="column is-4 has-text-centered">
-				<div class="is-size-4 has-text-weight-semibold is-inline has-text-grey-darker">
-					Sequences Upload Statistics
+				<div class="column is-5">
+					<div class="column">
+						<div class="has-text-centered">
+							<nuxt-link  to="/upload">
+								<div class="is-size-2 has-text-weight-semibold is-inline has-text-grey-darker">
+									INSACOG
+								</div>
+								<div class="is-size-2 is-inline has-text-grey-dark">
+									&nbsp;DataHub
+								</div>
+							</nuxt-link>
+						</div>
+						<div class="box is-floating">
+							<LoginLayout/>
+						</div>
+					</div>
 				</div>
-				<PieChartStats/>
+
+				<div class="column is-4 has-text-centered">
+					<div class="is-size-4 has-text-weight-semibold is-inline has-text-grey-darker">
+						Sequences Upload Statistics
+					</div>
+					<PieChartStats/>
+				</div>
 			</div>
+		</section>
+
+
+		<div class="column is-5 is-offset-3 p-0">
+			<footer class="footer">
+				<div class="content has-text-centered">
+					<p class="mb-0">
+						<b>INSACOG</b> DataHub is developed & maintained by NSM group
+					</p>
+					<p>
+						Source Code is available at <a class="has-text-info" href="https://github.com/animesh-workplace/sars-frontend">https://github.com/animesh-workplace/sars-frontend</a>
+					</p>
+				</div>
+			</footer>
 		</div>
-	</section>
+	</div>
 </template>
 
 <script>
@@ -76,5 +92,8 @@ export default {
 <style scoped>
 .is-size-4-5 {
 	font-size: 1.45rem !important;
+}
+.footer {
+	padding: 0.5rem 1.5rem;
 }
 </style>
