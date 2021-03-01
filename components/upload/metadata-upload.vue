@@ -34,9 +34,11 @@
 <script>
 import 'filepond/dist/filepond.min.css'
 
+import { map, sum } from 'lodash'
 import vueFilePond from 'vue-filepond'
 import csv2json from 'csvjson-csv2json'
-import { map, sum } from 'lodash'
+import { mapFields } from 'vuex-map-fields'
+import Missing from './missing_notification.vue'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 
 
@@ -53,6 +55,11 @@ export default {
 		metadata_verification: [],
 		file_type_accepted: ['text', 'csv', 'tsv', 'txt'],
 	}),
+	computed: {
+		...mapFields([
+			'missing_columns'
+		]),
+	},
 	watch: {
 		metadata_json(value) {
 			let data = {
@@ -79,7 +86,6 @@ export default {
 			this.metadata_file = file
 
 			var fileReader = new FileReader()
-			console.log(file.fileExtension)
 			if(this.file_type_accepted.includes(file.fileExtension)) {
 				this.metadata_verification[0].verification = true
 				fileReader.readAsText(file.file)
@@ -89,8 +95,10 @@ export default {
 				)
 				vm.$vs.notification({
 					sticky: true,
+					duration: 10000,
+					progress: 'auto',
 					color: 'danger',
-					position: 'top-right',
+					position: 'bottom-right',
 					title: 'File is of invalid type',
 					text: 'Expects csv, tsv or text/txt'
 				})
@@ -109,6 +117,8 @@ export default {
 					)
 					vm.$vs.notification({
 						sticky: true,
+						duration: 10000,
+						progress: 'auto',
 						color: '#FF8F41',
 						position: 'bottom-right',
 						title: 'Columns not matching',
