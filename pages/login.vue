@@ -84,7 +84,6 @@ export default {
 	methods: {
 	},
 	mounted() {
-		// $cookies.remove('c_uid')
 	}
 };
 </script>
