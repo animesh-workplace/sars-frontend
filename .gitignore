@@ -1,6 +1,12 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 
+# Temp files
+*.fasta
+*.fa
+*.tsv
+*.xlsx
+
 # Sublime
 *.sublime*
 
