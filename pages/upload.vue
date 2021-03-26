@@ -360,7 +360,7 @@ export default {
 			}
 		},
 		verify_metadata() {
-			let virus_name = map(this.metadata.data, d=> d['Virus name'])
+			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
 			let missing_sequence = map(virus_name, (d,i)=> this.sequence.data.includes(d) ? '' : d).filter(String)
 			if(!missing_sequence.length) {
 				this.metadata.verification[2].verification = true
@@ -368,7 +368,7 @@ export default {
 			return missing_sequence
 		},
 		verify_sequence() {
-			let virus_name = map(this.metadata.data, d=> d['Virus name'])
+			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
 			let missing_metadata = map(this.sequence.data, (d,i)=> virus_name.includes(d) ? '' : d).filter(String)
 			if(!missing_metadata.length) {
 				this.sequence.verification[2].verification = true
@@ -379,7 +379,7 @@ export default {
 			let payload = new FormData()
 			let time_now = Date.now()
 			let metadata_file_name = 'metadata' + '_' + time_now + '.' + this.metadata.file.fileExtension
-			let sequence_file_name = 'sequence' + '_' + time_now + '.' +this.sequence.file.fileExtension
+			let sequence_file_name = 'sequence' + '_' + time_now + '.' + this.sequence.file.fileExtension
 			payload.append("metadata", this.metadata.file.file, metadata_file_name)
 			payload.append("sequences", this.sequence.file.file, sequence_file_name)
 			let vm = this
