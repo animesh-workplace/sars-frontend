@@ -142,7 +142,7 @@ export default {
 					vm.sequence_verification[1].verification = true
 					let all_samples = []
 					forEach(parsed_data, d=>{
-						all_samples.push(d.name)
+						all_samples.push(d.name.replace('\r', ''))
 					})
 					vm.sequence_json = all_samples
 				} else {
