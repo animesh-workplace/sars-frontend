@@ -197,7 +197,6 @@
 					<div class="box is-well">
 						<div
 							class="level animate__animated animate__fadeIn delay-7ms"
-							v-if="sequence.verification[2].verification && metadata.verification[2].verification"
 						>
 							<div class="level-left">
 								<span class="has-text-grey-dark has-text-weight-semibold">
@@ -213,6 +212,86 @@
 					</div>
 
 					<div class="column">
+						<div
+							:key="index"
+							v-for="(data, index) in all_qc_checks"
+						>
+							<div :class="`level mb-2 animate__animated animate__fadeIn delay-${index}ms`">
+								<div class="level-left">
+									<span class="has-text-grey-dark has-text-weight-semibold">
+										{{ data.name }}
+									</span>
+								</div>
+								<div class="level-right">
+									<Tag :tagtype="data.verification"/>
+								</div>
+							</div>
+
+							<div
+								v-if="data.id == 3 && !all_qc_checks[2].verification && missing_sequence.length"
+								class="message mb-2 is-danger animate__animated animate__fadeIn delay-3ms"
+							>
+								<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
+									Sequence missing for the following
+								</p>
+								<div v-for="(seq, index) in missing_sequence" :key="index">
+									{{ seq }}
+								</div>
+							</div>
+
+							<div
+								v-if="data.id == 3 && !all_qc_checks[2].verification && missing_metadata.length"
+								class="message mb-2 is-danger animate__animated animate__fadeIn delay-7ms"
+							>
+								<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
+									Metadata missing for the following
+								</p>
+								<div v-for="(meta, index) in missing_metadata" :key="index">
+									{{ meta }}
+								</div>
+							</div>
+
+							<div
+								v-if="data.id == 5 && !all_qc_checks[4].verification && already_uploaded.length"
+								class="message is-danger animate__animated animate__fadeIn delay-3ms"
+							>
+								<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
+									Following sequences are already uploaded
+								</p>
+								<div v-for="(seq, index) in already_uploaded" :key="index">
+									{{ seq }}
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+
+<!-- 					<div
+						v-if="sequence.verification[1].verification && !sequence.verification[2].verification"
+						class="message is-danger animate__animated animate__fadeIn delay-7ms"
+					>
+						<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
+							Metadata missing for the following
+						</p>
+						<div v-for="(meta, index) in missing_metadata" :key="index">
+							{{ meta }}
+						</div>
+					</div>
+
+					<div
+						v-if="!all_qc_checks[4].verification"
+						class="message is-danger animate__animated animate__fadeIn delay-3ms"
+					>
+						<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
+							Following sequences are already uploaded
+						</p>
+						<div v-for="(seq, index) in already_uploaded" :key="index">
+							{{ seq }}
+						</div>
+					</div> -->
+
+<!-- 					<div class="column">
 						<div
 							:key="index"
 							v-for="(data, index) in metadata.verification"
@@ -270,7 +349,7 @@
 						<div v-for="(meta, index) in missing_metadata" :key="index">
 							{{ meta }}
 						</div>
-					</div>
+					</div> -->
 
 				</div>
 
@@ -299,10 +378,20 @@ export default {
 		upload_percent: 0,
 		missing_sequence: null,
 		missing_metadata: null,
+		already_uploaded: null,
+		duplicate_sequence: null,
+		duplicate_metadata: null,
 		button_verification: false,
 		metadata_requirement: false,
 		sequence_requirement: false,
 		id: Date.now() + Math.floor(Math.random()*10000 + 1),
+		all_qc_checks: [
+			{ id: 1, name: 'Metadata & Sequence file format check', verification: false },
+			{ id: 2, name: 'Metadata & Sequence file structure check', verification: false },
+			{ id: 3, name: 'Missing data check', verification: false },
+			{ id: 4, name: 'Duplicate check', verification: false },
+			{ id: 5, name: 'Already present check', verification: false },
+		]
 	}),
 	components: {
 		Tag,
@@ -319,6 +408,11 @@ export default {
 				}
 			}
 			this.show_log = false
+			this.missing_metadata = null
+			this.missing_sequence = null
+			this.already_uploaded = null
+			this.duplicate_metadata = null
+			this.duplicate_sequence = null
 			this.button_verification = false
 			return true
 		},
@@ -347,16 +441,29 @@ export default {
 				this.sequence_requirement = !this.sequence_requirement
 			}
 		},
-		verify_data() {
+		async verify_data() {
 			if(this.metadata && this.sequence) {
+				this.all_qc_checks[0].verification = true
 				if(this.metadata.file && this.sequence.file) {
-					this.show_log = true
+					this.all_qc_checks[1].verification = true
 					this.missing_sequence = this.verify_metadata()
 					this.missing_metadata = this.verify_sequence()
 					if(this.metadata.verification[2].verification && this.sequence.verification[2].verification) {
+						this.all_qc_checks[2].verification = true
+					} else {
+						this.all_qc_checks[2].verification = false
+					}
+					this.find_duplicate()
+					await this.sequence_already_present()
+					this.show_log = true
+					if(this.metadata.verification[2].verification && this.sequence.verification[2].verification) {
 						this.button_verification = true
 					}
+				} else {
+					this.all_qc_checks[1].verification = false
 				}
+			} else {
+				this.all_qc_checks[0].verification = false
 			}
 		},
 		verify_metadata() {
@@ -374,6 +481,26 @@ export default {
 				this.sequence.verification[2].verification = true
 			}
 			return missing_metadata
+		},
+		find_duplicate() {
+			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
+			let duplicates_metadata = virus_name.filter((e, i, a) => a.indexOf(e) !== i)
+			let duplicates_sequence = this.sequence.data.filter((e, i, a) => a.indexOf(e) !== i)
+			if(!(duplicates_metadata.length && duplicates_sequence.length)) {
+				this.all_qc_checks[3].verification = true
+			} else {
+				this.all_qc_checks[3].verification = false
+			}
+		},
+		async sequence_already_present() {
+			let metadata_name = await this.$axios.$post('/files/metadata-info-name/')
+			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
+			this.already_uploaded = map(virus_name, (d,i)=> metadata_name.includes(d) ? d : '').filter(String)
+			if(!this.already_uploaded.length) {
+				this.all_qc_checks[4].verification = true
+			} else {
+				this.all_qc_checks[4].verification = false
+			}
 		},
 		upload_data() {
 			let payload = new FormData()
