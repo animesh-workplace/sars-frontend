@@ -8,6 +8,7 @@ export const state = () => ({
 	avatar_image: '',
 	poster_image: '',
 	editmode: false,
+	uploaded_metadata: {},
 	activateemailmodal: false,
 	activateuploadposter: false,
 	activateuploadavatar: false,
