@@ -50,6 +50,7 @@
     "filepond-plugin-image-transform": "^3.7.4",
     "filepond-plugin-image-validate-size": "^1.2.4",
     "fs": "^0.0.1-security",
+    "fuzzyset": "^1.0.6",
     "leader-line-new": "^1.1.9",
     "lodash": "^4.17.20",
     "material-icons": "^0.3.1",
