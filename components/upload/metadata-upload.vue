@@ -34,7 +34,7 @@
 <script>
 import 'filepond/dist/filepond.min.css'
 
-import { map, sum, forEach } from 'lodash'
+import { map, sum, forEach, startCase } from 'lodash'
 import vueFilePond from 'vue-filepond'
 import csv2json from 'csvjson-csv2json'
 import { mapFields } from 'vuex-map-fields'
@@ -118,7 +118,6 @@ export default {
 					forEach(state.missing,
 						(d,i)=> missing_text = i == 1 ? `<b>${d}<b>` : `${missing_text}<br><b>${d}<b>`
 					)
-					console.log(missing_text)
 					vm.$vs.notification({
 						sticky: true,
 						duration: 'none',
