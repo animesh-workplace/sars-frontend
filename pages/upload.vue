@@ -499,26 +499,16 @@ export default {
 			let indian_states = ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttarakhand', 'Uttar Pradesh', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry']
 			let fs = FuzzySet(indian_states, false)
 			let test_fs = map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['State']).filter(String)
-			console.log(test_fs)
+			let test_fs2 = map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['Virus name']).filter(String)
 
 			this.all_states_indian = indian_states
-			let state_data = map(this.metadata.data,
-				d=> startCase(toLower(d['State'].replace('\r', '')))
-			)
-			let wrong_state_info = map(state_data,
-				(d,i)=> indian_states.includes(d) ? '' : this.metadata.data[i]['State']
-			).filter(String)
-			let wrong_state_sample_id = map(state_data,
-				(d,i)=> indian_states.includes(d) ? '' : this.metadata.data[i]['Virus name']
-			).filter(String)
-			this.wrong_state = uniq(wrong_state_info)
-			this.wrong_state_id = wrong_state_sample_id
+			this.wrong_state = uniq(test_fs)
+			this.wrong_state_id = test_fs2
 			if(!this.wrong_state_id.length) {
 				this.all_qc_checks[1].verification = true
 			} else {
 				this.all_qc_checks[1].verification = false
 			}
-			// console.log(wrong_state_info)
 		},
 		verify_metadata() {
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
