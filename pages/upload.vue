@@ -228,6 +228,30 @@
 							</div>
 
 							<div
+								v-if="data.id == 2 && !all_qc_checks[1].verification && wrong_state_id.length"
+								class="message mb-2 is-danger animate__animated animate__fadeIn delay-3ms"
+							>
+								<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
+									Following ids have wrong state info
+								</p>
+								<div class="block mb-1">
+									<span class="has-text-grey-darker">Wrong state names:</span>
+									<div class="is-inline-block" v-for="seq in wrong_state">
+										{{ seq }},&nbsp;
+									</div>
+								</div>
+								<div class="block mb-1">
+									<span class="has-text-grey-darker">Correct state names:</span>
+									<div class="is-inline-block" v-for="seq in all_states_indian">
+										{{ seq }},&nbsp;
+									</div>
+								</div>
+								<div v-for="(seq, index) in wrong_state_id" :key="index">
+									{{ seq }}
+								</div>
+							</div>
+
+							<div
 								v-if="data.id == 3 && !all_qc_checks[2].verification && missing_sequence.length"
 								class="message mb-2 is-danger animate__animated animate__fadeIn delay-3ms"
 							>
@@ -359,7 +383,8 @@
 </template>
 
 <script>
-import { map, forEach } from "lodash"
+import { map, forEach, startCase, capitalize, toLower, uniq } from "lodash"
+import FuzzySet from 'fuzzyset'
 import { mapFields } from 'vuex-map-fields'
 import Tag from "@/components/upload/tag.vue"
 import Table from "@/components/table/table.vue"
@@ -384,6 +409,9 @@ export default {
 		button_verification: false,
 		metadata_requirement: false,
 		sequence_requirement: false,
+		wrong_states: null,
+		wrong_state_id: null,
+		all_states_indian: null,
 		id: Date.now() + Math.floor(Math.random()*10000 + 1),
 		all_qc_checks: [
 			{ id: 1, name: 'Metadata & Sequence file format check', verification: false },
@@ -445,7 +473,7 @@ export default {
 			if(this.metadata && this.sequence) {
 				this.all_qc_checks[0].verification = true
 				if(this.metadata.file && this.sequence.file) {
-					this.all_qc_checks[1].verification = true
+					// this.all_qc_checks[1].verification = true
 					this.missing_sequence = this.verify_metadata()
 					this.missing_metadata = this.verify_sequence()
 					if(this.metadata.verification[2].verification && this.sequence.verification[2].verification) {
@@ -454,6 +482,7 @@ export default {
 						this.all_qc_checks[2].verification = false
 					}
 					this.find_duplicate()
+					this.check_state_information()
 					await this.sequence_already_present()
 					this.show_log = true
 					if(this.metadata.verification[2].verification && this.sequence.verification[2].verification) {
@@ -465,6 +494,31 @@ export default {
 			} else {
 				this.all_qc_checks[0].verification = false
 			}
+		},
+		check_state_information() {
+			let indian_states = ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttarakhand', 'Uttar Pradesh', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry']
+			let fs = FuzzySet(indian_states, false)
+			let test_fs = map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['State']).filter(String)
+			console.log(test_fs)
+
+			this.all_states_indian = indian_states
+			let state_data = map(this.metadata.data,
+				d=> startCase(toLower(d['State'].replace('\r', '')))
+			)
+			let wrong_state_info = map(state_data,
+				(d,i)=> indian_states.includes(d) ? '' : this.metadata.data[i]['State']
+			).filter(String)
+			let wrong_state_sample_id = map(state_data,
+				(d,i)=> indian_states.includes(d) ? '' : this.metadata.data[i]['Virus name']
+			).filter(String)
+			this.wrong_state = uniq(wrong_state_info)
+			this.wrong_state_id = wrong_state_sample_id
+			if(!this.wrong_state_id.length) {
+				this.all_qc_checks[1].verification = true
+			} else {
+				this.all_qc_checks[1].verification = false
+			}
+			// console.log(wrong_state_info)
 		},
 		verify_metadata() {
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
