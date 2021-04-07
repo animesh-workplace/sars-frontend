@@ -106,3 +106,8 @@
 	background-color: #D5CABD55;
 }
 
+.vs-tooltip {
+	max-width: 900px;
+	padding: 16px 20px;
+	text-align: left;
+}
