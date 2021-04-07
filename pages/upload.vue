@@ -183,7 +183,7 @@
 						</div>
 						<div
 							@click="upload_data"
-							class="button is-info"
+							class="button is-success is-fullwidth"
 							:disabled="enable_submit"
 							v-if="!submit_data_button"
 						>
@@ -194,10 +194,9 @@
 
 
 				<div class="box is-well" v-if="show_log">
+
 					<div class="box is-well">
-						<div
-							class="level animate__animated animate__fadeIn delay-7ms"
-						>
+						<div class="level animate__animated animate__fadeIn delay-7ms">
 							<div class="level-left">
 								<span class="has-text-grey-dark has-text-weight-semibold">
 									Basic QC Check
@@ -205,7 +204,7 @@
 							</div>
 							<div class="level-right">
 								<Tag
-									:tagtype="sequence.verification[2].verification && metadata.verification[2].verification"
+									:tagtype="all_qc_checks.map(d=>d.verification).reduce((a,b)=>a+b,0) == 5"
 								/>
 							</div>
 						</div>
@@ -214,166 +213,66 @@
 					<div class="column">
 						<div
 							:key="index"
-							v-for="(data, index) in all_qc_checks"
+							v-for="(check, index) in all_qc_checks"
 						>
 							<div :class="`level mb-2 animate__animated animate__fadeIn delay-${index}ms`">
 								<div class="level-left">
 									<span class="has-text-grey-dark has-text-weight-semibold">
-										{{ data.name }}
+										{{ check.name }}
 									</span>
 								</div>
 								<div class="level-right">
-									<Tag :tagtype="data.verification"/>
+									<Tag :tagtype="check.verification"/>
 								</div>
 							</div>
 
 							<div
-								v-if="data.id == 2 && !all_qc_checks[1].verification && wrong_state_id.length"
-								class="message mb-2 is-danger animate__animated animate__fadeIn delay-3ms"
+								v-if="check.data.length"
+								v-for="(sub_check, sub_check_index) in check.data"
 							>
-								<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
-									Following ids have wrong state info
-								</p>
-								<div class="block mb-1">
-									<span class="has-text-grey-darker">Wrong state names:</span>
-									<div class="is-inline-block" v-for="seq in wrong_state">
-										{{ seq }},&nbsp;
+								<div
+									:class="`message mb-2 is-danger animate__animated animate__fadeIn delay-${index}ms`"
+								>
+									<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
+										{{ sub_check.header }} ({{ sub_check.value.length }}/{{ metadata.data.length }})
+									</p>
+
+									<div class="block mb-1" v-if="sub_check.info">
+										<span class="has-text-grey-darker">
+											{{ sub_check.info.value.length > 1 ? `${sub_check.info.header}s` : sub_check.info.header }}
+										</span>
+
+										<vs-tooltip color="#087FD2" class="is-inline-block" interactivity>
+											<svg class="icon is-small has-fill-blue-dark is-clickable">
+												<use xlink:href="@/assets/images/icons/bds.svg#help-bold-g"></use>
+											</svg>
+											<template #tooltip class="has-text-left">
+												<p class="is-size-6 has-text-white has-text-weight-medium side-element-white mb-2">
+													Correct States/Union Territories:
+												</p>
+												<div
+													class="is-inline-block has-text-left has-text-light"
+													v-for="(seq, index_seq) in all_states_indian"
+												>
+													{{ (index_seq+1) == all_states_indian.length ? seq : `${seq},&nbsp;`}}
+												</div>
+											</template>
+										</vs-tooltip>
+
+										<span class="has-text-grey-darker">:</span>
+										<div class="is-inline-block" v-for="(seq, index_seq) in sub_check.info.value">
+											{{ (index_seq + 1) == sub_check.info.value.length ? seq : `${seq},&nbsp;`}}
+										</div>
+									</div>
+
+									<div v-for="seq in sub_check.value">
+										{{ seq }}
 									</div>
 								</div>
-								<div class="block mb-1">
-									<span class="has-text-grey-darker">Correct state names:</span>
-									<div class="is-inline-block" v-for="seq in all_states_indian">
-										{{ seq }},&nbsp;
-									</div>
-								</div>
-								<div v-for="(seq, index) in wrong_state_id" :key="index">
-									{{ seq }}
-								</div>
-							</div>
-
-							<div
-								v-if="data.id == 3 && !all_qc_checks[2].verification && missing_sequence.length"
-								class="message mb-2 is-danger animate__animated animate__fadeIn delay-3ms"
-							>
-								<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
-									Sequence missing for the following
-								</p>
-								<div v-for="(seq, index) in missing_sequence" :key="index">
-									{{ seq }}
-								</div>
-							</div>
-
-							<div
-								v-if="data.id == 3 && !all_qc_checks[2].verification && missing_metadata.length"
-								class="message mb-2 is-danger animate__animated animate__fadeIn delay-7ms"
-							>
-								<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
-									Metadata missing for the following
-								</p>
-								<div v-for="(meta, index) in missing_metadata" :key="index">
-									{{ meta }}
-								</div>
-							</div>
-
-							<div
-								v-if="data.id == 5 && !all_qc_checks[4].verification && already_uploaded.length"
-								class="message is-danger animate__animated animate__fadeIn delay-3ms"
-							>
-								<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
-									Following sequences are already uploaded
-								</p>
-								<div v-for="(seq, index) in already_uploaded" :key="index">
-									{{ seq }}
-								</div>
 							</div>
 
 						</div>
 					</div>
-
-
-<!-- 					<div
-						v-if="sequence.verification[1].verification && !sequence.verification[2].verification"
-						class="message is-danger animate__animated animate__fadeIn delay-7ms"
-					>
-						<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
-							Metadata missing for the following
-						</p>
-						<div v-for="(meta, index) in missing_metadata" :key="index">
-							{{ meta }}
-						</div>
-					</div>
-
-					<div
-						v-if="!all_qc_checks[4].verification"
-						class="message is-danger animate__animated animate__fadeIn delay-3ms"
-					>
-						<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
-							Following sequences are already uploaded
-						</p>
-						<div v-for="(seq, index) in already_uploaded" :key="index">
-							{{ seq }}
-						</div>
-					</div> -->
-
-<!-- 					<div class="column">
-						<div
-							:key="index"
-							v-for="(data, index) in metadata.verification"
-							:class="`level animate__animated animate__fadeIn delay-${index}ms`"
-						>
-							<div class="level-left">
-								<span class="has-text-grey-dark has-text-weight-semibold">
-									{{ data.name }}
-								</span>
-							</div>
-							<div class="level-right">
-								<Tag :tagtype="data.verification"/>
-							</div>
-						</div>
-					</div>
-
-					<div
-						v-if="metadata.verification[1].verification && !metadata.verification[2].verification"
-						class="message is-danger animate__animated animate__fadeIn delay-3ms"
-					>
-						<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
-							Sequence missing for the following
-						</p>
-						<div v-for="(seq, index) in missing_sequence" :key="index">
-							{{ seq }}
-						</div>
-					</div>
-
-
-					<div class="column">
-						<div
-							:key="index"
-							v-for="(data, index) in sequence.verification"
-							:class="`level animate__animated animate__fadeIn delay-${index + 4}ms`"
-						>
-							<div class="level-left">
-								<span class="has-text-grey-dark has-text-weight-semibold">
-									{{ data.name }}
-								</span>
-							</div>
-							<div class="level-right">
-								<Tag :tagtype="data.verification"/>
-							</div>
-						</div>
-
-					</div>
-
-					<div
-						v-if="sequence.verification[1].verification && !sequence.verification[2].verification"
-						class="message is-danger animate__animated animate__fadeIn delay-7ms"
-					>
-						<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
-							Metadata missing for the following
-						</p>
-						<div v-for="(meta, index) in missing_metadata" :key="index">
-							{{ meta }}
-						</div>
-					</div> -->
 
 				</div>
 
@@ -383,7 +282,6 @@
 </template>
 
 <script>
-import { map, forEach, startCase, capitalize, toLower, uniq } from "lodash"
 import FuzzySet from 'fuzzyset'
 import { mapFields } from 'vuex-map-fields'
 import Tag from "@/components/upload/tag.vue"
@@ -391,6 +289,7 @@ import Table from "@/components/table/table.vue"
 import MetadataUpload from "@/components/upload/metadata-upload.vue"
 import SequenceUpload from "@/components/upload/sequence-upload.vue"
 import LoginLayout from "@/components/authentication/login-layout.vue"
+import { map, forEach, startCase, capitalize, toLower, uniq, difference, sum } from "lodash"
 
 export default {
 	layout: 'normal',
@@ -401,24 +300,17 @@ export default {
 		sequence: null,
 		show_log: false,
 		upload_percent: 0,
-		missing_sequence: null,
-		missing_metadata: null,
-		already_uploaded: null,
-		duplicate_sequence: null,
-		duplicate_metadata: null,
 		button_verification: false,
 		metadata_requirement: false,
 		sequence_requirement: false,
-		wrong_states: null,
-		wrong_state_id: null,
-		all_states_indian: null,
+		all_states_indian: ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttarakhand', 'Uttar Pradesh', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry'],
 		id: Date.now() + Math.floor(Math.random()*10000 + 1),
 		all_qc_checks: [
-			{ id: 1, name: 'Metadata & Sequence file format check', verification: false },
-			{ id: 2, name: 'Metadata & Sequence file structure check', verification: false },
-			{ id: 3, name: 'Missing data check', verification: false },
-			{ id: 4, name: 'Duplicate check', verification: false },
-			{ id: 5, name: 'Already present check', verification: false },
+			{ id: 1, name: 'Metadata & Sequence file format check', verification: false, data: [] },
+			{ id: 2, name: 'Metadata & Sequence file structure check', verification: false, data: [] },
+			{ id: 3, name: 'Missing Metadata/Sequence check', verification: false, data: [] },
+			{ id: 4, name: 'Duplicate check', verification: false, data: [] },
+			{ id: 5, name: 'Already present check', verification: false, data: [] },
 		]
 	}),
 	components: {
@@ -436,25 +328,23 @@ export default {
 				}
 			}
 			this.show_log = false
-			this.missing_metadata = null
-			this.missing_sequence = null
-			this.already_uploaded = null
-			this.duplicate_metadata = null
-			this.duplicate_sequence = null
 			this.button_verification = false
+			forEach(this.all_qc_checks, d=> {
+				d.verification = false
+				d.data = []
+			})
 			return true
 		},
 		submit_data_button() {
-			if(this.button_verification) {
-				if(this.metadata && this.sequence) {
-					if(this.metadata.file && this.sequence.file) {
-						if(this.metadata.verification[2].verification && this.sequence.verification[2].verification) {
+			// if(this.button_verification) {
+			// 	if(this.metadata && this.sequence) {
+			// 		if(this.metadata.file && this.sequence.file) {
+						if(sum(map(this.all_qc_checks, d=>d.verification)) == 5) {
 							return false
 						}
-					}
-				}
-				return true
-			}
+			// 		}
+			// 	}
+			// }
 			return true
 		},
 		...mapFields([
@@ -469,80 +359,147 @@ export default {
 				this.sequence_requirement = !this.sequence_requirement
 			}
 		},
-		async verify_data() {
+		verify_data() {
 			if(this.metadata && this.sequence) {
 				this.all_qc_checks[0].verification = true
 				if(this.metadata.file && this.sequence.file) {
-					// this.all_qc_checks[1].verification = true
-					this.missing_sequence = this.verify_metadata()
-					this.missing_metadata = this.verify_sequence()
-					if(this.metadata.verification[2].verification && this.sequence.verification[2].verification) {
-						this.all_qc_checks[2].verification = true
-					} else {
-						this.all_qc_checks[2].verification = false
-					}
-					this.find_duplicate()
 					this.check_state_information()
-					await this.sequence_already_present()
+					this.check_collection_date()
+					if(!this.all_qc_checks[1].data.length) {
+						this.all_qc_checks[1].verification = true
+					}
+					this.find_missing_sequence_or_metadata()
+					this.find_duplicate()
+					this.sequence_already_present()
 					this.show_log = true
-					if(this.metadata.verification[2].verification && this.sequence.verification[2].verification) {
+					if(sum(map(this.all_qc_checks, d=>d.verification)) == 5) {
 						this.button_verification = true
 					}
-				} else {
-					this.all_qc_checks[1].verification = false
 				}
-			} else {
-				this.all_qc_checks[0].verification = false
 			}
 		},
-		check_state_information() {
-			let indian_states = ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttarakhand', 'Uttar Pradesh', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry']
-			let fs = FuzzySet(indian_states, false)
-			let test_fs = map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['State']).filter(String)
-			let test_fs2 = map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['Virus name']).filter(String)
-
-			this.all_states_indian = indian_states
-			this.wrong_state = uniq(test_fs)
-			this.wrong_state_id = test_fs2
-			if(!this.wrong_state_id.length) {
-				this.all_qc_checks[1].verification = true
-			} else {
+		check_collection_date() {
+			let collection_date_error_id = map(this.metadata.data,
+				d=>this.$moment(d['Collection date'], ['DD-MM-YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD', 'YYYY/MM/DD'], true).isValid() ? '' : d['Virus name']
+			).filter(String)
+			console.log(
+				map(this.metadata.data,
+					d=>this.$moment(d['Collection date'], ['DD-MM-YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD', 'YYYY/MM/DD'], true).isValid() ? '' : d['Collection date']
+				).filter(String)
+			)
+			// console.log(
+			// 	map(this.metadata.data,
+			// 		d=>this.$moment(d['Collection date'], 'YYYY-MM-DD', true).isBefore('2020-01-01')
+			// 	)
+			// )
+			let empty_collection_date_id = map(this.metadata.data,
+				d=>d['Collection date'] == '' ? d['Virus name'] : ''
+			).filter(String)
+			if(collection_date_error_id.length || empty_collection_date_id.length) {
+				if(collection_date_error_id.length) {
+					this.all_qc_checks[1].data.push({
+						info: false,
+						header: 'Error in collection date format (YYYY-MM-DD)',
+						value: difference(collection_date_error_id, empty_collection_date_id)
+					})
+				}
+				if(empty_collection_date_id.length) {
+					this.all_qc_checks[1].data.push({
+						info: false,
+						header: 'Empty collection date for following',
+						value: empty_collection_date_id
+					})
+				}
 				this.all_qc_checks[1].verification = false
 			}
 		},
-		verify_metadata() {
+		check_state_information() {
+			let fs = FuzzySet(this.all_states_indian, false)
+			let wrong_state_names = uniq(map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['State']).filter(String))
+			let wrong_state_id = map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['Virus name']).filter(String)
+			let empty_state_id = map(this.metadata.data, d=> d['State'] == '' ? d['Virus name']: '').filter(String)
+			if(wrong_state_id.length || empty_state_id.length) {
+				if(wrong_state_id.length) {
+					this.all_qc_checks[1].data.push({
+						info: {
+							header: 'Wrong state name',
+							value: wrong_state_names
+						},
+						header: 'Following ids have wrong state info',
+						value: difference(wrong_state_id, empty_state_id)
+					})
+				}
+				if(empty_state_id.length) {
+					this.all_qc_checks[1].data.push({
+						info: false,
+						header: 'Empty state information for following',
+						value: empty_state_id
+					})
+				}
+				this.all_qc_checks[1].verification = false
+			}
+		},
+		find_missing_sequence_or_metadata() {
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
 			let missing_sequence = map(virus_name, (d,i)=> this.sequence.data.includes(d) ? '' : d).filter(String)
-			if(!missing_sequence.length) {
-				this.metadata.verification[2].verification = true
-			}
-			return missing_sequence
-		},
-		verify_sequence() {
-			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
 			let missing_metadata = map(this.sequence.data, (d,i)=> virus_name.includes(d) ? '' : d).filter(String)
-			if(!missing_metadata.length) {
-				this.sequence.verification[2].verification = true
+			if(!missing_sequence.length && !missing_metadata.length) {
+				this.all_qc_checks[2].verification = true
+			} else {
+				if(missing_sequence.length) {
+					this.all_qc_checks[2].data.push({
+						info: false,
+						header: 'Sequence missing for the following',
+						value: missing_sequence
+					})
+				}
+				if(missing_metadata.length) {
+					this.all_qc_checks[2].data.push({
+						info: false,
+						header: 'Metadata missing for the following',
+						value: missing_metadata
+					})
+				}
+				this.all_qc_checks[2].verification = false
 			}
-			return missing_metadata
 		},
 		find_duplicate() {
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
 			let duplicates_metadata = virus_name.filter((e, i, a) => a.indexOf(e) !== i)
 			let duplicates_sequence = this.sequence.data.filter((e, i, a) => a.indexOf(e) !== i)
-			if(!(duplicates_metadata.length && duplicates_sequence.length)) {
+			if(!duplicates_metadata.length && !duplicates_sequence.length) {
 				this.all_qc_checks[3].verification = true
 			} else {
+				if(duplicates_metadata.length) {
+					this.all_qc_checks[3].data.push({
+						info: false,
+						header: 'Duplicate Metadata found',
+						value: duplicates_metadata
+					})
+				}
+				if(duplicates_sequence.length) {
+					this.all_qc_checks[3].data.push({
+						info: false,
+						header: 'Duplicate Sequences found',
+						value: duplicates_sequence
+
+					})
+				}
 				this.all_qc_checks[3].verification = false
 			}
 		},
 		async sequence_already_present() {
 			let metadata_name = await this.$axios.$post('/files/metadata-info-name/')
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
-			this.already_uploaded = map(virus_name, (d,i)=> metadata_name.includes(d) ? d : '').filter(String)
-			if(!this.already_uploaded.length) {
+			let already_uploaded = map(virus_name, (d,i)=> metadata_name.includes(d) ? d : '').filter(String)
+			if(!already_uploaded.length) {
 				this.all_qc_checks[4].verification = true
 			} else {
+				this.all_qc_checks[4].data.push({
+					info: false,
+					header: 'Following sequences are already uploaded',
+					value: already_uploaded
+				})
 				this.all_qc_checks[4].verification = false
 			}
 		},
@@ -601,6 +558,21 @@ export default {
 	top: 10%;
 	left: -1.5%;
 	background-color: #F45564;
+	opacity: 0.7;
+	border-radius: 5px;
+}
+.side-element-white {
+	position: relative;
+}
+.side-element-white::before {
+	content: '';
+	position: absolute;
+	height: 80%;
+	width: 5px;
+	z-index: 2;
+	top: 10%;
+	left: -1.5%;
+	background-color: #EFECF2;
 	opacity: 0.7;
 	border-radius: 5px;
 }
