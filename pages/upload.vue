@@ -203,6 +203,9 @@
 								</span>
 							</div>
 							<div class="level-right">
+								<span class="tag is-warning" v-if="all_wrong_metadata.length">
+									{{ all_wrong_metadata.length }}
+								</span>
 								<Tag
 									:tagtype="all_qc_checks.map(d=>d.verification).reduce((a,b)=>a+b,0) == 5"
 								/>
@@ -233,9 +236,12 @@
 								<div
 									:class="`message mb-2 is-danger animate__animated animate__fadeIn delay-${index}ms`"
 								>
-									<p class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
-										{{ sub_check.header }} ({{ sub_check.value.length }}/{{ metadata.data.length }})
-									</p>
+									<div class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
+										{{ sub_check.header }}
+										<div class="tag is-warning pt-0">
+											{{ sub_check.value.length }}/{{ metadata.data.length }}
+										</div>
+									</div>
 
 									<div class="block mb-1" v-if="sub_check.info">
 										<span class="has-text-grey-darker">
@@ -300,7 +306,6 @@ export default {
 		sequence: null,
 		show_log: false,
 		upload_percent: 0,
-		button_verification: false,
 		metadata_requirement: false,
 		sequence_requirement: false,
 		all_states_indian: ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttarakhand', 'Uttar Pradesh', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry'],
@@ -311,7 +316,8 @@ export default {
 			{ id: 3, name: 'Missing Metadata/Sequence check', verification: false, data: [] },
 			{ id: 4, name: 'Duplicate check', verification: false, data: [] },
 			{ id: 5, name: 'Already present check', verification: false, data: [] },
-		]
+		],
+		all_wrong_metadata: []
 	}),
 	components: {
 		Tag,
@@ -328,7 +334,7 @@ export default {
 				}
 			}
 			this.show_log = false
-			this.button_verification = false
+			this.all_wrong_metadata = []
 			forEach(this.all_qc_checks, d=> {
 				d.verification = false
 				d.data = []
@@ -336,15 +342,9 @@ export default {
 			return true
 		},
 		submit_data_button() {
-			// if(this.button_verification) {
-			// 	if(this.metadata && this.sequence) {
-			// 		if(this.metadata.file && this.sequence.file) {
-						if(sum(map(this.all_qc_checks, d=>d.verification)) == 5) {
-							return false
-						}
-			// 		}
-			// 	}
-			// }
+			if(sum(map(this.all_qc_checks, d=>d.verification)) == 5) {
+				return false
+			}
 			return true
 		},
 		...mapFields([
@@ -372,9 +372,10 @@ export default {
 					this.find_duplicate()
 					this.sequence_already_present()
 					this.show_log = true
-					if(sum(map(this.all_qc_checks, d=>d.verification)) == 5) {
-						this.button_verification = true
-					}
+					this.all_wrong_metadata = uniq(this.all_wrong_metadata)
+					console.log(
+						map(this.metadata.data, d=> this.all_wrong_metadata.includes(d['Virus name']) ? '' : d).filter(String)
+					)
 				}
 			}
 		},
@@ -382,24 +383,18 @@ export default {
 			let collection_date_error_id = map(this.metadata.data,
 				d=>this.$moment(d['Collection date'], ['DD-MM-YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD', 'YYYY/MM/DD'], true).isValid() ? '' : d['Virus name']
 			).filter(String)
-			console.log(
-				map(this.metadata.data,
-					d=>this.$moment(d['Collection date'], ['DD-MM-YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD', 'YYYY/MM/DD'], true).isValid() ? '' : d['Collection date']
-				).filter(String)
-			)
-			// console.log(
-			// 	map(this.metadata.data,
-			// 		d=>this.$moment(d['Collection date'], 'YYYY-MM-DD', true).isBefore('2020-01-01')
-			// 	)
-			// )
+			let collection_date_early = map(this.metadata.data,
+					d=>this.$moment(d['Collection date'], ['DD-MM-YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD', 'YYYY/MM/DD'], true).isBefore('2020-01-01', 'year') ? d['Virus name'] : ''
+			).filter(String)
 			let empty_collection_date_id = map(this.metadata.data,
 				d=>d['Collection date'] == '' ? d['Virus name'] : ''
 			).filter(String)
-			if(collection_date_error_id.length || empty_collection_date_id.length) {
+
+			if(collection_date_error_id.length || empty_collection_date_id.length || collection_date_early.length) {
 				if(collection_date_error_id.length) {
 					this.all_qc_checks[1].data.push({
 						info: false,
-						header: 'Error in collection date format (YYYY-MM-DD)',
+						header: 'Error in collection date format (DD-MM-YYYY, DD/MM/YYYY, YYYY-MM-DD, YYYY/MM/DD)',
 						value: difference(collection_date_error_id, empty_collection_date_id)
 					})
 				}
@@ -410,8 +405,18 @@ export default {
 						value: empty_collection_date_id
 					})
 				}
+				if(collection_date_early.length) {
+					this.all_qc_checks[1].data.push({
+						info: false,
+						header: 'Collection date for following earlier than 2020',
+						value: collection_date_early
+					})
+				}
 				this.all_qc_checks[1].verification = false
 			}
+			forEach(collection_date_error_id, d=> this.all_wrong_metadata.push(d))
+			forEach(collection_date_early, d=> this.all_wrong_metadata.push(d))
+			forEach(empty_collection_date_id, d=> this.all_wrong_metadata.push(d))
 		},
 		check_state_information() {
 			let fs = FuzzySet(this.all_states_indian, false)
@@ -438,6 +443,8 @@ export default {
 				}
 				this.all_qc_checks[1].verification = false
 			}
+			forEach(wrong_state_id, d=> this.all_wrong_metadata.push(d))
+			forEach(empty_state_id, d=> this.all_wrong_metadata.push(d))
 		},
 		find_missing_sequence_or_metadata() {
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
@@ -462,6 +469,8 @@ export default {
 				}
 				this.all_qc_checks[2].verification = false
 			}
+			forEach(missing_sequence, d=> this.all_wrong_metadata.push(d))
+			forEach(missing_metadata, d=> this.all_wrong_metadata.push(d))
 		},
 		find_duplicate() {
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
@@ -487,9 +496,15 @@ export default {
 				}
 				this.all_qc_checks[3].verification = false
 			}
+			forEach(duplicates_metadata, d=> this.all_wrong_metadata.push(d))
+			forEach(duplicates_sequence, d=> this.all_wrong_metadata.push(d))
 		},
 		async sequence_already_present() {
 			let metadata_name = await this.$axios.$post('/files/metadata-info-name/')
+			if(metadata_name.message) {
+				this.all_qc_checks[4].verification = true
+				return
+			}
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
 			let already_uploaded = map(virus_name, (d,i)=> metadata_name.includes(d) ? d : '').filter(String)
 			if(!already_uploaded.length) {
@@ -502,6 +517,7 @@ export default {
 				})
 				this.all_qc_checks[4].verification = false
 			}
+			forEach(already_uploaded, d=> this.all_wrong_metadata.push(d))
 		},
 		upload_data() {
 			let payload = new FormData()
