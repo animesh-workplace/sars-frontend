@@ -45,7 +45,7 @@
 										<b>Passage details/history</b> - e.g. Original, Vero
 									</li>
 									<li>
-										<b class="has-text-red">Collection date</b> - Date in the format YYYY-MM-DD
+										<b class="has-text-red">Collection date</b> - Date in the format [ DD-MM-YYYY, DD/MM/YYYY, YYYY-MM-DD, YYYY/MM/DD ]
 									</li>
 									<li>
 										<b class="has-text-red">Country</b> - Sample collected from which country
@@ -172,22 +172,38 @@
 							<SequenceUpload v-model="sequence" :key="id"/>
 						</div>
 					</div>
-					<div class="column is-4 is-offset-4 has-text-centered pt-0">
+					<div class="columns has-text-centered pt-0">
+
 						<div
-							@click="verify_data"
-							:disabled="enable_submit"
+							:class="qc_passed_metadata.length > 0 ? 'column is-4 is-offset-2' : 'column is-4 is-offset-4'"
 							v-if="submit_data_button"
-							class="button is-info is-fullwidth"
 						>
-							<span>Verify Data</span>
+							<div
+								@click="verify_data"
+								:disabled="enable_submit"
+								class="button is-info is-fullwidth"
+							>
+								<span>Verify Data</span>
+							</div>
 						</div>
-						<div
-							@click="upload_data"
-							class="button is-success is-fullwidth"
-							:disabled="enable_submit"
-							v-if="!submit_data_button"
-						>
-							<span>Upload Data</span>
+
+						<div class="column is-4" v-if="submit_data_button && qc_passed_metadata.length > 0">
+							<div
+								class="button is-warning is-fullwidth"
+								@click="upload_data"
+							>
+								<span>Upload QC passed data ({{ qc_passed_metadata.length }})</span>
+							</div>
+						</div>
+
+						<div class="column" v-if="!submit_data_button">
+							<div
+								@click="upload_data"
+								class="button is-success is-fullwidth"
+								:disabled="enable_submit"
+							>
+								<span>Upload Data</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -203,8 +219,8 @@
 								</span>
 							</div>
 							<div class="level-right">
-								<span class="tag is-warning" v-if="all_wrong_metadata.length">
-									{{ all_wrong_metadata.length }}
+								<span class="tag is-warning is-rounded" v-if="qc_failed_metadata.length">
+									{{ qc_failed_metadata.length }}
 								</span>
 								<Tag
 									:tagtype="all_qc_checks.map(d=>d.verification).reduce((a,b)=>a+b,0) == 5"
@@ -238,7 +254,7 @@
 								>
 									<div class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
 										{{ sub_check.header }}
-										<div class="tag is-warning pt-0">
+										<div class="tag is-warning is-rounded">
 											{{ sub_check.value.length }}/{{ metadata.data.length }}
 										</div>
 									</div>
@@ -289,13 +305,14 @@
 
 <script>
 import FuzzySet from 'fuzzyset'
+import json2csv from 'csvjson-json2csv'
 import { mapFields } from 'vuex-map-fields'
 import Tag from "@/components/upload/tag.vue"
 import Table from "@/components/table/table.vue"
 import MetadataUpload from "@/components/upload/metadata-upload.vue"
 import SequenceUpload from "@/components/upload/sequence-upload.vue"
 import LoginLayout from "@/components/authentication/login-layout.vue"
-import { map, forEach, startCase, capitalize, toLower, uniq, difference, sum } from "lodash"
+import { map, forEach, startCase, capitalize, toLower, uniq, difference, sum, isEmpty } from "lodash"
 
 export default {
 	layout: 'normal',
@@ -317,7 +334,9 @@ export default {
 			{ id: 4, name: 'Duplicate check', verification: false, data: [] },
 			{ id: 5, name: 'Already present check', verification: false, data: [] },
 		],
-		all_wrong_metadata: []
+		qc_failed_metadata: [],
+		qc_passed_metadata: [],
+		qc_passed_sequences: [],
 	}),
 	components: {
 		Tag,
@@ -334,7 +353,9 @@ export default {
 				}
 			}
 			this.show_log = false
-			this.all_wrong_metadata = []
+			this.qc_failed_metadata = []
+			this.qc_passed_metadata = []
+			this.qc_passed_sequences = []
 			forEach(this.all_qc_checks, d=> {
 				d.verification = false
 				d.data = []
@@ -360,6 +381,10 @@ export default {
 			}
 		},
 		verify_data() {
+			forEach(this.all_qc_checks, d=> {
+				d.verification = false
+				d.data = []
+			})
 			if(this.metadata && this.sequence) {
 				this.all_qc_checks[0].verification = true
 				if(this.metadata.file && this.sequence.file) {
@@ -371,11 +396,8 @@ export default {
 					this.find_missing_sequence_or_metadata()
 					this.find_duplicate()
 					this.sequence_already_present()
+					this.get_qc_passed_data()
 					this.show_log = true
-					this.all_wrong_metadata = uniq(this.all_wrong_metadata)
-					console.log(
-						map(this.metadata.data, d=> this.all_wrong_metadata.includes(d['Virus name']) ? '' : d).filter(String)
-					)
 				}
 			}
 		},
@@ -391,7 +413,7 @@ export default {
 			).filter(String)
 
 			if(collection_date_error_id.length || empty_collection_date_id.length || collection_date_early.length) {
-				if(collection_date_error_id.length) {
+				if(difference(collection_date_error_id, empty_collection_date_id).length) {
 					this.all_qc_checks[1].data.push({
 						info: false,
 						header: 'Error in collection date format (DD-MM-YYYY, DD/MM/YYYY, YYYY-MM-DD, YYYY/MM/DD)',
@@ -414,9 +436,10 @@ export default {
 				}
 				this.all_qc_checks[1].verification = false
 			}
-			forEach(collection_date_error_id, d=> this.all_wrong_metadata.push(d))
-			forEach(collection_date_early, d=> this.all_wrong_metadata.push(d))
-			forEach(empty_collection_date_id, d=> this.all_wrong_metadata.push(d))
+			forEach(collection_date_error_id, d=> this.qc_failed_metadata.push(d))
+			forEach(collection_date_early, d=> this.qc_failed_metadata.push(d))
+			forEach(empty_collection_date_id, d=> this.qc_failed_metadata.push(d))
+			this.qc_failed_metadata = uniq(this.qc_failed_metadata)
 		},
 		check_state_information() {
 			let fs = FuzzySet(this.all_states_indian, false)
@@ -424,7 +447,7 @@ export default {
 			let wrong_state_id = map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['Virus name']).filter(String)
 			let empty_state_id = map(this.metadata.data, d=> d['State'] == '' ? d['Virus name']: '').filter(String)
 			if(wrong_state_id.length || empty_state_id.length) {
-				if(wrong_state_id.length) {
+				if(difference(wrong_state_id, empty_state_id).length) {
 					this.all_qc_checks[1].data.push({
 						info: {
 							header: 'Wrong state name',
@@ -443,8 +466,9 @@ export default {
 				}
 				this.all_qc_checks[1].verification = false
 			}
-			forEach(wrong_state_id, d=> this.all_wrong_metadata.push(d))
-			forEach(empty_state_id, d=> this.all_wrong_metadata.push(d))
+			forEach(wrong_state_id, d=> this.qc_failed_metadata.push(d))
+			forEach(empty_state_id, d=> this.qc_failed_metadata.push(d))
+			this.qc_failed_metadata = uniq(this.qc_failed_metadata)
 		},
 		find_missing_sequence_or_metadata() {
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
@@ -469,8 +493,9 @@ export default {
 				}
 				this.all_qc_checks[2].verification = false
 			}
-			forEach(missing_sequence, d=> this.all_wrong_metadata.push(d))
-			forEach(missing_metadata, d=> this.all_wrong_metadata.push(d))
+			forEach(missing_sequence, d=> this.qc_failed_metadata.push(d))
+			forEach(missing_metadata, d=> this.qc_failed_metadata.push(d))
+			this.qc_failed_metadata = uniq(this.qc_failed_metadata)
 		},
 		find_duplicate() {
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
@@ -496,8 +521,9 @@ export default {
 				}
 				this.all_qc_checks[3].verification = false
 			}
-			forEach(duplicates_metadata, d=> this.all_wrong_metadata.push(d))
-			forEach(duplicates_sequence, d=> this.all_wrong_metadata.push(d))
+			forEach(duplicates_metadata, d=> this.qc_failed_metadata.push(d))
+			forEach(duplicates_sequence, d=> this.qc_failed_metadata.push(d))
+			this.qc_failed_metadata = uniq(this.qc_failed_metadata)
 		},
 		async sequence_already_present() {
 			let metadata_name = await this.$axios.$post('/files/metadata-info-name/')
@@ -517,15 +543,34 @@ export default {
 				})
 				this.all_qc_checks[4].verification = false
 			}
-			forEach(already_uploaded, d=> this.all_wrong_metadata.push(d))
+			console.log('reached here')
+			forEach(already_uploaded, d=> this.qc_failed_metadata.push(d))
+			this.qc_failed_metadata = uniq(this.qc_failed_metadata)
+		},
+		get_qc_passed_data() {
+			// this.qc_failed_metadata = uniq(this.qc_failed_metadata)
+			this.qc_passed_metadata = map(this.metadata.data, d=> this.qc_failed_metadata.includes(d['Virus name']) ? '' : d).filter(String)
+			console.log(this.qc_failed_metadata, this.qc_passed_metadata)
+			let qc_passed_name = map(this.metadata.data, d=> this.qc_failed_metadata.includes(d['Virus name']) ? '' : d['Virus name']).filter(String)
+			this.qc_passed_sequences = map(this.sequence.fasta, d=> qc_passed_name.includes(d.name) ? d : '').filter(String)
+			let Fasta = require('biojs-io-fasta')
+			if(this.qc_passed_metadata.length > 1) {
+				return true
+			}
+			return false
 		},
 		upload_data() {
+			let Fasta = require('biojs-io-fasta')
 			let payload = new FormData()
 			let time_now = Date.now()
 			let metadata_file_name = 'metadata' + '_' + time_now + '.' + this.metadata.file.fileExtension
 			let sequence_file_name = 'sequence' + '_' + time_now + '.' + this.sequence.file.fileExtension
-			payload.append("metadata", this.metadata.file.file, metadata_file_name)
-			payload.append("sequences", this.sequence.file.file, sequence_file_name)
+			let metadata_blob = new Blob([json2csv(this.qc_passed_metadata)], { type: "application/json" })
+			let sequence_blob = new Blob([Fasta.write(this.qc_passed_sequences)], { type: "application/json" })
+			// payload.append("metadata", this.metadata.file.file, metadata_file_name)
+			// payload.append("sequences", this.sequence.file.file, sequence_file_name)
+			payload.append("metadata", metadata_blob, metadata_file_name)
+			payload.append("sequences", sequence_blob, sequence_file_name)
 			let vm = this
 			const config = {
 				onUploadProgress: function(progressEvent) {
@@ -547,6 +592,13 @@ export default {
 				forEach(main_label, d=> d.textContent = 'Uploaded Successfully')
 				this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
 				this.show_log = false
+				this.qc_failed_metadata = []
+				this.qc_passed_metadata = []
+				this.qc_passed_sequences = []
+				forEach(this.all_qc_checks, d=> {
+					d.verification = false
+					d.data = []
+				})
 			}, 1000)
 
 		}
