@@ -85,6 +85,7 @@ export default {
 		sequence_json: null,
 		sequence_file: null,
 		view_skeleton: true,
+		sequence_fasta: null,
 		sequence_verification: [],
 		file_type_accepted: ['fasta', 'fa'],
 	}),
@@ -93,6 +94,7 @@ export default {
 			let data = {
 				data: value,
 				file: this.sequence_file,
+				fasta: this.sequence_fasta,
 				reset: this.removefilehandler,
 				filepond: this.$refs.pond_sequence,
 				verification: this.sequence_verification,
@@ -144,6 +146,10 @@ export default {
 					forEach(parsed_data, d=>{
 						all_samples.push(d.name.replace('\r', ''))
 					})
+					forEach(parsed_data, d=>{
+						d.name = d.name.replace('\r', '')
+					})
+					vm.sequence_fasta = parsed_data
 					vm.sequence_json = all_samples
 				} else {
 					vm.handle_pondfile_error(
