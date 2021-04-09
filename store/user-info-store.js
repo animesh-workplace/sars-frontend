@@ -49,6 +49,9 @@ export const mutations = {
 	SET_ACTIVATE_FORGOT_PASSWORD_MODAL(state, payload) {
 		state.activateforgotpasswordmodal = payload
 	},
+	SET_UPLOADED_METADATA(state, payload) {
+		state.uploaded_metadata = payload
+	},
 	updateField,
 }
 
@@ -63,6 +66,7 @@ export const actions = {
 			this.$auth.ctx.app.$axios.setHeader('Authorization', `JWT ${ data.token }`)
 			await commit('SET_TOKEN_EXPIRY', data.expires)
 			this.$auth.$storage.setCookie('token_expiry', data.expires)
+			await dispatch('set_uploaded_metadata')
 			// localStorage.setItem('token_expiry', data.expires)
 			this.$router.push('/upload')
 			Toast.open({
@@ -132,6 +136,10 @@ export const actions = {
 			// 	position: 'is-bottom'
 			// })
 		}
+	},
+	async set_uploaded_metadata({ commit }) {
+		const metadata_header = await this.$axios.$post('/files/metadata-info-name/')
+		commit('SET_UPLOADED_METADATA', metadata_header)
 	},
 	set_activateforgotpasswordmodal({ commit }, payload) {
 		commit('SET_ACTIVATE_FORGOT_PASSWORD_MODAL', payload)

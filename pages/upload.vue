@@ -371,6 +371,9 @@ export default {
 		...mapFields([
 			'active'
 		]),
+		...mapFields('user-info-store',[
+			'uploaded_metadata'
+		]),
 	},
 	methods: {
 		open_expanded(type) {
@@ -525,8 +528,8 @@ export default {
 			forEach(duplicates_sequence, d=> this.qc_failed_metadata.push(d))
 			this.qc_failed_metadata = uniq(this.qc_failed_metadata)
 		},
-		async sequence_already_present() {
-			let metadata_name = await this.$axios.$post('/files/metadata-info-name/')
+		sequence_already_present() {
+			let metadata_name = this.uploaded_metadata
 			if(metadata_name.message) {
 				this.all_qc_checks[4].verification = true
 				return
