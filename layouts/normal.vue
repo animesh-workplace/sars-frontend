@@ -19,9 +19,9 @@ export default {
 	computed: {
 	},
 	beforeMount(){
-		// if(this.$auth.loggedIn) {
-		// 	this.$store.dispatch('user-info-store/set_userinfo')
-		// }
+		if(this.$auth.loggedIn) {
+			this.$store.dispatch('user-info-store/set_uploaded_metadata')
+		}
 	},
 };
 </script>
