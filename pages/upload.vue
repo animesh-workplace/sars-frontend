@@ -1,4 +1,5 @@
 <template>
+	<div>
 	<section class="section mt-6">
 		<div class="columns">
 			<div class="column">
@@ -174,8 +175,17 @@
 					</div>
 					<div class="columns has-text-centered pt-0">
 
+						<div class="column is-4" v-if="submit_data_button && qc_failed_metadata.length > 0">
+							<div
+								class="button is-warning is-fullwidth"
+								@click="download_data"
+							>
+								<span>Download QC failed data ({{ qc_failed_metadata.length }})</span>
+							</div>
+						</div>
+
 						<div
-							:class="qc_passed_metadata.length > 0 ? 'column is-4 is-offset-2' : 'column is-4 is-offset-4'"
+							:class="qc_failed_metadata.length > 0 ? 'column is-4' : 'column is-4 is-offset-4'"
 							v-if="submit_data_button"
 						>
 							<div
@@ -212,14 +222,14 @@
 				<div class="box is-well" v-if="show_log">
 
 					<div class="box is-well">
-						<div class="level animate__animated animate__fadeIn delay-7ms">
+						<div class="level animate__animated animate__fadeIn delay-5ms">
 							<div class="level-left">
 								<span class="has-text-grey-dark has-text-weight-semibold">
 									Basic QC Check
 								</span>
 							</div>
 							<div class="level-right">
-								<span class="tag is-warning is-rounded" v-if="qc_failed_metadata.length">
+								<span class="tag is-warning is-rounded mr-2" v-if="qc_failed_metadata.length">
 									{{ qc_failed_metadata.length }}
 								</span>
 								<Tag
@@ -234,28 +244,60 @@
 							:key="index"
 							v-for="(check, index) in all_qc_checks"
 						>
-							<div :class="`level mb-2 animate__animated animate__fadeIn delay-${index}ms`">
-								<div class="level-left">
-									<span class="has-text-grey-dark has-text-weight-semibold">
-										{{ check.name }}
-									</span>
-								</div>
-								<div class="level-right">
-									<Tag :tagtype="check.verification"/>
+							<div
+								:class="!check.verification ?
+									`box is-small has-background-red-lighter hover-to-raised mb-2 is-clickable animate__animated animate__fadeIn delay-${index}ms` :
+									`box is-small is-well mb-2 animate__animated animate__fadeIn delay-${index}ms`"
+								@click="show_all_errors(index)"
+							>
+								<div class="level">
+									<div class="level-left">
+										<span class="has-text-grey-dark has-text-weight-semibold">
+											{{ check.name }}
+										</span>
+									</div>
+									<div class="level-right">
+										<div class="tag is-warning is-rounded mr-2" v-if="check.error">
+											{{ check.error }}
+										</div>
+										<Tag :tagtype="check.verification" class="mr-2"/>
+										<svg class="icon is-small has-fill-blue-dark is-clickable" v-if="!check.verification && !check.show">
+											<use xlink:href="@/assets/images/icons/bds.svg#arrow-down-g"></use>
+										</svg>
+										<svg class="icon is-small has-fill-blue-dark is-clickable" v-if="!check.verification && check.show">
+											<use xlink:href="@/assets/images/icons/bds.svg#arrow-up-g"></use>
+										</svg>
+									</div>
 								</div>
 							</div>
 
 							<div
-								v-if="check.data.length"
+								v-if="check.data.length && check.show"
 								v-for="(sub_check, sub_check_index) in check.data"
 							>
 								<div
-									:class="`message mb-2 is-danger animate__animated animate__fadeIn delay-${index}ms`"
+									class="message mb-0 is-danger is-radiusless-br is-radiusless-bl animate__animated animate__fadeIn delay-1ms"
 								>
-									<div class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium side-element has-text-left">
-										{{ sub_check.header }}
-										<div class="tag is-warning is-rounded">
-											{{ sub_check.value.length }}/{{ metadata.data.length }}
+									<div class="level side-element">
+										<div class="level-left">
+											<div class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium">
+												{{ sub_check.header }}
+												<div class="tag is-warning is-rounded">
+													{{ sub_check.value.length }}/{{ metadata.data.length }}
+												</div>
+											</div>
+										</div>
+										<div class="level-right">
+											<div class="button is-square is-small is-borderless">
+												<svg
+													v-clipboard="sub_check.value.join('\n')"
+													v-clipboard:error="clipboard_failure"
+													v-clipboard:success="clipboard_success"
+													class="icon is-small has-fill-blue-dark is-clickable"
+												>
+													<use xlink:href="@/assets/images/icons/bds.svg#duplicate-g"></use>
+												</svg>
+											</div>
 										</div>
 									</div>
 
@@ -286,11 +328,16 @@
 											{{ (index_seq + 1) == sub_check.info.value.length ? seq : `${seq},&nbsp;`}}
 										</div>
 									</div>
+								</div>
 
+								<div
+									class="message mb-2 pt-0 is-danger fixed-height is-radiusless-tr is-radiusless-tl is-scrollable animate__animated animate__fadeIn delay-1ms"
+								>
 									<div v-for="seq in sub_check.value">
 										{{ seq }}
 									</div>
 								</div>
+
 							</div>
 
 						</div>
@@ -301,9 +348,17 @@
 			</div>
 		</div>
 	</section>
+
+	<vs-dialog blur v-model="activate_only_qc_passed_upload">
+		<template #header>
+		</template>
+	</vs-dialog>
+
+	</div>
 </template>
 
 <script>
+import JSZip from 'jszip'
 import FuzzySet from 'fuzzyset'
 import json2csv from 'csvjson-json2csv'
 import { mapFields } from 'vuex-map-fields'
@@ -328,15 +383,16 @@ export default {
 		all_states_indian: ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttarakhand', 'Uttar Pradesh', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry'],
 		id: Date.now() + Math.floor(Math.random()*10000 + 1),
 		all_qc_checks: [
-			{ id: 1, name: 'Metadata & Sequence file format check', verification: false, data: [] },
-			{ id: 2, name: 'Metadata & Sequence file structure check', verification: false, data: [] },
-			{ id: 3, name: 'Missing Metadata/Sequence check', verification: false, data: [] },
-			{ id: 4, name: 'Duplicate check', verification: false, data: [] },
-			{ id: 5, name: 'Already present check', verification: false, data: [] },
+			{ id: 1, name: 'Metadata & Sequence file format check', verification: false, data: [], error: null, show: false },
+			{ id: 2, name: 'Metadata & Sequence file structure check', verification: false, data: [], error: null, show: false },
+			{ id: 3, name: 'Missing Metadata/Sequence check', verification: false, data: [], error: null, show: false },
+			{ id: 4, name: 'Duplicate check', verification: false, data: [], error: null, show: false },
+			{ id: 5, name: 'Already present check', verification: false, data: [], error: null, show: false },
 		],
 		qc_failed_metadata: [],
 		qc_passed_metadata: [],
 		qc_passed_sequences: [],
+		activate_only_qc_passed_upload: false,
 	}),
 	components: {
 		Tag,
@@ -368,6 +424,12 @@ export default {
 			}
 			return true
 		},
+		generate_download_link() {
+			let qc_failed_data = map(this.metadata.data, d=> this.qc_failed_metadata.includes(d['Virus name']) ? d : '').filter(String)
+			let metadata_blob = new Blob([json2csv(qc_failed_data)], { type: "application/json" })
+			let metadata_url = URL.createObjectURL(metadata_blob)
+			return metadata_url
+		},
 		...mapFields([
 			'active'
 		]),
@@ -376,6 +438,25 @@ export default {
 		]),
 	},
 	methods: {
+		clipboard_success({ value, event }) {
+				this.$vs.notification({
+					sticky: true,
+					color: '#7DB950',
+					position: 'top-center',
+					title: 'Copied Successfully',
+				})
+		},
+		clipboard_failure({ value, event }) {
+				this.$vs.notification({
+					sticky: true,
+					color: '#F45564',
+					position: 'top-center',
+					title: 'Copy Unsuccessful',
+				})
+		},
+		show_all_errors(index) {
+			this.all_qc_checks[index].show = !this.all_qc_checks[index].show
+		},
 		open_expanded(type) {
 			if(type == 1) {
 				this.metadata_requirement = !this.metadata_requirement
@@ -391,10 +472,12 @@ export default {
 			if(this.metadata && this.sequence) {
 				this.all_qc_checks[0].verification = true
 				if(this.metadata.file && this.sequence.file) {
-					this.check_state_information()
 					this.check_collection_date()
+					this.check_state_information()
 					if(!this.all_qc_checks[1].data.length) {
 						this.all_qc_checks[1].verification = true
+					}	else {
+						this.all_qc_checks[1].error = this.qc_failed_metadata.length
 					}
 					this.find_missing_sequence_or_metadata()
 					this.find_duplicate()
@@ -414,8 +497,11 @@ export default {
 			let empty_collection_date_id = map(this.metadata.data,
 				d=>d['Collection date'] == '' ? d['Virus name'] : ''
 			).filter(String)
+			let collection_date_future = map(this.metadata.data,
+					d=>this.$moment(d['Collection date'], ['DD-MM-YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD', 'YYYY/MM/DD'], true).isAfter(new Date(), 'day') ? d['Virus name'] : ''
+			).filter(String)
 
-			if(collection_date_error_id.length || empty_collection_date_id.length || collection_date_early.length) {
+			if(collection_date_error_id.length || empty_collection_date_id.length || collection_date_early.length || collection_date_future.length) {
 				if(difference(collection_date_error_id, empty_collection_date_id).length) {
 					this.all_qc_checks[1].data.push({
 						info: false,
@@ -437,10 +523,18 @@ export default {
 						value: collection_date_early
 					})
 				}
+				if(collection_date_future.length) {
+					this.all_qc_checks[1].data.push({
+						info: false,
+						header: 'Collection date in the future',
+						value: collection_date_future
+					})
+				}
 				this.all_qc_checks[1].verification = false
 			}
-			forEach(collection_date_error_id, d=> this.qc_failed_metadata.push(d))
 			forEach(collection_date_early, d=> this.qc_failed_metadata.push(d))
+			forEach(collection_date_future, d=> this.qc_failed_metadata.push(d))
+			forEach(collection_date_error_id, d=> this.qc_failed_metadata.push(d))
 			forEach(empty_collection_date_id, d=> this.qc_failed_metadata.push(d))
 			this.qc_failed_metadata = uniq(this.qc_failed_metadata)
 		},
@@ -472,8 +566,10 @@ export default {
 			forEach(wrong_state_id, d=> this.qc_failed_metadata.push(d))
 			forEach(empty_state_id, d=> this.qc_failed_metadata.push(d))
 			this.qc_failed_metadata = uniq(this.qc_failed_metadata)
+
 		},
 		find_missing_sequence_or_metadata() {
+			let error_data = []
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
 			let missing_sequence = map(virus_name, (d,i)=> this.sequence.data.includes(d) ? '' : d).filter(String)
 			let missing_metadata = map(this.sequence.data, (d,i)=> virus_name.includes(d) ? '' : d).filter(String)
@@ -496,11 +592,19 @@ export default {
 				}
 				this.all_qc_checks[2].verification = false
 			}
-			forEach(missing_sequence, d=> this.qc_failed_metadata.push(d))
-			forEach(missing_metadata, d=> this.qc_failed_metadata.push(d))
+			forEach(missing_sequence, d=> {
+				this.qc_failed_metadata.push(d)
+				error_data.push(d)
+			})
+			forEach(missing_metadata, d=> {
+				this.qc_failed_metadata.push(d)
+				error_data.push(d)
+			})
 			this.qc_failed_metadata = uniq(this.qc_failed_metadata)
+			this.all_qc_checks[2].error = uniq(error_data).length
 		},
 		find_duplicate() {
+			let error_data = []
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
 			let duplicates_metadata = virus_name.filter((e, i, a) => a.indexOf(e) !== i)
 			let duplicates_sequence = this.sequence.data.filter((e, i, a) => a.indexOf(e) !== i)
@@ -524,11 +628,19 @@ export default {
 				}
 				this.all_qc_checks[3].verification = false
 			}
-			forEach(duplicates_metadata, d=> this.qc_failed_metadata.push(d))
-			forEach(duplicates_sequence, d=> this.qc_failed_metadata.push(d))
+			forEach(duplicates_metadata, d=> {
+				this.qc_failed_metadata.push(d)
+				error_data.push(d)
+			})
+			forEach(duplicates_sequence, d=> {
+				this.qc_failed_metadata.push(d)
+				error_data.push(d)
+			})
 			this.qc_failed_metadata = uniq(this.qc_failed_metadata)
+			this.all_qc_checks[3].error = uniq(error_data).length
 		},
 		sequence_already_present() {
+			let error_data = []
 			let metadata_name = this.uploaded_metadata
 			if(metadata_name.message) {
 				this.all_qc_checks[4].verification = true
@@ -546,14 +658,15 @@ export default {
 				})
 				this.all_qc_checks[4].verification = false
 			}
-			console.log('reached here')
-			forEach(already_uploaded, d=> this.qc_failed_metadata.push(d))
+			forEach(already_uploaded, d=> {
+				this.qc_failed_metadata.push(d)
+				error_data.push(d)
+			})
 			this.qc_failed_metadata = uniq(this.qc_failed_metadata)
+			this.all_qc_checks[4].error = uniq(error_data).length
 		},
 		get_qc_passed_data() {
-			// this.qc_failed_metadata = uniq(this.qc_failed_metadata)
 			this.qc_passed_metadata = map(this.metadata.data, d=> this.qc_failed_metadata.includes(d['Virus name']) ? '' : d).filter(String)
-			console.log(this.qc_failed_metadata, this.qc_passed_metadata)
 			let qc_passed_name = map(this.metadata.data, d=> this.qc_failed_metadata.includes(d['Virus name']) ? '' : d['Virus name']).filter(String)
 			this.qc_passed_sequences = map(this.sequence.fasta, d=> qc_passed_name.includes(d.name) ? d : '').filter(String)
 			let Fasta = require('biojs-io-fasta')
@@ -561,6 +674,31 @@ export default {
 				return true
 			}
 			return false
+		},
+		download_data() {
+			let zip = new JSZip()
+			let Fasta = require('biojs-io-fasta')
+			let qc_failed_data = map(this.metadata.data, d=> this.qc_failed_metadata.includes(d['Virus name']) ? d : '').filter(String)
+			let qc_failed_sequences = map(this.sequence.fasta, d=> this.qc_failed_metadata.includes(d.name) ? d : '').filter(String)
+
+			zip.file('failed/qc_failed_metadata.tsv', json2csv(qc_failed_data))
+			zip.file('failed/qc_failed_sequences.fasta', Fasta.write(qc_failed_sequences))
+
+			let link = document.createElement('a')
+			this.loader = this.$vs.loading()
+			let vm = this
+			zip.generateAsync({
+				type: "blob",
+				compression: "DEFLATE",
+				compressionOptions: {
+					level: 5
+				}
+			}).then(function(content) {
+				link.href = URL.createObjectURL(content)
+				link.download = 'qc_failed_metadata.zip'
+				vm.loader.close()
+				link.click()
+			})
 		},
 		upload_data() {
 			let Fasta = require('biojs-io-fasta')
@@ -570,8 +708,6 @@ export default {
 			let sequence_file_name = 'sequence' + '_' + time_now + '.' + this.sequence.file.fileExtension
 			let metadata_blob = new Blob([json2csv(this.qc_passed_metadata)], { type: "application/json" })
 			let sequence_blob = new Blob([Fasta.write(this.qc_passed_sequences)], { type: "application/json" })
-			// payload.append("metadata", this.metadata.file.file, metadata_file_name)
-			// payload.append("sequences", this.sequence.file.file, sequence_file_name)
 			payload.append("metadata", metadata_blob, metadata_file_name)
 			payload.append("sequences", sequence_blob, sequence_file_name)
 			let vm = this
@@ -681,6 +817,12 @@ ul li::before {
 	display: inline-block;
 }
 .overflow-scroll {
+	overflow-y: scroll;
+}
+.fixed-height {
+	max-height: 400px;
+}
+.is-scrollable {
 	overflow-y: scroll;
 }
 </style>
