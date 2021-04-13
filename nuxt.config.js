@@ -49,6 +49,7 @@ export default {
 	plugins: [
 		'@/plugins/vuesax',
 		'@/plugins/vue-moment',
+		'@/plugins/v-clipboard',
 		{ src: '@/plugins/vue-chart', ssr: false },
 		{ src: '@/plugins/vue-localstorage', ssr: false },
 		{ src: '@/plugins/vue-sessionstorage', ssr: false },
