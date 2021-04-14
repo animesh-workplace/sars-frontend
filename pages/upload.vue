@@ -681,7 +681,7 @@ export default {
 			let qc_failed_data = map(this.metadata.data, d=> this.qc_failed_metadata.includes(d['Virus name']) ? d : '').filter(String)
 			let qc_failed_sequences = map(this.sequence.fasta, d=> this.qc_failed_metadata.includes(d.name) ? d : '').filter(String)
 
-			zip.file('failed/qc_failed_metadata.tsv', json2csv(qc_failed_data))
+			zip.file('failed/qc_failed_metadata.tsv', json2csv(qc_failed_data, { separator: '\t' }))
 			zip.file('failed/qc_failed_sequences.fasta', Fasta.write(qc_failed_sequences))
 
 			let link = document.createElement('a')
@@ -706,7 +706,7 @@ export default {
 			let time_now = Date.now()
 			let metadata_file_name = 'metadata' + '_' + time_now + '.' + this.metadata.file.fileExtension
 			let sequence_file_name = 'sequence' + '_' + time_now + '.' + this.sequence.file.fileExtension
-			let metadata_blob = new Blob([json2csv(this.qc_passed_metadata)], { type: "application/json" })
+			let metadata_blob = new Blob([json2csv(this.qc_passed_metadata, { separator: '\t'})], { type: "application/json" })
 			let sequence_blob = new Blob([Fasta.write(this.qc_passed_sequences)], { type: "application/json" })
 			payload.append("metadata", metadata_blob, metadata_file_name)
 			payload.append("sequences", sequence_blob, sequence_file_name)
