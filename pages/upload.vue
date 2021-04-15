@@ -177,7 +177,7 @@
 
 						<div class="column is-4" v-if="submit_data_button && qc_failed_metadata.length > 0">
 							<div
-								class="button is-warning is-fullwidth"
+								class="button is-warning is-outlined is-fullwidth"
 								@click="download_data"
 							>
 								<span>Download QC failed data ({{ qc_failed_metadata.length }})</span>
@@ -199,18 +199,27 @@
 
 						<div class="column is-4" v-if="submit_data_button && qc_passed_metadata.length > 0">
 							<div
-								class="button is-warning is-fullwidth"
+								class="button has-background-success is-fullwidth has-text-white"
 								@click="upload_data"
 							>
 								<span>Upload QC passed data ({{ qc_passed_metadata.length }})</span>
 							</div>
 						</div>
 
+<!-- 						<div class="column is-4" v-if="submit_data_button && qc_passed_metadata.length > 0">
+							<div
+								class="button is-warning is-fullwidth"
+								@click="activate_only_qc_passed_upload = true"
+							>
+								<span>Upload QC passed data</span>
+							</div>
+						</div> -->
+
 						<div class="column" v-if="!submit_data_button">
 							<div
 								@click="upload_data"
-								class="button is-success is-fullwidth"
 								:disabled="enable_submit"
+								class="button is-success is-fullwidth"
 							>
 								<span>Upload Data</span>
 							</div>
@@ -230,7 +239,7 @@
 							</div>
 							<div class="level-right">
 								<span class="tag is-warning is-rounded mr-2" v-if="qc_failed_metadata.length">
-									{{ qc_failed_metadata.length }}
+									{{ qc_failed_metadata.length }}/{{ metadata.data.length }}
 								</span>
 								<Tag
 									:tagtype="all_qc_checks.map(d=>d.verification).reduce((a,b)=>a+b,0) == 5"
@@ -278,12 +287,12 @@
 								<div
 									class="message mb-0 is-danger is-radiusless-br is-radiusless-bl animate__animated animate__fadeIn delay-1ms"
 								>
-									<div class="level side-element">
+									<div class="level is-mobile side-element">
 										<div class="level-left">
 											<div class="menu-label pl-0 is-size-6 has-text-grey-darker has-text-weight-medium">
 												{{ sub_check.header }}
 												<div class="tag is-warning is-rounded">
-													{{ sub_check.value.length }}/{{ metadata.data.length }}
+													{{ sub_check.value.length }}
 												</div>
 											</div>
 										</div>
@@ -318,7 +327,7 @@
 													class="is-inline-block has-text-left has-text-light"
 													v-for="(seq, index_seq) in all_states_indian"
 												>
-													{{ (index_seq+1) == all_states_indian.length ? seq : `${seq},&nbsp;`}}
+													{{ (index_seq + 1) == all_states_indian.length ? seq : `${seq},&nbsp;`}}
 												</div>
 											</template>
 										</vs-tooltip>
@@ -349,9 +358,32 @@
 		</div>
 	</section>
 
-	<vs-dialog blur v-model="activate_only_qc_passed_upload">
+	<vs-dialog blur v-model="activate_only_qc_passed_upload" width="800px">
 		<template #header>
+			<span class="subtitle is-size-4 has-text-grey-darker has-text-weight-medium">
+				Are you sure you want to upload {{ qc_passed_metadata.length }} sequences and its metadata?
+			</span>
 		</template>
+
+		<div class="columns">
+			<div class="column is-6" v-if="submit_data_button && qc_failed_metadata.length > 0">
+				<div
+					class="button is-warning is-outlined is-fullwidth"
+					@click="activate_only_qc_passed_upload = false"
+				>
+					<span>No, let me download QC failed data</span>
+				</div>
+			</div>
+
+			<div class="column is-6" v-if="submit_data_button && qc_passed_metadata.length > 0">
+				<div
+					class="button is-success is-fullwidth"
+					@click="upload_data"
+				>
+					<span>Yes, upload {{ qc_passed_metadata.length }} sequences</span>
+				</div>
+			</div>
+		</div>
 	</vs-dialog>
 
 	</div>
@@ -415,6 +447,7 @@ export default {
 			forEach(this.all_qc_checks, d=> {
 				d.verification = false
 				d.data = []
+				d.error = null
 			})
 			return true
 		},
@@ -442,16 +475,16 @@ export default {
 				this.$vs.notification({
 					sticky: true,
 					color: '#7DB950',
-					position: 'top-center',
-					title: 'Copied Successfully',
+					position: 'bottom-right',
+					text: '<div class="header is-size-5 has-text-weight-semibold is-family-primary">Copied Successfully</div>',
 				})
 		},
 		clipboard_failure({ value, event }) {
 				this.$vs.notification({
 					sticky: true,
 					color: '#F45564',
-					position: 'top-center',
-					title: 'Copy Unsuccessful',
+					position: 'bottom-right',
+					text: '<div class="header is-size-5 has-text-weight-semibold is-family-primary">Please try again</div>',
 				})
 		},
 		show_all_errors(index) {
@@ -540,6 +573,7 @@ export default {
 		},
 		check_state_information() {
 			let fs = FuzzySet(this.all_states_indian, false)
+			console.log(map(this.metadata.data, d=> fs.get(d['State'])))
 			let wrong_state_names = uniq(map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['State']).filter(String))
 			let wrong_state_id = map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['Virus name']).filter(String)
 			let empty_state_id = map(this.metadata.data, d=> d['State'] == '' ? d['Virus name']: '').filter(String)
@@ -704,8 +738,8 @@ export default {
 			let Fasta = require('biojs-io-fasta')
 			let payload = new FormData()
 			let time_now = Date.now()
-			let metadata_file_name = 'metadata' + '_' + time_now + '.' + this.metadata.file.fileExtension
-			let sequence_file_name = 'sequence' + '_' + time_now + '.' + this.sequence.file.fileExtension
+			let metadata_file_name = 'metadata' + '_' + time_now + '.tsv'
+			let sequence_file_name = 'sequence' + '_' + time_now + '.fasta'
 			let metadata_blob = new Blob([json2csv(this.qc_passed_metadata, { separator: '\t'})], { type: "application/json" })
 			let sequence_blob = new Blob([Fasta.write(this.qc_passed_sequences)], { type: "application/json" })
 			payload.append("metadata", metadata_blob, metadata_file_name)
@@ -718,10 +752,8 @@ export default {
 			}
 			this.loader = this.$vs.loading()
 			const data = this.$axios.$post('/files/file-upload/', payload, config)
-			let temp_metadata = this.metadata.data
-			forEach(temp_metadata, d=> d['Submission Date'] = time_now)
 			const metadata_upload = this.$axios.$post('/files/metadata-upload/', {
-				metadata: this.metadata.data
+				metadata: this.qc_passed_metadata
 			})
 			setTimeout(() => {
 				this.loader.close()
@@ -729,14 +761,17 @@ export default {
 				let main_label = this.$el.querySelectorAll('.filepond--file-status-main')
 				forEach(file, d=> d.setAttribute('data-filepond-item-state', 'processing-complete'))
 				forEach(main_label, d=> d.textContent = 'Uploaded Successfully')
+				this.$store.dispatch('user-info-store/set_uploaded_metadata')
 				this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
 				this.show_log = false
+				this.activate_only_qc_passed_upload = false
 				this.qc_failed_metadata = []
 				this.qc_passed_metadata = []
 				this.qc_passed_sequences = []
 				forEach(this.all_qc_checks, d=> {
 					d.verification = false
 					d.data = []
+					d.error = null
 				})
 			}, 1000)
 
