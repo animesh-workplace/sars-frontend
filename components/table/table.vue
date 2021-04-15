@@ -2,7 +2,6 @@
 	<table class="table is-striped is-hoverable is-bordered is-narrow">
 		<thead>
 			<tr>
-				<th>Submission Date</th>
 				<th>Virus name</th>
 				<th>Type</th>
 				<th>Passage details/history</th>
@@ -34,7 +33,6 @@
 		</thead>
 		<tbody>
 			<tr v-for="(data,index) in temp_data" :key="index">
-				<td>{{ data['Submission Date'] | moment("DD-MM-YYYY") }}</td>
 				<td>{{ data['Virus name'] }}</td>
 				<td>{{ data['Type'] }}</td>
 				<td>{{ data['Passage details/history'] }}</td>
