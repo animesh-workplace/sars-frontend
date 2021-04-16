@@ -26,6 +26,11 @@ export default {
 			animation: {
 				animateRotate: true
 			},
+			legend: {
+				labels: {
+					usePointStyle: true,
+				}
+			}
 		}
 	}),
 	components: {
