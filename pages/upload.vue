@@ -578,7 +578,8 @@ export default {
 			this.qc_failed_metadata = uniq(this.qc_failed_metadata)
 		},
 		check_state_information() {
-			let fs = FuzzySet(this.all_states_indian, false)
+			let fs = FuzzySet(this.all_states_indian, false, 3, 4)
+			console.log(map(this.metadata.data, d=> fs.get(d['State'], null, .5)))
 			let wrong_state_names = uniq(map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['State']).filter(String))
 			let wrong_state_id = map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['Virus name']).filter(String)
 			let empty_state_id = map(this.metadata.data, d=> d['State'] == '' ? d['Virus name']: '').filter(String)
