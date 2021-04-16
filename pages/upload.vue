@@ -396,10 +396,10 @@ import json2csv from 'csvjson-json2csv'
 import { mapFields } from 'vuex-map-fields'
 import Tag from "@/components/upload/tag.vue"
 import Table from "@/components/table/table.vue"
+import { map, forEach, uniq, difference, sum } from "lodash"
 import MetadataUpload from "@/components/upload/metadata-upload.vue"
 import SequenceUpload from "@/components/upload/sequence-upload.vue"
 import LoginLayout from "@/components/authentication/login-layout.vue"
-import { map, forEach, startCase, capitalize, toLower, uniq, difference, sum, isEmpty } from "lodash"
 
 export default {
 	layout: 'normal',
@@ -412,6 +412,7 @@ export default {
 		upload_percent: 0,
 		metadata_requirement: false,
 		sequence_requirement: false,
+		required_columns: [ 'Virus name', 'Type', 'Passage details/history', 'Collection date', 'Country', 'State', 'District', 'Location', 'Additional location information', 'Host', 'Additional host information', 'Gender', 'Patient age', 'Patient status', 'Specimen source', 'Outbreak', 'Last vaccinated', 'Treatment', 'Sequencing technology', 'Assembly method', 'Coverage', 'Originating lab', 'Originating lab address', 'Submitting lab', 'Submitting lab address', 'Sample ID given by the submitting lab', 'Authors'],
 		all_states_indian: ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttarakhand', 'Uttar Pradesh', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry'],
 		id: Date.now() + Math.floor(Math.random()*10000 + 1),
 		all_qc_checks: [
@@ -421,6 +422,7 @@ export default {
 			{ id: 4, name: 'Duplicate check', verification: false, data: [], error: null, show: false },
 			{ id: 5, name: 'Already present check', verification: false, data: [], error: null, show: false },
 		],
+		empty_rows: [],
 		qc_failed_metadata: [],
 		qc_passed_metadata: [],
 		qc_passed_sequences: [],
@@ -505,6 +507,7 @@ export default {
 			if(this.metadata && this.sequence) {
 				this.all_qc_checks[0].verification = true
 				if(this.metadata.file && this.sequence.file) {
+					this.check_and_remove_empty_rows()
 					this.check_collection_date()
 					this.check_state_information()
 					if(!this.all_qc_checks[1].data.length) {
@@ -519,6 +522,9 @@ export default {
 					this.show_log = true
 				}
 			}
+		},
+		check_and_remove_empty_rows() {
+			this.metadata.data = this.metadata.data.filter((d,i)=> d['Virus name'] != '')
 		},
 		check_collection_date() {
 			let collection_date_error_id = map(this.metadata.data,
@@ -573,7 +579,6 @@ export default {
 		},
 		check_state_information() {
 			let fs = FuzzySet(this.all_states_indian, false)
-			console.log(map(this.metadata.data, d=> fs.get(d['State'])))
 			let wrong_state_names = uniq(map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['State']).filter(String))
 			let wrong_state_id = map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['Virus name']).filter(String)
 			let empty_state_id = map(this.metadata.data, d=> d['State'] == '' ? d['Virus name']: '').filter(String)
@@ -640,7 +645,7 @@ export default {
 		find_duplicate() {
 			let error_data = []
 			let virus_name = map(this.metadata.data, d=> d['Virus name'].replace('\r', ''))
-			let duplicates_metadata = virus_name.filter((e, i, a) => a.indexOf(e) !== i)
+			let duplicates_metadata = virus_name.filter((e, i, a) => a.indexOf(e) !== i).filter(String)
 			let duplicates_sequence = this.sequence.data.filter((e, i, a) => a.indexOf(e) !== i)
 			if(!duplicates_metadata.length && !duplicates_sequence.length) {
 				this.all_qc_checks[3].verification = true
@@ -740,6 +745,13 @@ export default {
 			let time_now = Date.now()
 			let metadata_file_name = 'metadata' + '_' + time_now + '.tsv'
 			let sequence_file_name = 'sequence' + '_' + time_now + '.fasta'
+			let only_selected_metadata = map(this.qc_passed_metadata, d=>
+				Object.assign({},
+					...map(this.required_columns, d1=> ({
+						[d1]: d[d1]
+					}))
+				)
+			)
 			let metadata_blob = new Blob([json2csv(this.qc_passed_metadata, { separator: '\t'})], { type: "application/json" })
 			let sequence_blob = new Blob([Fasta.write(this.qc_passed_sequences)], { type: "application/json" })
 			payload.append("metadata", metadata_blob, metadata_file_name)
@@ -753,7 +765,7 @@ export default {
 			this.loader = this.$vs.loading()
 			const data = this.$axios.$post('/files/file-upload/', payload, config)
 			const metadata_upload = this.$axios.$post('/files/metadata-upload/', {
-				metadata: this.qc_passed_metadata
+				metadata: only_selected_metadata
 			})
 			setTimeout(() => {
 				this.loader.close()
