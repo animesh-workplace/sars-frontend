@@ -7,7 +7,6 @@
 			:data="chartdata"
 			class="pie-chart"
 			:library="options"
-			:plugins="options.plugins"
 		>
 		</pie-chart>
 		<span class="tag shift-up is-unselectable">Total: {{ total_sum }}</span>
@@ -20,17 +19,34 @@ import { forEach } from 'lodash'
 export default {
 	data: () => ({
 		chartdata: null,
-		colors: [ '#087FD2', '#E26EA5', '#F45564', '#FF8F41', '#FFC748', '#00C46C', '#50B98C', '#00C8B5', '#01BFEA', '#AA50B5' ],
+		colors: [ '#087FD2', '#E26EA5', '#F45564', '#FF8F41', '#FFC748', '#99CC66', '#00C46C', '#00C8B5', '#01BFEA', '#AA50B5' ],
 		total_sum: 0,
 		options: {
 			animation: {
 				animateRotate: true
 			},
+			tooltips: {
+				bodyFontSize: 14,
+				bodyFontStyle: 700,
+				bodyFontFamily: 'Averta',
+				bodySpacing: 14,
+				callbacks: {
+					label: function(tooltipItem, data) {
+						let value = data.datasets[0].data[tooltipItem.index]
+						let name = data.labels[tooltipItem.index].split(' ')[0]
+						let labels = `${name}: ${value}`
+						return labels
+					}
+				}
+			},
 			legend: {
 				labels: {
+					fontSize: 14,
+					fontStyle: 500,
 					usePointStyle: true,
+					fontFamily: 'Averta',
 				}
-			}
+			},
 		}
 	}),
 	components: {
@@ -45,7 +61,7 @@ export default {
 			if(data.message == null) {
 				let temp = {}
 				let sum = 0
-				forEach(data, (d,i)=> temp[i.split('Insacog_')[1]] = d)
+				forEach(data, (d,i)=> temp[i.split('Insacog_')[1] + ` (${d})`] = d)
 				forEach(data, (d,i)=> sum = sum + d)
 				this.total_sum = sum
 				this.chartdata = temp
@@ -66,7 +82,7 @@ export default {
 }
 .shift-up {
 	position: absolute;
-	top: 51%;
+	top: 55%;
 	left: 42.5%;
 	z-index: -1;
 }
