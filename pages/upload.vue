@@ -579,9 +579,8 @@ export default {
 		},
 		check_state_information() {
 			let fs = FuzzySet(this.all_states_indian, false, 3, 4)
-			console.log(map(this.metadata.data, d=> fs.get(d['State'], null, .5)))
-			let wrong_state_names = uniq(map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['State']).filter(String))
-			let wrong_state_id = map(this.metadata.data, d=> fs.get(d['State']) ? '' : d['Virus name']).filter(String)
+			let wrong_state_names = uniq(map(this.metadata.data, d=> fs.get(d['State'], null, .5) ? '' : d['State']).filter(String))
+			let wrong_state_id = map(this.metadata.data, d=> fs.get(d['State'], null, .5) ? '' : d['Virus name']).filter(String)
 			let empty_state_id = map(this.metadata.data, d=> d['State'] == '' ? d['Virus name']: '').filter(String)
 			if(wrong_state_id.length || empty_state_id.length) {
 				if(difference(wrong_state_id, empty_state_id).length) {
@@ -740,7 +739,7 @@ export default {
 				link.click()
 			})
 		},
-		upload_data() {
+		async upload_data() {
 			let Fasta = require('biojs-io-fasta')
 			let payload = new FormData()
 			let time_now = Date.now()
@@ -764,12 +763,12 @@ export default {
 				}
 			}
 			this.loader = this.$vs.loading()
-			const data = this.$axios.$post('/files/file-upload/', payload, config)
-			const metadata_upload = this.$axios.$post('/files/metadata-upload/', {
-				metadata: only_selected_metadata
+			const data = await this.$axios.$post('/files/file-upload/', payload, config)
+			const metadata_upload = await this.$axios.$post('/files/metadata-upload/', {
+				metadata: only_selected_metadata,
+				timestamp: time_now
 			})
 			setTimeout(() => {
-				this.loader.close()
 				let file = this.$el.querySelectorAll('.filepond--item')
 				let main_label = this.$el.querySelectorAll('.filepond--file-status-main')
 				forEach(file, d=> d.setAttribute('data-filepond-item-state', 'processing-complete'))
@@ -786,6 +785,7 @@ export default {
 					d.data = []
 					d.error = null
 				})
+				this.loader.close()
 			}, 1000)
 
 		}
