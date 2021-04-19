@@ -38,6 +38,11 @@
 		<template #right>
 			<client-only>
 				<div>
+					<div class="button is-success mr-2" @click="download">
+						<span>Download all data</span>
+					</div>
+				</div>
+				<div>
 					<div class="button is-danger mr-2" @click="logout">
 						<span>Logout</span>
 					</div>
@@ -64,6 +69,9 @@ export default {
 		...mapFields([
 			'active'
 		]),
+		...mapFields('user-info-store',[
+			'download_link'
+		])
 	},
 	components: {
 	},
@@ -74,6 +82,13 @@ export default {
 		logout() {
 			this.$store.dispatch('user-info-store/user_logout')
 		},
+		download() {
+			this.loader = this.$vs.loading()
+			let link = document.createElement('a')
+			link.href = this.download_link
+			link.click()
+			this.loader.close()
+		}
 	}
 };
 </script>
