@@ -4,10 +4,11 @@ import { getField, updateField } from 'vuex-map-fields'
 
 export const state = () => ({
 	userinfo: {},
+	editmode: false,
 	token_expiry: '',
 	avatar_image: '',
 	poster_image: '',
-	editmode: false,
+	download_link: '',
 	uploaded_metadata: {},
 	activateemailmodal: false,
 	activateuploadposter: false,
@@ -52,6 +53,9 @@ export const mutations = {
 	SET_UPLOADED_METADATA(state, payload) {
 		state.uploaded_metadata = payload
 	},
+	SET_DOWNLOAD_LINK(state, payload) {
+		state.download_link = payload
+	},
 	updateField,
 }
 
@@ -67,6 +71,7 @@ export const actions = {
 			await commit('SET_TOKEN_EXPIRY', data.expires)
 			this.$auth.$storage.setCookie('token_expiry', data.expires)
 			await dispatch('set_uploaded_metadata')
+			await dispatch('set_download_link')
 			// localStorage.setItem('token_expiry', data.expires)
 			this.$router.push('/upload')
 			Toast.open({
@@ -140,6 +145,11 @@ export const actions = {
 	async set_uploaded_metadata({ commit }) {
 		const metadata_header = await this.$axios.$post('/files/metadata-info-name/')
 		commit('SET_UPLOADED_METADATA', metadata_header)
+	},
+	async set_download_link({ commit }) {
+		const link_date = await this.$axios.$post('/files/metadata-download/')
+		let link = `http://research.nibmg.ac.in/insacog/media/combined_files/${link_date.date}/download.zip`
+		commit('SET_DOWNLOAD_LINK', link)
 	},
 	set_activateforgotpasswordmodal({ commit }, payload) {
 		commit('SET_ACTIVATE_FORGOT_PASSWORD_MODAL', payload)
