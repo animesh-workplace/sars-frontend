@@ -206,15 +206,6 @@
 							</div>
 						</div>
 
-<!-- 						<div class="column is-4" v-if="submit_data_button && qc_passed_metadata.length > 0">
-							<div
-								class="button is-warning is-fullwidth"
-								@click="activate_only_qc_passed_upload = true"
-							>
-								<span>Upload QC passed data</span>
-							</div>
-						</div> -->
-
 						<div class="column" v-if="!submit_data_button">
 							<div
 								@click="upload_data"
@@ -357,34 +348,6 @@
 			</div>
 		</div>
 	</section>
-
-	<vs-dialog blur v-model="activate_only_qc_passed_upload" width="800px">
-		<template #header>
-			<span class="subtitle is-size-4 has-text-grey-darker has-text-weight-medium">
-				Are you sure you want to upload {{ qc_passed_metadata.length }} sequences and its metadata?
-			</span>
-		</template>
-
-		<div class="columns">
-			<div class="column is-6" v-if="submit_data_button && qc_failed_metadata.length > 0">
-				<div
-					class="button is-warning is-outlined is-fullwidth"
-					@click="activate_only_qc_passed_upload = false"
-				>
-					<span>No, let me download QC failed data</span>
-				</div>
-			</div>
-
-			<div class="column is-6" v-if="submit_data_button && qc_passed_metadata.length > 0">
-				<div
-					class="button is-success is-fullwidth"
-					@click="upload_data"
-				>
-					<span>Yes, upload {{ qc_passed_metadata.length }} sequences</span>
-				</div>
-			</div>
-		</div>
-	</vs-dialog>
 
 	</div>
 </template>
