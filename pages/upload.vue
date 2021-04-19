@@ -786,6 +786,12 @@ export default {
 					d.error = null
 				})
 				this.loader.close()
+				this.$buefy.toast.open({
+					duration: 3000,
+					type: 'is-success',
+					position: 'is-bottom',
+					message: 'Uploaded Successfully',
+				})
 			}, 1000)
 
 		}
