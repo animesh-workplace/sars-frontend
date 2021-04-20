@@ -148,7 +148,7 @@ export const actions = {
 	},
 	async set_download_link({ commit }) {
 		const link_date = await this.$axios.$post('/files/metadata-download/')
-		let link = `http://research.nibmg.ac.in/insacog/media/combined_files/${link_date.date}/download.zip`
+		let link = `http://research.nibmg.ac.in/insacog/media/combined_files/${link_date.date}/INSACOG_data_${link_date.date}.zip`
 		commit('SET_DOWNLOAD_LINK', link)
 	},
 	set_activateforgotpasswordmodal({ commit }, payload) {
