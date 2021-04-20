@@ -82,8 +82,9 @@ export default {
 		logout() {
 			this.$store.dispatch('user-info-store/user_logout')
 		},
-		download() {
+		async download() {
 			this.loader = this.$vs.loading()
+			await this.$store.dispatch('user-info-store/set_download_link')
 			let link = document.createElement('a')
 			link.href = this.download_link
 			link.click()
