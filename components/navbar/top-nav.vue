@@ -38,8 +38,8 @@
 		<template #right>
 			<client-only>
 				<div>
-					<div class="button is-success mr-2" @click="download">
-						<span>Download all data</span>
+					<div class="button is-success mr-2" disabled>
+						<span>Download [Under-development]</span>
 					</div>
 				</div>
 				<div>
