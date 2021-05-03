@@ -1,5 +1,9 @@
 <template>
 	<section class="section mt-6">
+		<div class="column">
+			<BarChartStats/>
+		</div>
+
 		<div class="box is-raised table-container is-unselectable">
 			<div v-if="enable_table">
 				<Table :tabledata="$vs.getPage(metadata, page, 30)"/>
@@ -18,6 +22,7 @@
 import { map, forEach } from "lodash"
 import { mapFields } from 'vuex-map-fields'
 import Table from "@/components/table/table.vue"
+import BarChartStats from "@/components/charts/bar-chart-stats.vue"
 
 export default {
 	layout: 'normal',
@@ -28,6 +33,7 @@ export default {
 	}),
 	components: {
 		Table,
+		BarChartStats,
 	},
 	computed: {
 		enable_table() {
