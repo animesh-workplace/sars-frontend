@@ -31,6 +31,7 @@ export default {
 				bodyFontFamily: 'Averta',
 				bodySpacing: 14,
 				callbacks: {
+					title: function() {},
 					label: function(tooltipItem, data) {
 						let value = data.datasets[0].data[tooltipItem.index]
 						let name = data.labels[tooltipItem.index].split(' ')[0]
@@ -65,6 +66,7 @@ export default {
 				forEach(data, (d,i)=> sum = sum + d)
 				this.total_sum = sum
 				this.chartdata = temp
+				console.log(this.chartdata)
 			}
 		},
 	},
