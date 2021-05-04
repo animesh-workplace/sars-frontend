@@ -52,6 +52,7 @@ export default {
 		'@/plugins/v-clipboard',
 		'@/plugins/vue-composition',
 		{ src: '@/plugins/vue-chart', ssr: false },
+		{ src: '~/plugins/vue-echarts', ssr: false },
 		{ src: '@/plugins/vue-localstorage', ssr: false },
 		{ src: '@/plugins/vue-sessionstorage', ssr: false },
 	],
@@ -140,5 +141,13 @@ export default {
 ** See https://nuxtjs.org/api/configuration-build/
 */
 	build: {
+		transpile: [
+			'vue-echarts',
+			'echarts/core',
+			'echarts/renderers',
+			'echarts/charts',
+			'echarts/components',
+			'zrender'
+		]
 	}
 }
