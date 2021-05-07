@@ -1,30 +1,41 @@
 <template>
 	<div v-if="chartdata">
-<!-- 		<column-chart
-			:colors="colors"
-			:data="chartdata"
-			:library="options"
-		>
-		</column-chart> -->
-		<!-- <span class="tag shift-up is-unselectable">Total: {{ total_sum }}</span> -->
+		<div class="columns">
+			<div class="column is-4">
+				<v-chart class="chart" :option="options"/>
+			</div>
+			<div class="column is-4">
+				<v-chart class="chart" :option="options"/>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
 import { forEach } from 'lodash'
-// import { use } from "echarts/core"
-// import { CanvasRenderer } from "echarts/renderers"
-// import { PieChart } from "echarts/charts"
-// import { TitleComponent, TooltipComponent, LegendComponent } from "echarts/components"
-// import VChart, { THEME_KEY } from "vue-echarts"
+import { use } from "echarts/core"
+import { CanvasRenderer } from "echarts/renderers"
+import { BarChart } from "echarts/charts"
+import { TitleComponent, TooltipComponent, LegendComponent, GridComponent,   CalendarComponent,
+  ToolboxComponent,
+  DataZoomComponent,
+  VisualMapComponent,
+  TimelineComponent, } from "echarts/components"
+import VChart, { THEME_KEY } from "vue-echarts"
 
-// use([
-//   CanvasRenderer,
-//   PieChart,
-//   TitleComponent,
-//   TooltipComponent,
-//   LegendComponent
-// ])
+use([
+  CanvasRenderer,
+  BarChart,
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  CalendarComponent,
+  ToolboxComponent,
+  DataZoomComponent,
+  VisualMapComponent,
+  TimelineComponent,
+  LegendComponent
+])
 
 export default {
 	data: () => ({
@@ -39,10 +50,6 @@ export default {
 			xAxis: {
 				type: 'category',
 				data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-				splitLine: {
-					show: true,
-					interval: 0,
-				}
 			},
 			yAxis: {
 				type: 'value',
@@ -64,7 +71,7 @@ export default {
 				},
 				{
 					name: 'Hello1',
-					data: [180, 100, 70, 160, 50, 10, 30],
+					data: [180, 100, 70, 160, 50, 20, 30],
 					type: 'bar',
 					stack: 'total',
 					showBackground: false,
@@ -80,10 +87,10 @@ export default {
 		}
 	}),
 	components: {
-		// VChart
+		VChart
 	},
 	provide: {
-		// [THEME_KEY]: "dark"
+		[THEME_KEY]: "light"
 	},
 	props: {
 	},
@@ -119,5 +126,8 @@ export default {
 	top: 55%;
 	left: 42.5%;
 	z-index: -1;
+}
+.chart {
+  height: 400px;
 }
 </style>
