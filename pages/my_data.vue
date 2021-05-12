@@ -4,6 +4,10 @@
 			<BarChartStats/>
 		</div>
 
+<!-- 		<div class="column">
+			<D3Chart/>
+		</div> -->
+
 		<div class="box is-raised table-container is-unselectable">
 			<div v-if="enable_table">
 				<Table :tabledata="$vs.getPage(metadata, page, 30)"/>
@@ -22,6 +26,7 @@
 import { map, forEach } from "lodash"
 import { mapFields } from 'vuex-map-fields'
 import Table from "@/components/table/table.vue"
+import D3Chart from "@/components/charts/d3-chart.vue"
 import BarChartStats from "@/components/charts/bar-chart-stats.vue"
 
 export default {
@@ -33,6 +38,7 @@ export default {
 	}),
 	components: {
 		Table,
+		D3Chart,
 		BarChartStats,
 	},
 	computed: {
