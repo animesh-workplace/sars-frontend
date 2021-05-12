@@ -764,7 +764,7 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(()=>{
-			console.log(this.$auth.user)
+			// console.log(this.$auth.user)
 		})
 	}
 };
