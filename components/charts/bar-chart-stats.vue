@@ -153,15 +153,21 @@ export default {
 				this.options.series[0].data = temp
 			}
 		},
-		get_map_data() {
-			// registerMap('india', indiaJSON)
-			// console.log(topojson.feature(indiaJSON, indiaJSON.objects.states))
+		get_websocket_data() {
+			this.$options.sockets = new WebSocket(`ws://10.10.6.80/wsa/data/`)
+			this.$options.sockets.onmessage = (event) => {
+				let websocket_data = JSON.parse(event.data)['message']
+				console.log(websocket_data)
+			}
+			this.$options.sockets.onerror = function(event) {
+				console.log(event)
+			}
 		}
 	},
 	mounted() {
 		this.$nextTick(()=>{
 			this.get_chartdata()
-			this.get_map_data()
+			this.get_websocket_data()
 		})
 	}
 };
