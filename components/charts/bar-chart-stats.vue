@@ -154,7 +154,7 @@ export default {
 			}
 		},
 		get_websocket_data() {
-			this.$options.sockets = new WebSocket(`ws://10.10.6.80/wsa/data/`)
+			this.$options.sockets = new WebSocket(`${process.env.WS_BASE_URL}/data/`)
 			this.$options.sockets.onmessage = (event) => {
 				let websocket_data = JSON.parse(event.data)['message']
 				console.log(websocket_data)
