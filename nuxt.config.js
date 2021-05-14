@@ -99,7 +99,7 @@ export default {
 ** Nuxt router module configuration
 */
 	router: {
-		base: '/insacog/',
+		base: process.env.ROUTER_BASE,
 	// 	middleware: ['loggedIn']
 	},
 /*
