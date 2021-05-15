@@ -71,7 +71,7 @@ export const actions = {
 			await commit('SET_TOKEN_EXPIRY', data.expires)
 			this.$auth.$storage.setCookie('token_expiry', data.expires)
 			await dispatch('set_uploaded_metadata')
-			await dispatch('set_download_link')
+			// await dispatch('set_download_link')
 			// localStorage.setItem('token_expiry', data.expires)
 			this.$router.push('/upload')
 			Toast.open({
