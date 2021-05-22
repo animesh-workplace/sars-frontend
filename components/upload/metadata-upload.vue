@@ -106,6 +106,9 @@ export default {
 			fileReader.onload = function(e) {
 				vm.metadata = e.target.result
 				vm.metadata_json = csv2json(vm.metadata, { parseNumbers: true })
+				forEach(vm.metadata_json, (d,i)=> {
+					vm.metadata_json[i]['Virus name'] = String(d['Virus name']).replace('\r', '')
+				})
 				let state = vm.check_columns()
 				if(state.return_value) {
 					vm.metadata_verification[1].verification = true
