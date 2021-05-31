@@ -1,8 +1,8 @@
 <template>
 	<section class="section mt-6">
-<!-- 		<div class="column">
+		<div class="column">
 			<BarChartStats/>
-		</div> -->
+		</div>
 
 <!-- 		<div class="column">
 			<D3Chart/>
