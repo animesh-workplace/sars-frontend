@@ -76,6 +76,7 @@
     "vue-feather-icons": "^5.0.0",
     "vue-filepond": "^6.0.2",
     "vue-flickity": "^1.2.1",
+    "vue-gtag": "^1.16.1",
     "vue-js-grid": "^1.0.1",
     "vue-localstorage": "^0.6.2",
     "vue-moment": "^4.1.0",
