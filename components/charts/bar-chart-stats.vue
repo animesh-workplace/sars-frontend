@@ -166,7 +166,7 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(()=>{
-			this.get_chartdata()
+			// this.get_chartdata()
 			this.get_websocket_data()
 		})
 	}
