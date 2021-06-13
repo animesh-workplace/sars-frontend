@@ -66,7 +66,6 @@ export default {
 				forEach(data, (d,i)=> sum = sum + d)
 				this.total_sum = sum
 				this.chartdata = temp
-				console.log(this.chartdata)
 			}
 		},
 	},
