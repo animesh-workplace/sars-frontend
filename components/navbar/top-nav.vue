@@ -37,11 +37,11 @@
 
 		<template #right>
 			<client-only>
-<!-- 				<div>
+				<div>
 					<div class="button is-success mr-2" disabled>
 						<span>Download [Under-development]</span>
 					</div>
-				</div> -->
+				</div>
 				<div>
 					<div class="button is-danger mr-2" @click="logout">
 						<span>Logout</span>
