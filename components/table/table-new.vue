@@ -180,7 +180,6 @@ export default {
 				my_test[i][camelCase(i1)] = d1
 			})
 		})
-		console.log(my_test)
 		this.temp_data = my_test
 		this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
 	},
