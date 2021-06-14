@@ -1,8 +1,8 @@
 <template>
 	<section class="section mt-6">
-<!-- 		<div class="column">
+		<div class="column">
 			<BarChartStats/>
-		</div> -->
+		</div>
 
 <!-- 		<div class="column">
 			<D3Chart/>
@@ -21,7 +21,7 @@
 <script>
 import { map, forEach } from "lodash"
 import { mapFields } from 'vuex-map-fields'
-import Table from "@/components/table/table.vue"
+import Table from "@/components/table/table-new.vue"
 import D3Chart from "@/components/charts/d3-chart.vue"
 import BarChartStats from "@/components/charts/bar-chart-stats.vue"
 
