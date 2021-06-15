@@ -86,6 +86,7 @@ export default {
 			this.loader = this.$vs.loading()
 			await this.$store.dispatch('user-info-store/set_download_link')
 			let link = document.createElement('a')
+			link.target = '_blank'
 			link.href = this.download_link
 			link.click()
 			this.loader.close()
