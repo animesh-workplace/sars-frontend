@@ -162,6 +162,13 @@ export default {
 			this.$options.sockets.onerror = function(event) {
 				console.log(event)
 			}
+
+			let vm = this
+
+			this.$options.sockets.onopen = function(event) {
+				vm.$options.sockets.send(JSON.stringify({"type": "MY_METADATA"}))
+			}
+
 		}
 	},
 	mounted() {
