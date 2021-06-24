@@ -2,7 +2,7 @@
 	<div>
 	<section class="section mt-6">
 		<div class="columns">
-			<div class="column">
+<!-- 			<div class="column">
 				<div class="box is-floating">
 					<div
 						:class="metadata_requirement ? 'box is-expandable has-background-blue-lighter is-unselectable is-expanded p-4' : 'box is-expandable has-background-blue-lighter is-unselectable p-4'"
@@ -161,18 +161,176 @@
 					</div>
 
 				</div>
-			</div>
+			</div> -->
 
-			<div class="column is-8 ">
+			<div class="column is-10 is-offset-1">
 				<div class="box is-floating">
 					<div class="columns">
 						<div class="column is-6">
+							<div
+								:class="metadata_requirement ? 'box is-expandable has-background-blue-lighter is-unselectable is-expanded p-4' : 'box is-expandable has-background-blue-lighter is-unselectable p-4'"
+								@click="open_expanded(1)"
+							>
+								<div class="level is-clickable mb-0">
+									<div class="level-left">
+									    <span class="title is-4 has-text-weight-semibold mb-0 has-text-grey-darker">
+									    	Metadata requirements
+									    </span>
+										<a
+											class="button has-text-grey-dark is-light is-small ml-3"
+											href="http://research.nibmg.ac.in/insacog/media/template_metadata.csv"
+										>
+											Download Template
+										</a>
+									</div>
+								    <div class="level-right">
+									    <span class="tag is-info is-rounded mr-1">csv</span>
+									    <span class="tag is-info is-rounded mr-1">tsv</span>
+									    <span class="tag is-info is-rounded mr-1">text</span>
+									    <span class="tag is-info is-rounded mr-1">txt</span>
+										<svg class="icon is-small has-fill-black">
+											<use xlink:href="@/assets/images/icons/bds.svg#arrow-down-g"></use>
+										</svg>
+								    </div>
+								</div>
+							    <div class="expanded-content">
+							    	<hr class="is-visible is-size-3 is-size-4-mobile has-background-primary-claim-gradient my-3">
+							    	<div class="subtitle is-5 has-text-grey-dark">
+							    		<p>Metadata needs to contain the following column names</p>
+							    		<p class="has-text-weight-semibold has-text-red-dark">
+							    			The column headers marked in red are mandatory
+							    		</p>
+							    		<ul>
+											<li>
+												<b class="has-text-red">Virus name</b> - e.g. India/CH-ICMR-51800/2020 (Must be FASTA-Header from the FASTA file)
+											</li>
+											<li>
+												<b class="has-text-red">Type</b> - default must remain "betacoronavirus"
+											</li>
+											<li>
+												<b>Passage details/history</b> - e.g. Original, Vero
+											</li>
+											<li>
+												<b class="has-text-red">Collection date</b> - Date in the format [ DD-MM-YYYY, DD/MM/YYYY, YYYY-MM-DD, YYYY/MM/DD ]
+											</li>
+											<li>
+												<b class="has-text-red">Country</b> - Sample collected from which country
+											</li>
+											<li>
+												<b class="has-text-red">State</b> - Sample collected from which state
+											</li>
+											<li>
+												<b class="has-text-red">District</b> - Sample collected from which district
+											</li>
+											<li>
+												<b class="has-text-red">Location</b> - Sample collected from which continent
+											</li>
+											<li>
+												<b>Additional location information</b> - Any additional information such as Cruise Ship, Convention, Live animal market, School
+											</li>
+											<li>
+												<b class="has-text-red">Host</b> - e.g. Human, Environment, Canine, Manis javanica, Rhinolophus affinis, etc
+											</li>
+											<li>
+												<b>Additional host information</b> - e.g. Patient infected while traveling in ...
+											</li>
+											<li>
+												<b>Gender</b> - Male/Female or Unknown
+											</li>
+											<li>
+												<b>Patient age</b> - e.g.  65 or 7 months, or unknown
+											</li>
+											<li>
+												<b>Patient status</b> - e.g.  Hospitalized, Released, Live, Deceased, or unknown
+											</li>
+											<li>
+												<b>Specimen source</b> - e.g. Sputum, Alveolar lavage fluid, Oro-pharyngeal swab, Blood, Tracheal swab, Urine, Stool, Cloakal swab, Organ, Feces, Other
+											</li>
+											<li>
+												<b>Outbreak</b> - Date, Location e.g. type of gathering, Family cluster, etc
+											</li>
+											<li>
+												<b>Last vaccinated</b> - provide details if applicable
+											</li>
+											<li>
+												<b>Treatment</b> - Include drug name, dosage
+											</li>
+											<li>
+												<b class="has-text-red">Sequencing technology</b> - e.g.  Illumina Miseq, Sanger, Nanopore MinION, Ion Torrent, etc.
+											</li>
+											<li>
+												<b class="has-text-red">Assembly method</b> - e.g. CLC Genomics Workbench 12, Geneious 10.2.4, SPAdes/MEGAHIT v1.2.9, UGENE v. 33, etc.
+											</li>
+											<li>
+												<b class="has-text-red">Coverage</b> - e.g. 70x, 1000x, 10000x
+											</li>
+											<li>
+												<b class="has-text-red">Originating lab</b> - Where the clinical specimen or virus isolate was first obtained
+											</li>
+											<li>
+												<b class="has-text-red">Originating lab address</b> - Address of the originating lab
+											</li>
+											<li>
+												<b class="has-text-red">Submitting lab</b> - Where sequence data have been generated and submitted
+											</li>
+											<li>
+												<b class="has-text-red">Submitting lab address</b> - Address of the submitting lab
+											</li>
+											<li>
+												<b>Sample ID given by the submitting lab</b> - Sample ID given by the submitting lab
+											</li>
+											<li>
+												<b class="has-text-red">Authors</b> - a comma separated list of authors with complete first name followed by last name
+											</li>
+							    		</ul>
+							    	</div>
+							    </div>
+							</div>
 							<MetadataUpload v-model="metadata" :key="id"/>
 						</div>
+
 						<div class="column is-6">
+							<div
+								:class="sequence_requirement ? 'box is-expandable has-background-blue-lighter is-unselectable is-expanded p-4' : 'box is-expandable has-background-blue-lighter is-unselectable p-4'"
+								@click="open_expanded(2)"
+							>
+								<div class="level is-clickable mb-0">
+								    <span class="title is-4 has-text-weight-semibold mb-0 has-text-grey-darker">
+								    	Sequence requirements
+								    </span>
+								    <div class="level-right">
+									    <span class="tag is-info is-rounded mr-1">fasta</span>
+									    <span class="tag is-info is-rounded mr-1">fa</span>
+										<svg class="icon is-small has-fill-black">
+											<use xlink:href="@/assets/images/icons/bds.svg#arrow-down-g"></use>
+										</svg>
+								    </div>
+								</div>
+							    <div class="expanded-content">
+							    	<hr class="is-visible is-size-3 is-size-4-mobile has-background-primary-claim-gradient my-3">
+							    	<div class="subtitle is-5 has-text-grey-dark">
+										<p>
+											The strain column in metadata must match the fasta sequence header.
+											The sequence fasta file must be a multi fasta file in the following format:
+										</p>
+										<p class="mt-2">
+											>sequence1<br>
+											NTAAAGGTTTATACCTTCCCAGGTAACAAACC......<br>
+											>sequence2<br>
+											NTAAAGGTTTATACCTTCCCAGGTAACAAACC......<br>
+											>sequence3<br>
+											NTAAAGGTTTATACCTTCCCAGGTAACAAACC......<br>
+											...<br>
+											>sequence300<br>
+											NTAAAGGTTTATACCTTCCCAGGTAACAAACC......<br>
+										</p>
+							    	</div>
+							    </div>
+							</div>
 							<SequenceUpload v-model="sequence" :key="id"/>
 						</div>
 					</div>
+
 					<div class="columns has-text-centered pt-0">
 
 						<div class="column is-4" v-if="submit_data_button && qc_failed_metadata.length > 0">
