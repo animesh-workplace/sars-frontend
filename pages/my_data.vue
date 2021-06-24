@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="column is-10 is-offset-1 p-0">
 		<section class="section mt-6 pb-1">
 			<div class="box is-raised is-unselectable">
 				<span class="title is-4 has-text-weight-semibold mb-0 has-text-grey-darker">
