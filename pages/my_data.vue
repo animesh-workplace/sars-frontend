@@ -1,21 +1,31 @@
 <template>
-	<section class="section mt-6">
-		<div class="column">
-			<BarChartStats/>
-		</div>
-
-<!-- 		<div class="column">
-			<D3Chart/>
-		</div> -->
-
-		<div class="box is-raised is-unselectable">
-			<div class="box medium has-skeleton" v-if="table_loading"></div>
-			<Table :tabledata="metadata" v-if="!table_loading && enable_table"/>
-			<div v-if="!enable_table && !table_loading">
-				<span class="subtitle is-5 has-text-grey-dark">No data uploaded yet</span>
+	<div>
+		<section class="section mt-6 pb-1">
+			<div class="box is-raised is-unselectable">
+				<span class="title is-4 has-text-weight-semibold mb-0 has-text-grey-darker">
+					Metadata uploaded by you
+				</span>
+				<div class="box medium has-skeleton mt-3" v-if="table_loading1"></div>
+				<Table :tabledata="my_metadata" v-if="!table_loading1 && enable_table1" class="mt-3"/>
+				<div v-if="!enable_table1 && !table_loading1">
+					<span class="subtitle is-5 has-text-grey-dark">No data uploaded yet</span>
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+
+		<section class="section">
+			<div class="box is-raised is-unselectable">
+				<span class="title is-4 has-text-weight-semibold mb-0 has-text-grey-darker">
+					Metadata uploaded by all
+				</span>
+				<div class="box medium has-skeleton mt-3" v-if="table_loading2"></div>
+				<Table :tabledata="all_metadata" v-if="!table_loading2 && enable_table2" class="mt-3"/>
+				<div v-if="!enable_table2 && !table_loading2">
+					<span class="subtitle is-5 has-text-grey-dark">No data uploaded yet</span>
+				</div>
+			</div>
+		</section>
+	</div>
 </template>
 
 <script>
@@ -30,8 +40,10 @@ export default {
 	middleware: ['auth', 'auth_logout'],
 	data: () => ({
 		page: 1,
-		metadata: null,
-		table_loading: true,
+		my_metadata: null,
+		all_metadata: null,
+		table_loading1: true,
+		table_loading2: true,
 	}),
 	components: {
 		Table,
@@ -39,9 +51,17 @@ export default {
 		BarChartStats,
 	},
 	computed: {
-		enable_table() {
-			if(this.metadata) {
-				if(this.metadata.message == null) {
+		enable_table1() {
+			if(this.my_metadata) {
+				if(this.my_metadata != null) {
+					return true
+				}
+			}
+			return false
+		},
+		enable_table2() {
+			if(this.all_metadata) {
+				if(this.all_metadata != null) {
 					return true
 				}
 			}
@@ -52,20 +72,44 @@ export default {
 		]),
 	},
 	methods: {
-		async get_metadata_table() {
-			this.metadata = await this.$axios.$post('/files/metadata-info/')
+		get_websocket_data() {
+			let vm = this
+			this.$options.sockets = new WebSocket(`${process.env.WS_BASE_URL}/frontend/`)
+			this.$options.sockets.onmessage = (event) => {
+				// console.log(event.data)
+				if(JSON.parse(event.data)['type'] == 'MY_METADATA') {
+					let websocket_data = JSON.parse(event.data)['data']
+					vm.my_metadata = websocket_data.length ? websocket_data : null
+					vm.table_loading1 = false
+				}
+				if(JSON.parse(event.data)['type'] == 'ALL_METADATA') {
+					let websocket_data = JSON.parse(event.data)['data']
+					vm.all_metadata = websocket_data.length ? websocket_data : null
+					vm.table_loading2 = false
+				}
+			}
+			this.$options.sockets.onerror = function(event) {
+				console.log(event)
+			}
+			this.$options.sockets.onopen = function(event) {
+				vm.$options.sockets.send(JSON.stringify({'type': 'ALL_METADATA'}))
+				vm.$options.sockets.send(JSON.stringify({'type': 'MY_METADATA'}))
+				vm.table_loading1 = true
+				vm.table_loading2 = true
+			}
+
 		}
 	},
 	beforeMount() {
 		this.active = 'Sequences'
 	},
 	mounted() {
-		// const loading = this.$vs.loading()
-		this.$nextTick(async ()=>{
-			await this.get_metadata_table()
-			// loading.close()
-			this.table_loading = false
+		this.$nextTick(()=>{
+			this.get_websocket_data()
 		})
+	},
+	beforeDestroy() {
+		this.$options.sockets.close()
 	}
 };
 </script>
