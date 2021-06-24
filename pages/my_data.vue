@@ -13,7 +13,7 @@
 			</div>
 		</section>
 
-		<section class="section">
+<!-- 		<section class="section">
 			<div class="box is-raised is-unselectable">
 				<span class="title is-4 has-text-weight-semibold mb-0 has-text-grey-darker">
 					Metadata uploaded by all
@@ -24,7 +24,7 @@
 					<span class="subtitle is-5 has-text-grey-dark">No data uploaded yet</span>
 				</div>
 			</div>
-		</section>
+		</section> -->
 	</div>
 </template>
 
@@ -76,26 +76,25 @@ export default {
 			let vm = this
 			this.$options.sockets = new WebSocket(`${process.env.WS_BASE_URL}/frontend/`)
 			this.$options.sockets.onmessage = (event) => {
-				// console.log(event.data)
 				if(JSON.parse(event.data)['type'] == 'MY_METADATA') {
 					let websocket_data = JSON.parse(event.data)['data']
 					vm.my_metadata = websocket_data.length ? websocket_data : null
 					vm.table_loading1 = false
 				}
-				if(JSON.parse(event.data)['type'] == 'ALL_METADATA') {
-					let websocket_data = JSON.parse(event.data)['data']
-					vm.all_metadata = websocket_data.length ? websocket_data : null
-					vm.table_loading2 = false
-				}
+				// if(JSON.parse(event.data)['type'] == 'ALL_METADATA') {
+				// 	let websocket_data = JSON.parse(event.data)['data']
+				// 	vm.all_metadata = websocket_data.length ? websocket_data : null
+				// 	vm.table_loading2 = false
+				// }
 			}
 			this.$options.sockets.onerror = function(event) {
 				console.log(event)
 			}
 			this.$options.sockets.onopen = function(event) {
-				vm.$options.sockets.send(JSON.stringify({'type': 'ALL_METADATA'}))
+				// vm.$options.sockets.send(JSON.stringify({'type': 'ALL_METADATA'}))
 				vm.$options.sockets.send(JSON.stringify({'type': 'MY_METADATA'}))
 				vm.table_loading1 = true
-				vm.table_loading2 = true
+				// vm.table_loading2 = true
 			}
 
 		}
