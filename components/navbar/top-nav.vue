@@ -62,6 +62,7 @@ export default {
 			// { name: 'Home', link: '/' },
 			{ name: 'Upload', link: '/upload' },
 			{ name: 'Sequences', link: '/my_data' },
+			{ name: 'Dashboard', link: '/dashboard' },
 		],
 		is_authenticated: false,
 	}),
