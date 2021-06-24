@@ -21,6 +21,7 @@ export default {
 	beforeMount(){
 		if(this.$auth.loggedIn) {
 			this.$store.dispatch('user-info-store/set_uploaded_metadata')
+			// this.$store.dispatch('set_websocket_connection')
 			// this.$store.dispatch('user-info-store/set_download_link')
 		}
 	},
