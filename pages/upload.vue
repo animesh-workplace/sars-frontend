@@ -294,7 +294,7 @@
 								:class="sequence_requirement ? 'box is-expandable has-background-blue-lighter is-unselectable is-expanded p-4' : 'box is-expandable has-background-blue-lighter is-unselectable p-4'"
 								@click="open_expanded(2)"
 							>
-								<div class="level is-clickable mb-0">
+								<div class="level is-clickable mb-1">
 								    <span class="title is-4 has-text-weight-semibold mb-0 has-text-grey-darker">
 								    	Sequence requirements
 								    </span>
