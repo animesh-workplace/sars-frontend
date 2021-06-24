@@ -14,7 +14,7 @@
 
 			<template #thead>
 				<vs-tr>
-					<vs-th></vs-th>
+					<vs-th class="no-pointer-event"></vs-th>
 					<vs-th sort class="is-size-6">
 						Virus name
 					</vs-th>
@@ -31,19 +31,19 @@
 						Gender
 					</vs-th>
 					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'patientAge')">
-						Patient age
-					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'patientStatus')">
-						Patient status
+						Age
 					</vs-th>
 					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'lastVaccinated')">
 						Last vaccinated
 					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'originatingLab')">
-						Originating lab
+					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'lineage')">
+						Lineage
 					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'submittingLab')">
-						Submitting lab
+					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'clade')">
+						Clade
+					</vs-th>
+					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'scorpioCall')">
+						Scorpio
 					</vs-th>
 				</vs-tr>
 			</template>
@@ -54,7 +54,7 @@
 					open-expand-only-td
 					v-for="(tr,i) in $vs.getPage($vs.getSearch(temp_data, search), page, 15)"
 				>
-					<vs-td>
+					<vs-td class="no-pointer-event">
 						<svg class="icon icon-size has-fill-blue-dark">
 							<use xlink:href="@/assets/images/icons/bds.svg#arrow-right-g"></use>
 						</svg>
@@ -65,13 +65,15 @@
 					<vs-td class="is-size-6">{{ tr['district'] }}</vs-td>
 					<vs-td class="is-size-6">{{ tr['gender'] }}</vs-td>
 					<vs-td class="is-size-6">{{ tr['patientAge'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['patientStatus'] }}</vs-td>
 					<vs-td class="is-size-6">{{ tr['lastVaccinated'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['originatingLab'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['submittingLab'] }}</vs-td>
+					<vs-td class="is-size-6"><Tag :name="tr['lineage']" theme="#FF8F41"/></vs-td>
+					<vs-td class="is-size-6"><Tag :name="tr['clade']" theme="#00C8B5"/></vs-td>
+					<vs-td class="is-size-6"><Tag :name="tr['scorpioCall']" theme="#7DB950"/></vs-td>
 
 					<template #expand>
-						<div> {{ tr['virusName'] }} </div>
+						<div class="box is-floating has-background-info-light">
+							<div> {{ tr['virusName'] }} </div>
+						</div>
 					</template>
 				</vs-tr>
 			</template>
@@ -91,6 +93,7 @@
 
 <script>
 import { forEach, camelCase } from 'lodash'
+import Tag from "@/components/table/cool-tag.vue"
 
 export default {
 	data: () => ({
@@ -112,6 +115,7 @@ export default {
 		// }
 	},
 	components: {
+		Tag
 	},
 	computed: {
 	},
@@ -137,14 +141,17 @@ export default {
 </script>
 
 <style scoped>
-th, td {
-    white-space: nowrap;
-}
-.icon-size {
-	width: 2rem;
-	height: 1.2rem;
-}
-.medium {
-	height: 770px;
-}
+	th, td {
+	    white-space: nowrap;
+	}
+	.icon-size {
+		width: 2rem;
+		height: 1.2rem;
+	}
+	.medium {
+		height: 770px;
+	}
+	.no-pointer-event {
+		pointer-events: none;
+	}
 </style>
