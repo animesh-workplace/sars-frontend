@@ -1,16 +1,18 @@
 <template>
-	<section class="section mt-6">
-		<div class="box is-raised is-unselectable">
-			<span class="title is-4 has-text-weight-semibold mb-0 has-text-grey-darker">
-				Complete Metadata
-			</span>
-			<div class="box medium has-skeleton mt-4" v-if="table_loading"></div>
-			<Table :tabledata="all_metadata" v-if="!table_loading && enable_table" class="mt-4"/>
-			<div v-if="!enable_table && !table_loading">
-				<span class="subtitle is-5 has-text-grey-dark">No data uploaded yet</span>
+	<div class="column is-10 is-offset-1 p-0">
+		<section class="section mt-6">
+			<div class="box is-raised is-unselectable">
+				<span class="title is-4 has-text-weight-semibold mb-0 has-text-grey-darker">
+					Complete Metadata
+				</span>
+				<div class="box medium has-skeleton mt-4" v-if="table_loading"></div>
+				<Table :tabledata="all_metadata" v-if="!table_loading && enable_table" class="mt-4"/>
+				<div v-if="!enable_table && !table_loading">
+					<span class="subtitle is-5 has-text-grey-dark">No data uploaded yet</span>
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</div>
 </template>
 
 <script>
