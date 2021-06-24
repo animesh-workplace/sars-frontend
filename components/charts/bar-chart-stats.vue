@@ -11,6 +11,7 @@
 <script>
 import { forEach } from 'lodash'
 import * as topojson from 'topojson-client'
+import { mapFields } from 'vuex-map-fields'
 import { use, registerMap } from 'echarts/core'
 import {
 	GeoComponent,
@@ -45,6 +46,7 @@ export default {
 		chartdata: null,
 		colors: [ '#087FD2', '#E26EA5', '#F45564', '#FF8F41', '#FFC748', '#99CC66', '#00C46C', '#00C8B5', '#01BFEA', '#AA50B5'],
 		total_sum: 0,
+		websocket_output: null,
 		options: {
 			// title: {
 			// 	text: 'Indian Map',
@@ -138,6 +140,9 @@ export default {
 	props: {
 	},
 	computed: {
+		...mapFields([
+			'websocket_connection'
+		]),
 	},
 	methods: {
 		async get_chartdata() {
@@ -164,7 +169,6 @@ export default {
 			}
 
 			let vm = this
-
 			this.$options.sockets.onopen = function(event) {
 				vm.$options.sockets.send(JSON.stringify({"type": "MY_METADATA"}))
 			}
@@ -174,7 +178,7 @@ export default {
 	mounted() {
 		this.$nextTick(()=>{
 			// this.get_chartdata()
-			this.get_websocket_data()
+			// this.get_websocket_data()
 		})
 	}
 };
