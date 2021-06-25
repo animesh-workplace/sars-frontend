@@ -2,52 +2,67 @@
 	<vs-navbar color="#D5CABD" v-model="active" class="py-3 px-0 box is-floating is-sticky has-background-theme is-radiusless">
 		<template #left>
 			<nuxt-link  to="/upload">
-				<div class="is-size-4-5 has-text-weight-semibold is-inline has-text-grey-darker">INSACOG</div>
-				<div class="is-size-4-5 is-inline has-text-grey-dark">DataHub</div>
+				<div v-if="$screen.breakpoint != 'mobile'">
+					<div class="is-size-4-5 has-text-weight-semibold is-inline has-text-grey-darker">INSACOG</div>
+					<div class="is-size-4-5 is-inline has-text-grey-dark">DataHub</div>
+				</div>
+				<div v-else>
+					<div class="is-size-4 has-text-weight-semibold is-inline has-text-grey-darker">INSACOG</div>
+					<div class="is-size-4 is-inline has-text-grey-dark">DataHub</div>
+				</div>
 			</nuxt-link>
 		</template>
 
 		<div v-for="(menu, index) in navbar_data" :key="index">
-			<vs-navbar-group v-if="menu.submenu">
-				<span
-					:class="active == menu.name ? 'is-size-6 has-text-weight-semibold' : 'is-size-6 has-text-weight-semibold'"
-				>
-					{{ menu.name }}
-				</span>
-				<template #items>
-					<vs-navbar-item v-for="(submenu, index_submenu) in menu.submenu" :key="index_submenu" :id="submenu.name" :active="active == submenu.name">
-						<span
-							:class="active == submenu.name ? 'has-text-weight-semibold' : 'has-text-weight-semibold has-text-grey-darker'"
-						>
-							<fa :icon="['fas', 'flask']"/>
-							{{ submenu.name }}
-						</span>
-					</vs-navbar-item>
-				</template>
-			</vs-navbar-group>
+			<client-only>
+				<vs-navbar-group v-if="menu.submenu">
+					<span
+						:class="active == menu.name ? 'is-size-6 has-text-weight-semibold' : 'is-size-6 has-text-weight-semibold'"
+					>
+						{{ menu.name }}
+					</span>
+					<template #items>
+						<vs-navbar-item v-for="(submenu, index_submenu) in menu.submenu" :key="index_submenu" :id="submenu.name" :active="active == submenu.name">
+							<span
+								:class="active == submenu.name ? 'has-text-weight-semibold' : 'has-text-weight-semibold has-text-grey-darker'"
+							>
+								<fa :icon="['fas', 'flask']"/>
+								{{ submenu.name }}
+							</span>
+						</vs-navbar-item>
+					</template>
+				</vs-navbar-group>
 
-			<vs-navbar-item :id="menu.name" :active="active == menu.name" :to="menu.link" v-else>
-				<svg class="icon is-small has-fill-black is-clickable">
-					<use :xlink:href="require('@/assets/images/icons/bds.svg') + `#${menu.icon}`"></use>
-				</svg>
-				<span
-					:class="active == menu.name ? 'is-size-6 has-text-weight-semibold' : 'is-size-6 has-text-weight-semibold'"
-				>
-					&nbsp;{{ menu.name }}
-				</span>
-			</vs-navbar-item>
+				<vs-navbar-item :id="menu.name" :active="active == menu.name" :to="menu.link" v-else>
+					<svg class="icon has-fill-black is-clickable">
+						<use :xlink:href="require('@/assets/images/icons/bds.svg') + `#${menu.icon}`"></use>
+					</svg>
+					<span
+						v-if="$screen.breakpoint != 'mobile'"
+						:class="active == menu.name ? 'is-size-6 has-text-weight-semibold' : 'is-size-6 has-text-weight-semibold'"
+					>
+						&nbsp;{{ menu.name }}
+					</span>
+				</vs-navbar-item>
+			</client-only>
 		</div>
 
 		<template #right>
 			<client-only>
 				<div>
 					<div class="button is-success mr-2" @click="download">
-						<span>Download</span>
+						<svg class="icon has-fill-white">
+							<use xlink:href="@/assets/images/icons/bds.svg#export-g"></use>
+						</svg>
+						<span v-if="$screen.breakpoint != 'mobile'">Download</span>
 					</div>
 				</div>
 				<div>
 					<div class="button is-danger mr-2" @click="logout">
-						<span>Logout</span>
+						<svg class="icon has-fill-white">
+							<use xlink:href="@/assets/images/icons/bds.svg#exit-g"></use>
+						</svg>
+						<span v-if="$screen.breakpoint != 'mobile'">Logout</span>
 					</div>
 				</div>
 			</client-only>
@@ -64,8 +79,8 @@ export default {
 		navbar_data: [
 			// { name: 'Home', link: '/' },
 			{ name: 'Upload', link: '/upload', icon: 'share-g' },
-			{ name: 'Sequences', link: '/my_data', icon: 'columns-g' },
-			{ name: 'Dashboard', link: '/dashboard', icon: 'timelines-g' },
+			{ name: 'Sequences', link: '/my_data', icon: 'timelines-g' },
+			{ name: 'Dashboard', link: '/dashboard', icon: 'segment-g' },
 		],
 		is_authenticated: false,
 	}),
@@ -119,5 +134,9 @@ export default {
 }
 .is-size-4-5 {
 	font-size: 1.45rem !important;
+}
+.icon {
+	height:  1.4em;
+	width:  1.4em;
 }
 </style>
