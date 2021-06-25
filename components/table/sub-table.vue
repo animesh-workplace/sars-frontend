@@ -2,7 +2,7 @@
 	<div class="box is-floating has-background-info-light">
 		<div
 			:key="table_name"
-			v-for="table in tables"
+			v-for="(table, table_name) in tables"
 		>
 			<div class="box is-small has-background-blue-lighter">
 				<div class="has-text-grey-darker has-text-weight-semibold side-element pl-2">
@@ -52,19 +52,25 @@ export default {
 						{ name: 'Nextstrain Clade', key: 'clade', has_tag: false },
 						{ name: 'Pangolin Lineage', key: 'lineage', has_tag: false },
 						{ name: 'Scorpio', key: 'scorpioCall', has_tag: false },
-						{ name: 'Substitution', key: 'aaSubstitutions', has_tag: true, color: 'yellow' },
-						{ name: 'Deletion', key: 'aaDeletions', has_tag: true, color: 'claim' },
+						{ name: 'Nucleotide Substitution', key: 'substitutions', has_tag: true, color: 'purple' },
+						{ name: 'Nucleotide Deletion', key: 'deletions', has_tag: true, color: 'pink' },
+						{ name: 'Amino acid Substitution', key: 'aaSubstitutions', has_tag: true, color: 'yellow' },
+						{ name: 'Amino acid Deletion', key: 'aaDeletions', has_tag: true, color: 'claim' },
 					],
 			},
 			table2: {
 				name: 'Sequence Information',
 				data: [
-						{ name: 'Virus name', key: 'virusName', has_tag: false },
-						{ name: 'Nextstrain Clade', key: 'clade', has_tag: false },
-						{ name: 'Pangolin Lineage', key: 'lineage', has_tag: false },
-						{ name: 'Scorpio', key: 'scorpioCall', has_tag: false },
-						{ name: 'Substitution', key: 'aaSubstitutions', has_tag: true, color: 'yellow' },
-						{ name: 'Deletion', key: 'aaDeletions', has_tag: true, color: 'claim' },
+						{ name: 'Collection date', key: 'collectionDate', has_tag: false },
+						{ name: 'State', key: 'state', has_tag: false },
+						{ name: 'District', key: 'district', has_tag: false },
+						{ name: 'Patient status', key: 'patientStatus', has_tag: false },
+						{ name: 'Last vaccinated', key: 'lastVaccinated', has_tag: false },
+						{ name: 'Treatment', key: 'treatment', has_tag: false },
+						{ name: 'Sequencing technology', key: 'sequencingTechnology', has_tag: false },
+						{ name: 'Assembly method', key: 'assemblyMethod', has_tag: false },
+						{ name: 'Originating Lab', key: 'originatingLab', has_tag: false },
+						{ name: 'Submitting Lab', key: 'submittingLab', has_tag: false },
 					],
 			},
 		}
