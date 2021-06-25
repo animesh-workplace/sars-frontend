@@ -66,7 +66,17 @@ export default {
 						{ name: 'Deletion', key: 'aaDeletions', has_tag: true, color: 'claim' },
 					],
 			},
-
+			table2: {
+				name: 'Sequence Information',
+				data: [
+						{ name: 'Virus name', key: 'virusName', has_tag: false },
+						{ name: 'Nextstrain Clade', key: 'clade', has_tag: false },
+						{ name: 'Pangolin Lineage', key: 'lineage', has_tag: false },
+						{ name: 'Scorpio', key: 'scorpioCall', has_tag: false },
+						{ name: 'Substitution', key: 'aaSubstitutions', has_tag: true, color: 'yellow' },
+						{ name: 'Deletion', key: 'aaDeletions', has_tag: true, color: 'claim' },
+					],
+			},
 		}
 
 		// table1: [
