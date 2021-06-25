@@ -9,7 +9,29 @@
 
 		<table class="table is-fullwidth">
 			<tbody>
-				<tr class="has-background-info-light">
+
+				<tr
+					:key="index"
+					v-for="(info, index) in table1"
+					class="has-background-info-light"
+				>
+					<td class="table-header has-text-weight-medium has-text-grey-darker">{{ info.name }}</td>
+					<td class="table-body" v-if="!info.has_tag">{{ detail[info.key] }}</td>
+					<td class="table-body" v-else>
+						<span v-if="detail[info.key] == 'None'">{{ detail[info.key] }}</span>
+						<div v-else>
+							<div
+								:key="muts"
+								:class="`tag has-background-${info.color}-light mr-2 mb-2`"
+								v-for="muts in detail[info.key].split(',')"
+							>
+								{{ muts }}
+							</div>
+						</div>
+					</td>
+				</tr>
+
+<!-- 				<tr class="has-background-info-light">
 					<td class="table-header has-text-weight-medium has-text-grey-darker">Virus name</td>
 					<td class="table-body">{{ detail['virusName'] }}</td>
 				</tr>
@@ -46,7 +68,7 @@
 				</tr>
 
 				<tr class="has-background-info-light">
-					<td class="table-header has-text-weight-medium has-text-grey-darker">Deletions</td>
+					<td class="table-header has-text-weight-medium has-text-grey-darker">Deletion</td>
 					<td class="table-body">
 						<span v-if="detail['aaDeletions'] == 'None'">{{ detail['aaDeletions'] }}</span>
 						<div v-else>
@@ -59,7 +81,8 @@
 							</div>
 						</div>
 					</td>
-				</tr>
+				</tr> -->
+
 			</tbody>
 		</table>
 
@@ -76,6 +99,16 @@
 
 <script>
 export default {
+	data: () => ({
+		table1: [
+			{ name: 'Virus name', key: 'virusName', has_tag: false },
+			{ name: 'Nextstrain Clade', key: 'clade', has_tag: false },
+			{ name: 'Pangolin Lineage', key: 'lineage', has_tag: false },
+			{ name: 'Scorpio', key: 'scorpioCall', has_tag: false },
+			{ name: 'Substitution', key: 'aaSubstitutions', has_tag: true, color: 'yellow' },
+			{ name: 'Deletion', key: 'aaDeletions', has_tag: true, color: 'claim' },
+		]
+	}),
 	props: {
 		detail: {
 			type: Object,
