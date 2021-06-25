@@ -31,58 +31,6 @@
 					</td>
 				</tr>
 
-<!-- 				<tr class="has-background-info-light">
-					<td class="table-header has-text-weight-medium has-text-grey-darker">Virus name</td>
-					<td class="table-body">{{ detail['virusName'] }}</td>
-				</tr>
-
-				<tr class="has-background-info-light">
-					<td class="table-header has-text-weight-medium has-text-grey-darker">Nextstrain Clade</td>
-					<td class="table-body">{{ detail['clade'] }}</td>
-				</tr>
-
-				<tr class="has-background-info-light">
-					<td class="table-header has-text-weight-medium has-text-grey-darker">Pangolin Lineage</td>
-					<td class="table-body">{{ detail['lineage'] }}</td>
-				</tr>
-
-				<tr class="has-background-info-light">
-					<td class="table-header has-text-weight-medium has-text-grey-darker">Scorpio</td>
-					<td class="table-body">{{ detail['scorpioCall'] }}</td>
-				</tr>
-
-				<tr class="has-background-info-light">
-					<td class="table-header has-text-weight-medium has-text-grey-darker">Substitution</td>
-					<td class="table-body">
-						<span v-if="detail['aaSubstitutions'] == 'None'">{{ detail['aaSubstitutions'] }}</span>
-						<div v-else>
-							<div
-								:key="muts"
-								class="tag has-background-yellow-light mr-2 mb-2"
-								v-for="muts in detail['aaSubstitutions'].split(',')"
-							>
-								{{ muts }}
-							</div>
-						</div>
-					</td>
-				</tr>
-
-				<tr class="has-background-info-light">
-					<td class="table-header has-text-weight-medium has-text-grey-darker">Deletion</td>
-					<td class="table-body">
-						<span v-if="detail['aaDeletions'] == 'None'">{{ detail['aaDeletions'] }}</span>
-						<div v-else>
-							<div
-								:key="dels"
-								class="tag has-background-claim-light mr-2 mb-2"
-								v-for="dels in detail['aaDeletions'].split(',')"
-							>
-								{{ dels }}
-							</div>
-						</div>
-					</td>
-				</tr> -->
-
 			</tbody>
 		</table>
 
