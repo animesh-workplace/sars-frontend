@@ -36,6 +36,9 @@
 					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'lastVaccinated')">
 						Last vaccinated
 					</vs-th>
+					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'submittingLab')">
+						Submitting lab
+					</vs-th>
 					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'lineage')">
 						Lineage
 					</vs-th>
@@ -66,6 +69,7 @@
 					<vs-td class="is-size-6">{{ tr['gender'] }}</vs-td>
 					<vs-td class="is-size-6">{{ tr['patientAge'] }}</vs-td>
 					<vs-td class="is-size-6">{{ tr['lastVaccinated'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['submittingLab'] }}</vs-td>
 					<vs-td class="is-size-6"><Tag :name="tr['lineage']" theme="#FF8F41"/></vs-td>
 					<vs-td class="is-size-6"><Tag :name="tr['clade']" theme="#00C8B5"/></vs-td>
 					<vs-td class="is-size-6"><Tag :name="tr['scorpioCall']" theme="#7DB950"/></vs-td>
