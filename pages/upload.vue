@@ -205,16 +205,16 @@
 												<b class="has-text-red">Virus name</b> - e.g. India/CH-ICMR-51800/2020 (Must be FASTA-Header from the FASTA file)
 											</li>
 											<li>
-												<b>Type</b> - default must remain "betacoronavirus"
+												Type - default must remain "betacoronavirus"
 											</li>
 											<li>
-												<b>Passage details/history</b> - e.g. Original, Vero
+												Passage details/history - e.g. Original, Vero
 											</li>
 											<li>
 												<b class="has-text-red">Collection date</b> - Date in the format [ DD-MM-YYYY, DD/MM/YYYY, YYYY-MM-DD, YYYY/MM/DD ]
 											</li>
 											<li>
-												<b>Country</b> - Sample collected from which country
+												Country - Sample collected from which country
 											</li>
 											<li>
 												<b class="has-text-red">State</b> - Sample collected from which state
@@ -223,64 +223,64 @@
 												<b class="has-text-red">District</b> - Sample collected from which district
 											</li>
 											<li>
-												<b>Location</b> - Sample collected from which continent
+												Location - Sample collected from which continent
 											</li>
 											<li>
-												<b>Additional location information</b> - Any additional information such as Cruise Ship, Convention, Live animal market, School
+												Additional location information - Any additional information such as Cruise Ship, Convention, Live animal market, School
 											</li>
 											<li>
-												<b>Host</b> - e.g. Human, Environment, Canine, Manis javanica, Rhinolophus affinis, etc
+												Host - e.g. Human, Environment, Canine, Manis javanica, Rhinolophus affinis, etc
 											</li>
 											<li>
-												<b>Additional host information</b> - e.g. Patient infected while traveling in ...
+												Additional host information - e.g. Patient infected while traveling in ...
 											</li>
 											<li>
-												<b>Gender</b> - Male/Female or Unknown
+												Gender - Male/Female or Unknown
 											</li>
 											<li>
-												<b>Patient age</b> - e.g.  65 or 7 months, or unknown
+												Patient age - e.g.  65 or 7 months, or unknown
 											</li>
 											<li>
-												<b>Patient status</b> - e.g.  Hospitalized, Released, Live, Deceased, or unknown
+												Patient status - e.g.  Hospitalized, Released, Live, Deceased, or unknown
 											</li>
 											<li>
-												<b>Specimen source</b> - e.g. Sputum, Alveolar lavage fluid, Oro-pharyngeal swab, Blood, Tracheal swab, Urine, Stool, Cloakal swab, Organ, Feces, Other
+												Specimen source - e.g. Sputum, Alveolar lavage fluid, Oro-pharyngeal swab, Blood, Tracheal swab, Urine, Stool, Cloakal swab, Organ, Feces, Other
 											</li>
 											<li>
-												<b>Outbreak</b> - Date, Location e.g. type of gathering, Family cluster, etc
+												Outbreak - Date, Location e.g. type of gathering, Family cluster, etc
 											</li>
 											<li>
-												<b>Last vaccinated</b> - provide details if applicable
+												Last vaccinated - provide details if applicable
 											</li>
 											<li>
-												<b>Treatment</b> - Include drug name, dosage
+												Treatment - Include drug name, dosage
 											</li>
 											<li>
-												<b>Sequencing technology</b> - e.g.  Illumina Miseq, Sanger, Nanopore MinION, Ion Torrent, etc.
+												Sequencing technology - e.g.  Illumina Miseq, Sanger, Nanopore MinION, Ion Torrent, etc.
 											</li>
 											<li>
-												<b>Assembly method</b> - e.g. CLC Genomics Workbench 12, Geneious 10.2.4, SPAdes/MEGAHIT v1.2.9, UGENE v. 33, etc.
+												Assembly method - e.g. CLC Genomics Workbench 12, Geneious 10.2.4, SPAdes/MEGAHIT v1.2.9, UGENE v. 33, etc.
 											</li>
 											<li>
-												<b>Coverage</b> - e.g. 70x, 1000x, 10000x
+												Coverage - e.g. 70x, 1000x, 10000x
 											</li>
 											<li>
-												<b>Originating lab</b> - Where the clinical specimen or virus isolate was first obtained
+												Originating lab - Where the clinical specimen or virus isolate was first obtained
 											</li>
 											<li>
-												<b>Originating lab address</b> - Address of the originating lab
+												Originating lab address - Address of the originating lab
 											</li>
 											<li>
-												<b>Submitting lab</b> - Where sequence data have been generated and submitted
+												Submitting lab - Where sequence data have been generated and submitted
 											</li>
 											<li>
-												<b>Submitting lab address</b> - Address of the submitting lab
+												Submitting lab address - Address of the submitting lab
 											</li>
 											<li>
-												<b>Sample ID given by the submitting lab</b> - Sample ID given by the submitting lab
+												Sample ID given by the submitting lab - Sample ID given by the submitting lab
 											</li>
 											<li>
-												<b>Authors</b> - a comma separated list of authors with complete first name followed by last name
+												Authors - a comma separated list of authors with complete first name followed by last name
 											</li>
 							    		</ul>
 							    	</div>
