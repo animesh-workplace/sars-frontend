@@ -205,7 +205,7 @@
 												<b class="has-text-red">Virus name</b> - e.g. India/CH-ICMR-51800/2020 (Must be FASTA-Header from the FASTA file)
 											</li>
 											<li>
-												<b class="has-text-red">Type</b> - default must remain "betacoronavirus"
+												<b>Type</b> - default must remain "betacoronavirus"
 											</li>
 											<li>
 												<b>Passage details/history</b> - e.g. Original, Vero
@@ -214,7 +214,7 @@
 												<b class="has-text-red">Collection date</b> - Date in the format [ DD-MM-YYYY, DD/MM/YYYY, YYYY-MM-DD, YYYY/MM/DD ]
 											</li>
 											<li>
-												<b class="has-text-red">Country</b> - Sample collected from which country
+												<b>Country</b> - Sample collected from which country
 											</li>
 											<li>
 												<b class="has-text-red">State</b> - Sample collected from which state
@@ -223,13 +223,13 @@
 												<b class="has-text-red">District</b> - Sample collected from which district
 											</li>
 											<li>
-												<b class="has-text-red">Location</b> - Sample collected from which continent
+												<b>Location</b> - Sample collected from which continent
 											</li>
 											<li>
 												<b>Additional location information</b> - Any additional information such as Cruise Ship, Convention, Live animal market, School
 											</li>
 											<li>
-												<b class="has-text-red">Host</b> - e.g. Human, Environment, Canine, Manis javanica, Rhinolophus affinis, etc
+												<b>Host</b> - e.g. Human, Environment, Canine, Manis javanica, Rhinolophus affinis, etc
 											</li>
 											<li>
 												<b>Additional host information</b> - e.g. Patient infected while traveling in ...
@@ -256,31 +256,31 @@
 												<b>Treatment</b> - Include drug name, dosage
 											</li>
 											<li>
-												<b class="has-text-red">Sequencing technology</b> - e.g.  Illumina Miseq, Sanger, Nanopore MinION, Ion Torrent, etc.
+												<b>Sequencing technology</b> - e.g.  Illumina Miseq, Sanger, Nanopore MinION, Ion Torrent, etc.
 											</li>
 											<li>
-												<b class="has-text-red">Assembly method</b> - e.g. CLC Genomics Workbench 12, Geneious 10.2.4, SPAdes/MEGAHIT v1.2.9, UGENE v. 33, etc.
+												<b>Assembly method</b> - e.g. CLC Genomics Workbench 12, Geneious 10.2.4, SPAdes/MEGAHIT v1.2.9, UGENE v. 33, etc.
 											</li>
 											<li>
-												<b class="has-text-red">Coverage</b> - e.g. 70x, 1000x, 10000x
+												<b>Coverage</b> - e.g. 70x, 1000x, 10000x
 											</li>
 											<li>
-												<b class="has-text-red">Originating lab</b> - Where the clinical specimen or virus isolate was first obtained
+												<b>Originating lab</b> - Where the clinical specimen or virus isolate was first obtained
 											</li>
 											<li>
-												<b class="has-text-red">Originating lab address</b> - Address of the originating lab
+												<b>Originating lab address</b> - Address of the originating lab
 											</li>
 											<li>
-												<b class="has-text-red">Submitting lab</b> - Where sequence data have been generated and submitted
+												<b>Submitting lab</b> - Where sequence data have been generated and submitted
 											</li>
 											<li>
-												<b class="has-text-red">Submitting lab address</b> - Address of the submitting lab
+												<b>Submitting lab address</b> - Address of the submitting lab
 											</li>
 											<li>
 												<b>Sample ID given by the submitting lab</b> - Sample ID given by the submitting lab
 											</li>
 											<li>
-												<b class="has-text-red">Authors</b> - a comma separated list of authors with complete first name followed by last name
+												<b>Authors</b> - a comma separated list of authors with complete first name followed by last name
 											</li>
 							    		</ul>
 							    	</div>
@@ -939,7 +939,7 @@ export default {
 	width: 5px;
 	z-index: 2;
 	top: 10%;
-	left: -1.5%;
+	left: -1.0%;
 	background-color: #F45564;
 	opacity: 0.7;
 	border-radius: 5px;
