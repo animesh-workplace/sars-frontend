@@ -27,10 +27,13 @@
 			</vs-navbar-group>
 
 			<vs-navbar-item :id="menu.name" :active="active == menu.name" :to="menu.link" v-else>
+				<svg class="icon is-small has-fill-black is-clickable">
+					<use :xlink:href="require('@/assets/images/icons/bds.svg') + `#${menu.icon}`"></use>
+				</svg>
 				<span
 					:class="active == menu.name ? 'is-size-6 has-text-weight-semibold' : 'is-size-6 has-text-weight-semibold'"
 				>
-					{{ menu.name }}
+					&nbsp;{{ menu.name }}
 				</span>
 			</vs-navbar-item>
 		</div>
@@ -60,9 +63,9 @@ export default {
 		add_shadow: false,
 		navbar_data: [
 			// { name: 'Home', link: '/' },
-			{ name: 'Upload', link: '/upload' },
-			{ name: 'Sequences', link: '/my_data' },
-			{ name: 'Dashboard', link: '/dashboard' },
+			{ name: 'Upload', link: '/upload', icon: 'share-g' },
+			{ name: 'Sequences', link: '/my_data', icon: 'columns-g' },
+			{ name: 'Dashboard', link: '/dashboard', icon: 'timelines-g' },
 		],
 		is_authenticated: false,
 	}),
