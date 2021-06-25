@@ -1,45 +1,51 @@
 <template>
 	<div class="box is-floating has-background-info-light no-pointer-event">
-
-		<div class="box is-small has-background-blue-lighter">
-			<div class="has-text-grey-darker has-text-weight-semibold side-element pl-2">
-				Virus Detail
+		<div
+			:key="table_name"
+			v-for="table in tables"
+		>
+			<div class="box is-small has-background-blue-lighter">
+				<div class="has-text-grey-darker has-text-weight-semibold side-element pl-2">
+					{{ table.name }}
+				</div>
 			</div>
+
+			<table class="table is-fullwidth">
+				<tbody>
+
+					<tr
+						:key="index"
+						v-for="(info, index) in table.data"
+						class="has-background-info-light"
+					>
+						<td class="table-header has-text-weight-medium has-text-grey-darker">{{ info.name }}</td>
+						<td class="table-body" v-if="!info.has_tag">{{ detail[info.key] }}</td>
+						<td class="table-body" v-else>
+							<span v-if="detail[info.key] == 'None'">{{ detail[info.key] }}</span>
+							<div v-else>
+								<div
+									:key="muts"
+									:class="`tag has-background-${info.color}-light mr-2 mb-2`"
+									v-for="muts in detail[info.key].split(',')"
+								>
+									{{ muts }}
+								</div>
+							</div>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+
 		</div>
 
-		<table class="table is-fullwidth">
-			<tbody>
-
-				<tr
-					:key="index"
-					v-for="(info, index) in table1"
-					class="has-background-info-light"
-				>
-					<td class="table-header has-text-weight-medium has-text-grey-darker">{{ info.name }}</td>
-					<td class="table-body" v-if="!info.has_tag">{{ detail[info.key] }}</td>
-					<td class="table-body" v-else>
-						<span v-if="detail[info.key] == 'None'">{{ detail[info.key] }}</span>
-						<div v-else>
-							<div
-								:key="muts"
-								:class="`tag has-background-${info.color}-light mr-2 mb-2`"
-								v-for="muts in detail[info.key].split(',')"
-							>
-								{{ muts }}
-							</div>
-						</div>
-					</td>
-				</tr>
-
-			</tbody>
-		</table>
 
 
-		<div class="box is-small has-background-blue-lighter">
+<!-- 		<div class="box is-small has-background-blue-lighter">
 			<div class="has-text-grey-darker has-text-weight-semibold side-element pl-2">
 				Sequence Information
 			</div>
-		</div>
+		</div> -->
 
 
 	</div>
@@ -48,7 +54,7 @@
 <script>
 export default {
 	data: () => ({
-		table: {
+		tables: {
 			table1: {
 				name: 'Virus Detail',
 				data: [
