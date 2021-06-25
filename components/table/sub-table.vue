@@ -1,5 +1,5 @@
 <template>
-	<div class="box is-floating has-background-info-light no-pointer-event">
+	<div class="box is-floating has-background-info-light">
 		<div
 			:key="table_name"
 			v-for="table in tables"
@@ -38,16 +38,6 @@
 			</table>
 
 		</div>
-
-
-
-<!-- 		<div class="box is-small has-background-blue-lighter">
-			<div class="has-text-grey-darker has-text-weight-semibold side-element pl-2">
-				Sequence Information
-			</div>
-		</div> -->
-
-
 	</div>
 </template>
 
@@ -78,15 +68,6 @@ export default {
 					],
 			},
 		}
-
-		// table1: [
-		// 	{ name: 'Virus name', key: 'virusName', has_tag: false },
-		// 	{ name: 'Nextstrain Clade', key: 'clade', has_tag: false },
-		// 	{ name: 'Pangolin Lineage', key: 'lineage', has_tag: false },
-		// 	{ name: 'Scorpio', key: 'scorpioCall', has_tag: false },
-		// 	{ name: 'Substitution', key: 'aaSubstitutions', has_tag: true, color: 'yellow' },
-		// 	{ name: 'Deletion', key: 'aaDeletions', has_tag: true, color: 'claim' },
-		// ]
 	}),
 	props: {
 		detail: {
