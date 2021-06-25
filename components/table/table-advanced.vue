@@ -15,10 +15,10 @@
 			<template #thead>
 				<vs-tr>
 					<vs-th class="no-pointer-event"></vs-th>
-					<vs-th sort class="is-size-6">
+					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'virusName')">
 						Virus name
 					</vs-th>
-					<vs-th sort class="is-size-6">
+					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'collectionDate')">
 						Collection date
 					</vs-th>
 					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'state')">
@@ -71,9 +71,7 @@
 					<vs-td class="is-size-6"><Tag :name="tr['scorpioCall']" theme="#7DB950"/></vs-td>
 
 					<template #expand>
-						<div class="box is-floating has-background-info-light">
-							<div> {{ tr['virusName'] }} </div>
-						</div>
+						<SubTable :detail="tr"/>
 					</template>
 				</vs-tr>
 			</template>
@@ -94,6 +92,7 @@
 <script>
 import { forEach, camelCase } from 'lodash'
 import Tag from "@/components/table/cool-tag.vue"
+import SubTable from "@/components/table/sub-table.vue"
 
 export default {
 	data: () => ({
@@ -115,7 +114,8 @@ export default {
 		// }
 	},
 	components: {
-		Tag
+		Tag,
+		SubTable
 	},
 	computed: {
 	},
@@ -142,7 +142,7 @@ export default {
 
 <style scoped>
 	th, td {
-	    white-space: nowrap;
+		white-space: nowrap;
 	}
 	.icon-size {
 		width: 2rem;
