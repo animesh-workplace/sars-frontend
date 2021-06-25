@@ -48,6 +48,7 @@ export default {
 */
 	plugins: [
 		'@/plugins/vuesax',
+		'@/plugins/vue-screen',
 		// '@/plugins/vue-tag',
 		'@/plugins/vue-moment',
 		'@/plugins/v-clipboard',
