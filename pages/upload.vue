@@ -184,10 +184,10 @@
 										</a>
 									</div>
 								    <div class="level-right">
-									    <span class="tag is-info is-rounded mr-1">csv</span>
-									    <span class="tag is-info is-rounded mr-1">tsv</span>
-									    <span class="tag is-info is-rounded mr-1">text</span>
-									    <span class="tag is-info is-rounded mr-1">txt</span>
+									    <span class="level-item tag is-info is-rounded mr-1">csv</span>
+									    <span class="level-item tag is-info is-rounded mr-1">tsv</span>
+									    <span class="level-item tag is-info is-rounded mr-1">text</span>
+									    <span class="level-item tag is-info is-rounded mr-1">txt</span>
 										<svg class="icon is-small has-fill-black">
 											<use xlink:href="@/assets/images/icons/bds.svg#arrow-down-g"></use>
 										</svg>
