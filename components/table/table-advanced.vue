@@ -152,9 +152,6 @@ export default {
 		width: 2rem;
 		height: 1.2rem;
 	}
-	.medium {
-		height: 770px;
-	}
 	.no-pointer-event {
 		pointer-events: none;
 	}
