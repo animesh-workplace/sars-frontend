@@ -1,14 +1,18 @@
 <template>
 	<div class="column">
-		<!-- <div class="button is-warning" @click="change_data">Click to change</div> -->
-		State name: {{ state_name }}
-		<v-chart
-			class="chart"
-			:option="options"
-			@mouseover="get_data"
-			@mouseout="get_data_default"
-			@click="clicked = !clicked"
-		/>
+		<div class="box medium has-skeleton mb-3" v-if="view_skeleton"></div>
+		<div v-else>
+			<span class="has-text-weight-semibold has-text-grey-dark">
+				{{ show.mapType == 'STATE' ? 'District' : 'State' }} : {{ state_name }}
+			</span>
+			<v-chart
+				class="chart"
+				:option="options"
+				@mouseover="get_data"
+				@mouseout="get_data_default"
+				@click="clicked = !clicked"
+			/>
+		</div>
 	</div>
 </template>
 
@@ -115,8 +119,9 @@ use([
 
 export default {
 	data: () => ({
+		view_skeleton: true,
 		MAP_DATA: {},
-		state_name: null,
+		state_name: 'None',
 		clicked: false,
 		options: {
 			// title: {
@@ -143,7 +148,7 @@ export default {
 			// 	}
 			// },
 			series: [{
-				name: 'india_map',
+				name: 'MAP_OF_INDIAN_STATES',
 				type: 'map',
 				map: 'India',
 				// roam: true,
@@ -193,15 +198,13 @@ export default {
 	},
 	watch: {
 		show(value) {
-			console.log(value)
 			if(value.mapType == 'STATE') {
 				this.options.series[0].nameProperty = 'district'
 			} else {
 				this.options.series[0].nameProperty = 'st_nm'
 			}
 			this.options.series[0].map = value.name
-			// this.options.series[0].nameProperty = 'st_nm'
-		}
+		},
 	},
 	computed: {
 	},
@@ -209,22 +212,23 @@ export default {
 		get_data(event) {
 			if(!this.clicked) {
 				this.state_name = event.name
+				let data = {
+					mapType: this.show.mapType,
+					state: this.show.name,
+					district: event.name
+				}
+				this.$emit('input', data)
 			}
-			// console.log(event.name)
 		},
 		get_data_default(event) {
 			if(!this.clicked) {
-				this.state_name = 'India | bharat'
+				this.state_name = 'None'
 			}
-			// console.log(event.name)
 		},
-		// change_data() {
-		// 	this.options.series[0].map = 'wb'
-		// 	this.options.series[0].nameProperty = 'district'
-		// }
 	},
 	mounted() {
 		this.$nextTick(()=>{
+			this.view_skeleton = false
 		})
 	}
 };
@@ -232,6 +236,9 @@ export default {
 
 <style scoped>
 	.chart {
+		height: 600px;
+	}
+	.medium {
 		height: 600px;
 	}
 </style>
