@@ -94,11 +94,12 @@
 									</div>
 								</div>
 							</div>
-							<MapChart :show="selected_state_code"/>
+							<MapChart :show="selected_state_code" v-model="map_output"/>
 						</div>
 					</div>
 					<div class="column">
 						<div class="box is-raised is-unselectable">
+							{{ map_output }}
 							<ScatterChart/>
 						</div>
 					</div>
@@ -139,6 +140,7 @@ export default {
 		map_config: MAP_META,
 		selected_state: 'India',
 		selected_state_code: MAP_META['India'],
+		map_output: null,
 	}),
 	components: {
 		Table,
@@ -160,10 +162,9 @@ export default {
 	},
 	methods: {
 		select_state(state, info) {
-			let temp = info
-			temp.name = state
+			this.$set(info, 'name', state)
 			this.selected_state = state
-			this.selected_state_code = temp
+			this.selected_state_code = info
 		},
 		get_websocket_data() {
 			let vm = this
@@ -190,6 +191,7 @@ export default {
 	mounted() {
 		this.$nextTick(()=>{
 			this.get_websocket_data()
+			this.$set(this.selected_state_code, 'name', 'India')
 		})
 	},
 	beforeDestroy() {
