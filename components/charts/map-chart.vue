@@ -128,13 +128,12 @@ export default {
 			tooltip: {
 				trigger: 'item',
 				position: 'right',
-				showDelay: 0,
-				transitionDuration: 0.2,
 				formatter: '{b}: {c}',
 				borderColor: '#fff',
 				textStyle: {
+					fontSize: 14,
+					fontWeight: 500,
 					fontFamily: 'Averta',
-					fontWeight: 500
 				}
 			},
 			visualMap: {
