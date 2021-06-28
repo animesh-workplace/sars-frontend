@@ -7,10 +7,12 @@
 			</span>
 			<v-chart
 				class="chart"
+				:loading="false"
 				:option="options"
 				@mouseover="get_data"
-				@mouseout="get_data_default"
 				@click="clicked = !clicked"
+				@mouseout="get_data_default"
+				:loading-options="loader_option"
 			/>
 		</div>
 	</div>
@@ -124,6 +126,14 @@ export default {
 		MAP_DATA: {},
 		state_name: 'None',
 		clicked: false,
+		loader_option: {
+			color: '#c23531',
+			lineWidth: 3,
+			text: 'Loading',
+			fontFamily: 'Averta',
+			fontWeight: 500,
+			fontSize: 14,
+		},
 		options: {
 			tooltip: {
 				trigger: 'item',
@@ -134,7 +144,7 @@ export default {
 					fontSize: 14,
 					fontWeight: 500,
 					fontFamily: 'Averta',
-				}
+				},
 			},
 			visualMap: {
 				min: 0,
@@ -235,6 +245,11 @@ export default {
 	mounted() {
 		this.$nextTick(()=>{
 			this.view_skeleton = false
+			// const myFont = new FontFace('Averta', 'url(http://10.10.6.80/insacog/static/Averta-Semibold.woff)')
+			// myFont.load().then((font) => {
+			// 	document.fonts.add(font)
+			// 	console.log(document.fonts)
+			// })
 		})
 	}
 };
