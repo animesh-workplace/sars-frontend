@@ -2,7 +2,9 @@
 	<div>
 		<v-chart
 			class="chart"
+			:loading="false"
 			:option="options"
+			:loading-options="loader_option"
 		/>
 	</div>
 </template>
@@ -30,20 +32,33 @@ export default {
 	data: () => ({
 		state_name: null,
 		clicked: false,
+		loader_option: {
+			color: '#c23531',
+			lineWidth: 3,
+			text: 'Loading',
+			fontFamily: 'Averta',
+			fontWeight: 500,
+			fontSize: 14,
+		},
 		options: {
 			tooltip: {
 				trigger: 'axis',
+				position: 'right',
 				axisPointer: {
 					type: 'shadow'
 				},
+				transitionDuration: 0.4,
 				borderColor: '#fff',
 				textStyle: {
 					fontFamily: 'Averta',
 					fontWeight: 500
-				}
+				},
+				order: 'valueDesc'
 			},
 			legend: {
 				data: ['Direct', 'Mail Ad', 'Affiliate Ad', 'Video Ad', 'Search Engine'],
+				icon: 'roundRect',
+				itemGap: 20,
 				textStyle: {
 					fontSize: 14,
 					fontWeight: 500,
