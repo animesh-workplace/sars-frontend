@@ -12,3 +12,6 @@ word_wrap = false
 
 [*.md]
 trim_trailing_whitespace = true
+
+[/components/charts/maps/**]
+trim_trailing_whitespace = unset
