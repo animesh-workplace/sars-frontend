@@ -11,7 +11,7 @@
 									<svg class="icon has-fill-grey-dark">
 										<use xlink:href="@/assets/images/icons/bds.svg#timelines"></use>
 									</svg>
-									Genomes Sequenced
+									Genomes
 								</div>
 								<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
 									{{ Intl.NumberFormat('en-IN').format(dashboard['genomes_sequenced'] || 0 ) }}
@@ -27,7 +27,7 @@
 									<svg class="icon has-fill-grey-dark">
 										<use xlink:href="@/assets/images/icons/bds.svg#action-g"></use>
 									</svg>
-									Variants Catalogued
+									Mutations
 								</div>
 								<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
 									{{ Intl.NumberFormat('en-IN').format(dashboard['variants_catalogued'] || 0) }}
@@ -60,6 +60,22 @@
 										<use xlink:href="@/assets/images/icons/bds.svg#shield-star-g"></use>
 									</svg>
 									States Covered
+								</div>
+								<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
+									{{ Intl.NumberFormat('en-IN').format(dashboard['states_covered'] || 0) }}
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="column">
+						<div class="box is-raised is-unselectable">
+							<div class="level">
+								<div class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
+									<svg class="icon has-fill-grey-dark">
+										<use xlink:href="@/assets/images/icons/bds.svg#shield-star-g"></use>
+									</svg>
+									Districts Covered
 								</div>
 								<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
 									{{ Intl.NumberFormat('en-IN').format(dashboard['states_covered'] || 0) }}
@@ -107,6 +123,7 @@
 					</div>
 					<div class="column">
 						<div class="box is-raised is-unselectable">
+							<TreemapChart/>
 						</div>
 					</div>
 				</div>
@@ -137,6 +154,7 @@ import Table from "@/components/table/table-advanced.vue"
 import { MAP_META } from "@/components/charts/map_config"
 import ScatterChart from "@/components/charts/scatter-chart.vue"
 import BarChart from "@/components/charts/bar-chart.vue"
+import TreemapChart from "@/components/charts/tree-map-chart.vue"
 
 export default {
 	layout: 'normal',
@@ -155,7 +173,8 @@ export default {
 		Table,
 		BarChart,
 		MapChart,
-		ScatterChart
+		ScatterChart,
+		TreemapChart,
 	},
 	computed: {
 		...mapFields([
