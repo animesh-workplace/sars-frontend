@@ -58,9 +58,12 @@ export default {
 			// 	transitionDuration: 0.2,
 			// },
 			visualMap: {
+				type: 'piecewise',
 				min: 0,
 				max: 2000,
 				text: ['High', 'Low'],
+				align: 'bottom',
+				orient: 'horizontal',
 				realtime: false,
 				calculable: true,
 				inRange: {
