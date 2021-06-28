@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { map, max, ceil } from "lodash"
 import { feature } from 'topojson-client'
 import { use, registerMap } from 'echarts/core'
 import {
@@ -124,41 +125,37 @@ export default {
 		state_name: 'None',
 		clicked: false,
 		options: {
-			// title: {
-			// 	text: 'Indian Map',
-			// 	subtext: 'Testing India Map'
-			// },
 			tooltip: {
 				trigger: 'item',
 				position: 'right',
 				showDelay: 0,
 				transitionDuration: 0.2,
-				// formatter: function (params) {
-				// 	console.log(params.name)
-				// }
+				formatter: '{b}: {c}',
+				borderColor: '#fff',
+				textStyle: {
+					fontFamily: 'Averta',
+					fontWeight: 500
+				}
 			},
 			visualMap: {
 				min: 0,
-				max: 2000,
-				text: ['High', 'Low'],
-				realtime: false,
-				calculable: true,
+				max: 10,
+				orient: 'horizontal',
+				align: 'left',
+				left: '0%',
+				bottom: '0%',
 				inRange: {
-					color: ['#EEDCF0', '#AA50B5']
-				}
+					color: ['#e6f2fb', '#cee5f6', '#b5d9f2', '#9ccced', '#84bfe9', '#6bb2e4', '#52a5e0', '#3999db', '#218cd7', '#087fd2']
+				},
 			},
 			series: [{
 				name: 'MAP_OF_INDIAN_STATES',
 				type: 'map',
 				map: 'India',
-				// roam: true,
+				data: [],
 				zoom: 1.20,
 				aspectScale: 0.85,
 				nameProperty: 'st_nm',
-				// silent: true,
-				// label: {
-				// 	show: true
-				// },
 				itemStyle: {
 					borderColor: '#9C9090',
 				},
@@ -207,8 +204,13 @@ export default {
 				this.options.series[0].nameProperty = 'st_nm'
 			}
 			this.options.series[0].map = value.name
-			this.options.series[0].data = this.mapData
 		},
+		mapData(value) {
+			let max_value = ceil(max(map(value, d=>d.value)),-2)
+			this.options.series[0].data = value
+			this.options.visualMap.max = max_value
+			this.options.visualMap.text = [max_value, 0]
+		}
 	},
 	computed: {
 	},
@@ -241,9 +243,9 @@ export default {
 
 <style scoped>
 	.chart {
-		height: 600px;
+		height: 700px;
 	}
 	.medium {
-		height: 600px;
+		height: 700px;
 	}
 </style>
