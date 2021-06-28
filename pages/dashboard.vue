@@ -73,8 +73,9 @@
 
 			<section class="section py-2">
 				<div class="box is-raised is-unselectable">
-					{{ map_output }}
-					<ScatterChart :name="scatter_name"/>
+					<!-- {{ map_output }} -->
+					<!-- <ScatterChart :name="scatter_name"/> -->
+					<BarChart/>
 				</div>
 			</section>
 
@@ -135,6 +136,7 @@ import MapChart from "@/components/charts/map-chart.vue"
 import Table from "@/components/table/table-advanced.vue"
 import { MAP_META } from "@/components/charts/map_config"
 import ScatterChart from "@/components/charts/scatter-chart.vue"
+import BarChart from "@/components/charts/bar-chart.vue"
 
 export default {
 	layout: 'normal',
@@ -151,6 +153,7 @@ export default {
 	}),
 	components: {
 		Table,
+		BarChart,
 		MapChart,
 		ScatterChart
 	},
