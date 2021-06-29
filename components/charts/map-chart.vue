@@ -10,7 +10,7 @@
 				:loading="false"
 				:option="options"
 				@mouseover="get_data"
-				@click="clicked = !clicked"
+				@click="handle_click"
 				@mouseout="get_data_default"
 				:loading-options="loader_option"
 			/>
@@ -236,6 +236,20 @@ export default {
 				this.$emit('input', data)
 			}
 		},
+		handle_click(event) {
+			if(this.state_name == event.name) {
+				this.clicked = !this.clicked
+			} else {
+				this.state_name = event.name
+				let data = {
+					mapType: this.show.mapType,
+					state: this.show.name,
+					district: event.name,
+					code: this.show.code
+				}
+				this.$emit('input', data)
+			}
+		},
 		get_data_default(event) {
 			if(!this.clicked) {
 				this.state_name = 'None'
@@ -257,9 +271,9 @@ export default {
 
 <style scoped>
 	.chart {
-		height: 700px;
+		height: 500px;
 	}
 	.medium {
-		height: 700px;
+		height: 500px;
 	}
 </style>
