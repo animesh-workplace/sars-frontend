@@ -89,9 +89,13 @@
 
 			<section class="section py-2">
 				<div class="box is-raised is-unselectable">
-					<!-- {{ map_output }} -->
-					<!-- <ScatterChart :name="scatter_name"/> -->
-					<BarChart/>
+					<span class="has-text-weight-semibold has-text-grey-dark">
+						{{ map_output.district || selected_state }} Lineage Distribution
+					</span>
+					<BarChart
+						:ChartData="bar_chart_data"
+						:State="Object.keys(map_output).length ? map_output : selected_state_code"
+					/>
 				</div>
 			</section>
 
@@ -99,7 +103,7 @@
 				<div class="columns">
 					<div class="column">
 						<div class="box is-raised is-unselectable">
-							<div class="dropdown is-hoverable is-fullwidth">
+							<div class="dropdown is-fullwidth">
 								<div class="dropdown-trigger">
 									<div class="button is-light is-fullwidth has-text-grey-dark">
 										{{ selected_state }}
@@ -123,6 +127,9 @@
 					</div>
 					<div class="column">
 						<div class="box is-raised is-unselectable">
+							<span class="has-text-weight-semibold has-text-grey-dark">
+								{{ map_output.district || selected_state }} Mutation Profile
+							</span>
 							<TreemapChart/>
 						</div>
 					</div>
@@ -165,9 +172,10 @@ export default {
 		map_config: MAP_META,
 		selected_state: 'India',
 		selected_state_code: MAP_META['India'],
-		map_output: null,
+		map_output: {},
 		dashboard: {},
-		map_data: []
+		map_data: [],
+		bar_chart_data: {}
 	}),
 	components: {
 		Table,
@@ -211,13 +219,17 @@ export default {
 					vm.all_metadata = websocket_data.length ? websocket_data : null
 					vm.table_loading = false
 				}
-				if(JSON.parse(event.data)['type'] == 'DASHBOARD') {
+				else if(JSON.parse(event.data)['type'] == 'DASHBOARD') {
 					let websocket_data = JSON.parse(event.data)['data']
 					vm.dashboard = websocket_data
 				}
-				if(JSON.parse(event.data)['type'] == 'MAP_DATA') {
+				else if(JSON.parse(event.data)['type'] == 'MAP_DATA') {
 					let websocket_data = JSON.parse(event.data)['data']
 					vm.map_data = websocket_data
+				}
+				else if(JSON.parse(event.data)['type'] == 'BAR_CHART_DATA') {
+					let websocket_data = JSON.parse(event.data)['data']
+					vm.bar_chart_data = websocket_data
 				}
 			}
 			this.$options.sockets.onerror = function(event) {
@@ -227,6 +239,7 @@ export default {
 				vm.$options.sockets.send(JSON.stringify({'type': 'ALL_METADATA'}))
 				vm.$options.sockets.send(JSON.stringify({'type': 'DASHBOARD'}))
 				vm.$options.sockets.send(JSON.stringify({'type': 'MAP_DATA'}))
+				vm.$options.sockets.send(JSON.stringify({'type': 'BAR_CHART_DATA'}))
 			}
 
 		}
