@@ -103,7 +103,7 @@
 				<div class="columns">
 					<div class="column">
 						<div class="box is-raised is-unselectable">
-							<div class="dropdown is-fullwidth">
+							<div class="dropdown is-fullwidth is-hoverable">
 								<div class="dropdown-trigger">
 									<div class="button is-light is-fullwidth has-text-grey-dark">
 										{{ selected_state }}
@@ -130,8 +130,39 @@
 							<span class="has-text-weight-semibold has-text-grey-dark">
 								{{ map_output.district || selected_state }} Mutation Profile
 							</span>
-							<TreemapChart/>
+							<TreemapChart
+								:ChartData="treemap_chart_data"
+								:State="Object.keys(map_output).length ? map_output : selected_state_code"
+							/>
 						</div>
+
+						<div class="box is-raised is-unselectable">
+							<span class="has-text-weight-semibold has-text-grey-dark">
+								{{ map_output.district || selected_state }} Lineage Profile
+							</span>
+							<div class="columns mt-2">
+								<div class="column" v-for="lineage in get_state_lineages">
+									<div
+										@click="change_selected_lineage(lineage)"
+										class="box is-small is-raised hover-to-floating has-background-light"
+									>
+										<span class="has-text-weight-medium has-text-grey-dark">
+											{{ lineage }}
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<div class="tags mt-1">
+								<div
+									class="tag has-background-blue-light"
+									v-for="muts in lineage_definition_data[selected_lineage]"
+								>
+									{{ muts }}
+								</div>
+							</div>
+						</div>
+
 					</div>
 				</div>
 			</section>
@@ -154,7 +185,7 @@
 </template>
 
 <script>
-import { map, forEach, uniq } from "lodash"
+import { map, forEach, uniq, sortBy } from "lodash"
 import { mapFields } from "vuex-map-fields"
 import MapChart from "@/components/charts/map-chart.vue"
 import Table from "@/components/table/table-advanced.vue"
@@ -167,15 +198,18 @@ export default {
 	layout: 'normal',
 	middleware: ['auth', 'auth_logout'],
 	data: () => ({
+		map_data: [],
+		dashboard: {},
+		map_output: {},
+		bar_chart_data: {},
 		all_metadata: null,
 		table_loading: true,
 		map_config: MAP_META,
+		selected_lineage: '',
+		treemap_chart_data: {},
 		selected_state: 'India',
+		lineage_definition_data: {},
 		selected_state_code: MAP_META['India'],
-		map_output: {},
-		dashboard: {},
-		map_data: [],
-		bar_chart_data: {}
 	}),
 	components: {
 		Table,
@@ -202,9 +236,22 @@ export default {
 			} else {
 				return this.map_output.district
 			}
+		},
+		get_state_lineages() {
+			let lineages = []
+			if(this.map_output.district) {
+				lineages = map(sortBy(this.bar_chart_data[this.map_output.district], 'name'), d=>d.name)
+			} else {
+				lineages = map(sortBy(this.bar_chart_data['India'], 'name'), d=>d.name)
+			}
+			this.selected_lineage = lineages[0]
+			return lineages
 		}
 	},
 	methods: {
+		change_selected_lineage(lineage) {
+			this.selected_lineage = lineage
+		},
 		select_state(state, info) {
 			this.$set(info, 'name', state)
 			this.selected_state = state
@@ -231,6 +278,14 @@ export default {
 					let websocket_data = JSON.parse(event.data)['data']
 					vm.bar_chart_data = websocket_data
 				}
+				else if(JSON.parse(event.data)['type'] == 'TREEMAP_CHART_DATA') {
+					let websocket_data = JSON.parse(event.data)['data']
+					vm.treemap_chart_data = websocket_data
+				}
+				else if(JSON.parse(event.data)['type'] == 'LINEAGE_DEFINITION_DATA') {
+					let websocket_data = JSON.parse(event.data)['data']
+					vm.lineage_definition_data = websocket_data
+				}
 			}
 			this.$options.sockets.onerror = function(event) {
 				console.log(event)
@@ -240,6 +295,8 @@ export default {
 				vm.$options.sockets.send(JSON.stringify({'type': 'DASHBOARD'}))
 				vm.$options.sockets.send(JSON.stringify({'type': 'MAP_DATA'}))
 				vm.$options.sockets.send(JSON.stringify({'type': 'BAR_CHART_DATA'}))
+				vm.$options.sockets.send(JSON.stringify({'type': 'TREEMAP_CHART_DATA'}))
+				vm.$options.sockets.send(JSON.stringify({'type': 'LINEAGE_DEFINITION_DATA'}))
 			}
 
 		}
