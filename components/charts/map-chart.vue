@@ -271,9 +271,9 @@ export default {
 
 <style scoped>
 	.chart {
-		height: 500px;
+		height: 600px;
 	}
 	.medium {
-		height: 500px;
+		height: 600px;
 	}
 </style>
