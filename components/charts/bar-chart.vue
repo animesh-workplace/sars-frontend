@@ -5,11 +5,13 @@
 			:loading="false"
 			:option="options"
 			:loading-options="loader_option"
+			ref="bar-chart"
 		/>
 	</div>
 </template>
 
 <script>
+import { forEach, sortBy, map } from "lodash"
 import { use } from 'echarts/core'
 import {
 	GridComponent,
@@ -56,7 +58,7 @@ export default {
 				order: 'valueDesc'
 			},
 			legend: {
-				data: ['Direct', 'Mail Ad', 'Affiliate Ad', 'Video Ad', 'Search Engine'],
+				data: [],
 				icon: 'roundRect',
 				itemGap: 20,
 				textStyle: {
@@ -67,7 +69,7 @@ export default {
 			},
 			grid: {
 				left: '3%',
-				right: '4%',
+				right: '3%',
 				bottom: '3%',
 				containLabel: true,
 			},
@@ -79,8 +81,8 @@ export default {
 				}
 			},
 			xAxis: {
+				data: [],
 				type: 'category',
-				data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
 				axisLabel: {
 					fontFamily: 'Averta',
 					fontWeight: 500
@@ -89,53 +91,7 @@ export default {
 					alignWithLabel: true
 				}
 			},
-			series: [
-				{
-					name: 'Direct',
-					type: 'bar',
-					stack: 'total',
-					label: {
-						show: false
-					},
-					data: [320, 302, 301, 334, 390, 330, 320]
-				},
-				{
-					name: 'Mail Ad',
-					type: 'bar',
-					stack: 'total',
-					label: {
-						show: false
-					},
-					data: [120, 132, 101, 134, 90, 230, 210]
-				},
-				{
-					name: 'Affiliate Ad',
-					type: 'bar',
-					stack: 'total',
-					label: {
-						show: false
-					},
-					data: [220, 182, 191, 234, 290, 330, 310]
-				},
-				{
-					name: 'Video Ad',
-					type: 'bar',
-					stack: 'total',
-					label: {
-						show: false
-					},
-					data: [150, 212, 201, 154, 190, 330, 410]
-				},
-				{
-					name: 'Search Engine',
-					type: 'bar',
-					stack: 'total',
-					label: {
-						show: false
-					},
-					data: [820, 832, 901, 934, 1290, 1330, 1320]
-				}
-			]
+			series: []
 		}
 	}),
 	components: {
@@ -145,8 +101,53 @@ export default {
 		[THEME_KEY]: "light"
 	},
 	props: {
+		ChartData: {
+			type: Object
+		},
+		State: {
+			type: Object
+		}
 	},
 	watch: {
+		ChartData(value) {
+			this.state_name = this.State.name
+			this.options.xAxis.data = value['xAxis']['month']
+			this.options.legend.data = map(sortBy(value[this.State.name], 'name'), d=>d.name)
+			this.options.series = []
+			forEach(value[this.State.name], d=>{
+				this.options.series.push({
+					name: d.name,
+					type: 'bar',
+					stack: 'total',
+					label: {
+						show: false
+					},
+					data: d.month
+				})
+			})
+		},
+		State(value) {
+			if(this.state_name != value.district) {
+				this.$refs['bar-chart'].clear()
+				if(Object.keys(this.ChartData).length > 0) {
+					this.state_name = value.district
+					this.options.xAxis.data = this.ChartData['xAxis']['month']
+					this.options.legend.data = map(sortBy(this.ChartData[value.district], 'name'), d=>d.name)
+					this.options.series = []
+					forEach(this.ChartData[value.district], d=>{
+						this.options.series.push({
+							name: d.name,
+							type: 'bar',
+							stack: 'total',
+							label: {
+								show: false
+							},
+							data: d.month
+						})
+					})
+				}
+			}
+		}
 	},
 	computed: {
 	},
@@ -161,6 +162,6 @@ export default {
 
 <style scoped>
 	.chart {
-		height: 300px;
+		height: 200px;
 	}
 </style>
