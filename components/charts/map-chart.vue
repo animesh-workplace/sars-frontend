@@ -1,9 +1,46 @@
 <template>
-	<div class="column">
+	<div>
 		<div class="box medium has-skeleton mb-3" v-if="view_skeleton"></div>
 		<div v-else>
+
+			<div class="has-text-centered">
+				<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
+					{{ selected.mapName }}'s Genome Distribution
+				</span>
+			</div>
+
+			<div class="column is-10 is-offset-1">
+				<div class="dropdown is-fullwidth is-hoverable">
+					<div class="dropdown-trigger">
+						<div class="button is-light is-fullwidth has-text-grey-dark">
+							{{ selected_state.name }}
+						</div>
+					</div>
+					<div class="dropdown-menu">
+						<div class="dropdown-content has-background-light">
+							<div class="menu is-small">
+								<ul class="menu-list">
+									<li
+										class="mb-1"
+										:key="state_name"
+										@click="select_state(state_name, state_info)"
+										v-for="(state_info, state_name) in map_config"
+									>
+										<a
+											:class="selected_state.name == state_name ? 'dropdown-item has-background-blue has-text-weight-medium has-text-light' : 'dropdown-item has-text-weight-medium has-text-grey-dark'"
+										>
+											{{ state_name }}
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<span class="has-text-weight-semibold has-text-grey-dark">
-				{{ show.mapType == 'STATE' ? 'District' : 'State' }} : {{ state_name }}
+				{{ selected_state.type }} : {{ selected.name }}
 			</span>
 			<v-chart
 				class="chart"
@@ -19,7 +56,7 @@
 </template>
 
 <script>
-import { map, max, ceil } from "lodash"
+import { map, max, ceil, capitalize } from "lodash"
 import { feature } from 'topojson-client'
 import { use, registerMap } from 'echarts/core'
 import {
@@ -122,10 +159,18 @@ use([
 
 export default {
 	data: () => ({
-		view_skeleton: true,
-		MAP_DATA: {},
-		state_name: 'None',
 		clicked: false,
+		view_skeleton: true,
+		map_config: MAP_META,
+		selected_state: {
+			name: 'India',
+			type: 'Country'
+		},
+		selected: {
+			name: 'India',
+			mapName: 'India',
+			mapType: 'COUNTRY',
+		},
 		loader_option: {
 			color: '#c23531',
 			lineWidth: 3,
@@ -151,10 +196,14 @@ export default {
 				max: 10,
 				orient: 'horizontal',
 				align: 'left',
-				left: '0%',
-				bottom: '0%',
 				inRange: {
 					color: ['#e6f2fb', '#cee5f6', '#b5d9f2', '#9ccced', '#84bfe9', '#6bb2e4', '#52a5e0', '#3999db', '#218cd7', '#087fd2']
+				},
+				textStyle: {
+					fontSize: 14,
+					fontWeight: 500,
+					color: '#706266',
+					fontFamily: 'Averta',
 				},
 			},
 			series: [{
@@ -162,7 +211,7 @@ export default {
 				type: 'map',
 				map: 'India',
 				data: [],
-				zoom: 1.20,
+				zoom: 1.14,
 				aspectScale: 0.85,
 				nameProperty: 'st_nm',
 				itemStyle: {
@@ -198,24 +247,13 @@ export default {
 		[THEME_KEY]: "light"
 	},
 	props: {
-		show: {
-			type: Object
-		},
-		mapData: {
+		ChartData: {
 			type: Array
 		}
 	},
 	watch: {
-		show(value) {
-			if(value.mapType == 'STATE') {
-				this.options.series[0].nameProperty = 'district'
-			} else {
-				this.options.series[0].nameProperty = 'st_nm'
-			}
-			this.options.series[0].map = value.name
-		},
-		mapData(value) {
-			let max_value = ceil(max(map(value, d=>d.value)),-2)
+		ChartData(value) {
+			let max_value = ceil(max(map(value, d=>d.value)), -2)
 			this.options.series[0].data = value
 			this.options.visualMap.max = max_value
 			this.options.visualMap.text = [max_value, 0]
@@ -224,46 +262,50 @@ export default {
 	computed: {
 	},
 	methods: {
+		select_state(state, info) {
+			this.selected_state = {
+				name: state,
+				type: capitalize(info.mapType)
+			}
+			this.selected = {
+				name: state,
+				mapName: state,
+				mapType: info.mapType
+			}
+			if(info.mapType == 'STATE') {
+				this.options.series[0].nameProperty = 'district'
+			} else {
+				this.options.series[0].nameProperty = 'st_nm'
+			}
+			this.options.series[0].map = state
+			this.$emit('input', this.selected)
+		},
 		get_data(event) {
 			if(!this.clicked) {
-				this.state_name = event.name
-				let data = {
-					mapType: this.show.mapType,
-					state: this.show.name,
-					district: event.name,
-					code: this.show.code
-				}
-				this.$emit('input', data)
+				this.selected.name = event.name
+				this.selected_state.type = this.selected.mapType == 'COUNTRY' ? 'State' : 'District'
+				this.$emit('input', this.selected)
 			}
 		},
 		handle_click(event) {
-			if(this.state_name == event.name) {
+			if(this.selected.name == event.name) {
 				this.clicked = !this.clicked
 			} else {
-				this.state_name = event.name
-				let data = {
-					mapType: this.show.mapType,
-					state: this.show.name,
-					district: event.name,
-					code: this.show.code
-				}
-				this.$emit('input', data)
+				this.selected.name = event.name
+				this.$emit('input', this.selected)
 			}
 		},
 		get_data_default(event) {
 			if(!this.clicked) {
-				this.state_name = 'None'
+				this.selected.name = this.selected.mapName
+				this.selected_state.type = capitalize(this.selected.mapType)
 			}
 		},
 	},
 	mounted() {
 		this.$nextTick(()=>{
 			this.view_skeleton = false
-			// const myFont = new FontFace('Averta', 'url(http://10.10.6.80/insacog/static/Averta-Semibold.woff)')
-			// myFont.load().then((font) => {
-			// 	document.fonts.add(font)
-			// 	console.log(document.fonts)
-			// })
+			this.$emit('input', this.selected)
 		})
 	}
 };
@@ -275,5 +317,9 @@ export default {
 	}
 	.medium {
 		height: 600px;
+	}
+	.dropdown-content {
+		height: 15em;
+		overflow: auto;
 	}
 </style>
