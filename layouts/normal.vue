@@ -20,8 +20,9 @@ export default {
 	},
 	beforeMount(){
 		if(this.$auth.loggedIn) {
+			console.log('This message should appear after refresh')
+			this.$store.dispatch('websocket_connect')
 			this.$store.dispatch('user-info-store/set_uploaded_metadata')
-			// this.$store.dispatch('set_websocket_connection')
 			// this.$store.dispatch('user-info-store/set_download_link')
 		}
 	},
