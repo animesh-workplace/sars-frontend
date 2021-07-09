@@ -89,58 +89,40 @@
 
 			<section class="section py-2">
 				<div class="box is-raised is-unselectable">
-					<span class="has-text-weight-semibold has-text-grey-dark">
-						{{ map_output.district || selected_state }} Lineage Distribution
-					</span>
 					<BarChart
+						:State="map_output.name"
 						:ChartData="bar_chart_data"
-						:State="Object.keys(map_output).length ? map_output : selected_state_code"
 					/>
 				</div>
 			</section>
 
-			<section class="section py-2">
+			<section class="section pt-2">
 				<div class="columns">
 					<div class="column">
 						<div class="box is-raised is-unselectable">
-							<div class="dropdown is-fullwidth is-hoverable">
-								<div class="dropdown-trigger">
-									<div class="button is-light is-fullwidth has-text-grey-dark">
-										{{ selected_state }}
-									</div>
-								</div>
-								<div class="dropdown-menu">
-									<div class="dropdown-content has-background-light">
-										<a
-											:key="state_name"
-											@click="select_state(state_name, state_info)"
-											v-for="(state_info, state_name) in map_config"
-											:class="selected_state == state_name ? 'dropdown-item is-active has-text-weight-medium has-text-grey-dark' : 'dropdown-item has-text-weight-medium has-text-grey-dark'"
-										>
-											{{ state_name }}
-										</a>
-									</div>
-								</div>
-							</div>
-							<MapChart :show="selected_state_code" v-model="map_output" :mapData="map_data"/>
+							<MapChart
+								v-model="map_output"
+								:ChartData="map_data"
+							/>
 						</div>
 					</div>
+
 					<div class="column">
 						<div class="box is-raised is-unselectable">
 							<span class="has-text-weight-semibold has-text-grey-dark">
-								{{ map_output.district || selected_state }} Mutation Profile
+								{{ map_output.name }}'s Mutation Profile
 							</span>
-							<TreemapChart
+<!-- 							<TreemapChart
 								:ChartData="treemap_chart_data"
 								:State="Object.keys(map_output).length ? map_output : selected_state_code"
-							/>
+							/> -->
 						</div>
 
 						<div class="box is-raised is-unselectable">
 							<span class="has-text-weight-semibold has-text-grey-dark">
-								{{ map_output.district || selected_state }} Lineage Profile
+								{{ map_output.name }}'s Lineage Profile
 							</span>
-							<div class="columns mt-2">
+<!-- 							<div class="columns mt-2">
 								<div class="column" v-for="lineage in get_state_lineages">
 									<div
 										@click="change_selected_lineage(lineage)"
@@ -151,32 +133,19 @@
 										</span>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
-							<div class="tags mt-1">
+<!-- 							<div class="tags mt-1">
 								<div
 									class="tag has-background-blue-light"
 									v-for="muts in lineage_definition_data[selected_lineage]"
 								>
 									{{ muts }}
 								</div>
-							</div>
+							</div> -->
 						</div>
-
 					</div>
-				</div>
-			</section>
 
-			<section class="section pt-2">
-				<div class="box is-raised is-unselectable">
-					<span class="title is-4 has-text-weight-semibold mb-0 has-text-grey-darker">
-						Complete Metadata
-					</span>
-					<div class="box medium has-skeleton mt-4" v-if="table_loading"></div>
-					<Table :tabledata="all_metadata" v-if="!table_loading && enable_table" class="mt-4"/>
-					<div v-if="!enable_table && !table_loading">
-						<span class="subtitle is-5 has-text-grey-dark">No data uploaded yet</span>
-					</div>
 				</div>
 			</section>
 		</div>
@@ -196,14 +165,15 @@ import TreemapChart from "@/components/charts/tree-map-chart.vue"
 
 export default {
 	layout: 'normal',
+	name: 'dashboard',
 	middleware: ['auth', 'auth_logout'],
 	data: () => ({
-		map_data: [],
-		dashboard: {},
+		// map_data: [],
+		// dashboard: {},
 		map_output: {},
-		bar_chart_data: {},
-		all_metadata: null,
-		table_loading: true,
+		// bar_chart_data: {},
+		// all_metadata: null,
+		// table_loading: true,
 		map_config: MAP_META,
 		selected_lineage: '',
 		treemap_chart_data: {},
@@ -220,7 +190,11 @@ export default {
 	},
 	computed: {
 		...mapFields([
-			'active'
+			'active',
+			'socket',
+			'dashboard',
+			'bar_chart_data',
+			'map_data',
 		]),
 		enable_table() {
 			if(this.all_metadata) {
@@ -291,12 +265,12 @@ export default {
 				console.log(event)
 			}
 			this.$options.sockets.onopen = function(event) {
-				vm.$options.sockets.send(JSON.stringify({'type': 'ALL_METADATA'}))
-				vm.$options.sockets.send(JSON.stringify({'type': 'DASHBOARD'}))
-				vm.$options.sockets.send(JSON.stringify({'type': 'MAP_DATA'}))
-				vm.$options.sockets.send(JSON.stringify({'type': 'BAR_CHART_DATA'}))
-				vm.$options.sockets.send(JSON.stringify({'type': 'TREEMAP_CHART_DATA'}))
-				vm.$options.sockets.send(JSON.stringify({'type': 'LINEAGE_DEFINITION_DATA'}))
+				// vm.$options.sockets.send(JSON.stringify({'type': 'ALL_METADATA'}))
+				// vm.$options.sockets.send(JSON.stringify({'type': 'DASHBOARD'}))
+				// vm.$options.sockets.send(JSON.stringify({'type': 'MAP_DATA'}))
+				// vm.$options.sockets.send(JSON.stringify({'type': 'BAR_CHART_DATA'}))
+				// vm.$options.sockets.send(JSON.stringify({'type': 'TREEMAP_CHART_DATA'}))
+				// vm.$options.sockets.send(JSON.stringify({'type': 'LINEAGE_DEFINITION_DATA'}))
 			}
 
 		}
@@ -306,12 +280,17 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(()=>{
-			this.get_websocket_data()
+			// this.get_websocket_data()
+			if(this.socket.isConnected) {
+				this.$store.dispatch('websocket_send', {'type': 'DASHBOARD'})
+				this.$store.dispatch('websocket_send', {'type': 'BAR_CHART_DATA'})
+				this.$store.dispatch('websocket_send', {'type': 'MAP_DATA'})
+			}
 			this.$set(this.selected_state_code, 'name', 'India')
 		})
 	},
 	beforeDestroy() {
-		this.$options.sockets.close()
+		// this.$options.sockets.close()
 	}
 };
 </script>
@@ -323,5 +302,8 @@ export default {
 	.dropdown-content {
 		height: 15em;
 		overflow: auto;
+	}
+	.overflow-hidden {
+		overflow: hidden;
 	}
 </style>
