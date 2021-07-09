@@ -523,6 +523,7 @@ import SequenceUpload from "@/components/upload/sequence-upload.vue"
 import LoginLayout from "@/components/authentication/login-layout.vue"
 
 export default {
+	name: 'upload',
 	layout: 'normal',
 	middleware: ['auth', 'auth_logout'],
 	data: () => ({
