@@ -63,6 +63,7 @@ import PieChartStats from "@/components/charts/pie-chart-stats.vue"
 import LoginLayout from "@/components/authentication/login-layout.vue"
 
 export default {
+	name: 'login',
 	data: () => ({
 		institutes: [
 			'CSIR Institute of Genomics and Integrative Biology (IGIB), Delhi',
