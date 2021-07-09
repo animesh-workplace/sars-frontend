@@ -1,8 +1,7 @@
 <template>
 	<div>
-		<div class="box medium has-skeleton mb-3" v-if="view_skeleton"></div>
-		<vs-table v-model="temp_data" :key="id" id="table-advanced" v-else>
-			<template #header>
+		<vs-table v-model="temp_data" :key="id" id="table-advanced">
+<!-- 			<template #header>
 				<vs-input border color="#065F9E" placeholder="Search" v-model="search" id="search-bar" class="is-size-5">
 					<template #icon>
 						<svg class="icon has-fill-blue-dark">
@@ -10,7 +9,7 @@
 						</svg>
 					</template>
 				</vs-input>
-			</template>
+			</template> -->
 
 			<template #thead>
 				<vs-tr>
@@ -102,7 +101,6 @@ export default {
 	data: () => ({
 		page: 1,
 		search: '',
-		view_skeleton: true,
 		temp_data: null,
 		id: Date.now() + Math.floor(Math.random()*10000 + 1),
 	}),
@@ -138,7 +136,6 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(()=>{
-			this.view_skeleton = false
 		})
 	}
 };
