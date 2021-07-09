@@ -3,19 +3,9 @@ import { ToastProgrammatic as Toast } from 'buefy'
 import { getField, updateField } from 'vuex-map-fields'
 
 export const state = () => ({
-	userinfo: {},
-	editmode: false,
 	token_expiry: '',
-	avatar_image: '',
-	poster_image: '',
 	download_link: '',
 	uploaded_metadata: {},
-	activateemailmodal: false,
-	activateuploadposter: false,
-	activateuploadavatar: false,
-	activatepasswordmodal: false,
-	activateedituserinfomodal: false,
-	activateforgotpasswordmodal: false,
 });
 
 export const getters = {
@@ -23,32 +13,8 @@ export const getters = {
 };
 
 export const mutations = {
-	SET_USERINFO(state, payload) {
-		state.userinfo = payload
-	},
 	SET_TOKEN_EXPIRY(state, payload) {
 		state.token_expiry = payload
-	},
-	SET_AVATAR_IMAGE(state, payload) {
-		state.avatar_image = payload
-	},
-	SET_POSTER_IMAGE(state, payload) {
-		state.poster_image = payload
-	},
-	SET_EDIT_MODE(state, payload) {
-		state.editmode = payload
-	},
-	SET_ACTIVATE_EMAIL_MODAL(state, payload) {
-		state.activateemailmodal = payload
-	},
-	SET_ACTIVATE_EDIT_USER_INFO_MODAL(state, payload) {
-		state.activateedituserinfomodal = payload
-	},
-	SET_ACTIVATE_PASSWORD_MODAL(state, payload) {
-		state.activatepasswordmodal = payload
-	},
-	SET_ACTIVATE_FORGOT_PASSWORD_MODAL(state, payload) {
-		state.activateforgotpasswordmodal = payload
 	},
 	SET_UPLOADED_METADATA(state, payload) {
 		state.uploaded_metadata = payload
@@ -92,7 +58,7 @@ export const actions = {
 		this.$cookies.remove('c_uid')
 		this.$auth.$storage.setCookie('token_expiry', false)
 		await commit('SET_TOKEN_EXPIRY', '')
-		await dispatch('set_activateforgotpasswordmodal', false)
+		await this.dispatch('websocket_disconnect')
 		Toast.open({
 			type: 'is-info',
 			message:'Logged Out',
@@ -104,43 +70,7 @@ export const actions = {
 		this.$auth.$storage.setCookie('token_expiry', false)
 		this.$cookies.remove('c_uid')
 		await commit('SET_TOKEN_EXPIRY', '')
-		await dispatch('set_activateforgotpasswordmodal', false)
-	},
-	async update_password_submit({ commit, dispatch }, payload) {
-		try{
-			const data = await this.$axios.$post('/auth/update-password/', payload)
-			await dispatch('set_activatepasswordmodal', false)
-	        // Toast.open({
-	        //   message: data['message'],
-	        //   type: 'is-success',
-	        //   position: 'is-bottom'
-	        // })
-		} catch(err) {
-			await dispatch('set_activatepasswordmodal', false)
-			// Toast.open({
-			// 	message: err.response.data['message'] || err.response.data || err,
-			// 	type: 'is-danger',
-			// 	position: 'is-bottom'
-			// })
-		}
-	},
-	async forgot_password_submit({ commit, dispatch }, payload) {
-		try{
-			const data = await this.$axios.$post('/auth/forgot-password/', payload)
-			await dispatch('set_activateforgotpasswordmodal', false)
-	        // Toast.open({
-	        //   message: data['message'],
-	        //   type: 'is-success',
-	        //   position: 'is-bottom'
-	        // })
-		} catch(err) {
-			await dispatch('set_activateforgotpasswordmodal', false)
-			// Toast.open({
-			// 	message: err.response.data['message'] || err.response.data || err,
-			// 	type: 'is-danger',
-			// 	position: 'is-bottom'
-			// })
-		}
+		await this.dispatch('websocket_disconnect')
 	},
 	async set_uploaded_metadata({ commit }) {
 		const metadata_header = await this.$axios.$post('/files/metadata-info-name/')
@@ -150,8 +80,5 @@ export const actions = {
 		const link_api = await this.$axios.$post('/files/metadata-download/')
 		let link = link_api.link
 		commit('SET_DOWNLOAD_LINK', link)
-	},
-	set_activateforgotpasswordmodal({ commit }, payload) {
-		commit('SET_ACTIVATE_FORGOT_PASSWORD_MODAL', payload)
 	},
 }
