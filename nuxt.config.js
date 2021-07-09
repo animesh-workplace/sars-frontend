@@ -54,6 +54,7 @@ export default {
 		'@/plugins/v-clipboard',
 		'@/plugins/vue-composition',
 		{ src: '@/plugins/vue-chart', ssr: false },
+		{ src: '@/plugins/vue-websocket', ssr: false },
 		// { src: '~/plugins/vue-echarts', ssr: false },
 		{ src: '@/plugins/vue-localstorage', ssr: false },
 		{ src: '@/plugins/vue-sessionstorage', ssr: false },
