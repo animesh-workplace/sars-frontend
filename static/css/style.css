@@ -134,6 +134,15 @@
 	.vs-table__thead .vs-table__th {
 		background: #d2d5dd5f;
 		border-radius: 0px;
+		padding: 18px 12px 16px 12px;
+	}
+
+	.vs-table__thead .vs-table__th:first-child {
+		border-radius: 14px 0px 0px 0px;
+	}
+
+	.vs-table__thead .vs-table__th:last-child {
+		border-radius: 0px 14px 0px 0px;
 	}
 
 	.vs-table__th.sort:hover {
@@ -148,16 +157,16 @@
 		background: #d2d5dd5f;
 	}
 
-	.vs-table__tr:first-of-type .vs-table__td:first-child, .vs-table__thead .vs-table__th:first-child {
+	.vs-table__tr:first-of-type .vs-table__td:first-child {
 		border-radius: 0px;
 	}
-	.vs-table__tr:first-of-type .vs-table__td:last-child, .vs-table__thead .vs-table__th:last-child {
+	.vs-table__tr:first-of-type .vs-table__td:last-child {
 		border-radius: 0px;
 	}
-	.vs-table__tr:not(:first-of-type) .vs-table__td:first-child, .vs-table__thead .vs-table__th:first-child {
+	.vs-table__tr:not(:first-of-type) .vs-table__td:first-child {
 		border-radius: 0px;
 	}
-	.vs-table__tr:not(:first-of-type) .vs-table__td:last-child, .vs-table__thead .vs-table__th:last-child {
+	.vs-table__tr:not(:first-of-type) .vs-table__td:last-child {
 		border-radius: 0px;
 	}
 	#table-advanced .vs-table__tr__expand td {
