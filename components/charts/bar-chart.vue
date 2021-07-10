@@ -1,12 +1,24 @@
 <template>
 	<div>
-		<div class="has-text-centered">
-			<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
-				{{ State }}'s Lineage Distribution
-			</span>
+		<div class="columns is-mobile mb-0">
+			<div class="column is-8 is-offset-2 has-text-centered pb-4">
+				<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
+					{{ State }}'s Lineage Distribution
+				</span>
+			</div>
+			<client-only>
+				<div class="column has-text-right">
+					<div class="button is-borderless has-background-grey-lighter is-small" v-if="clicked" @click="reset_month">
+						<svg class="icon has-fill-grey-darker">
+							<use xlink:href="@/assets/images/icons/bds.svg#reload-g"></use>
+						</svg>
+						<span v-if="$screen.breakpoint != 'mobile'" class="has-text-grey-darker">Reset</span>
+					</div>
+				</div>
+			</client-only>
 		</div>
 
-		<div class="column is-6 is-offset-3 mb-2">
+		<div class="column is-6 is-offset-3 mb-2 pt-0">
 			<div class="dropdown is-fullwidth is-hoverable">
 				<div class="dropdown-trigger">
 					<div class="button is-light is-fullwidth has-text-grey-dark">
@@ -95,6 +107,7 @@ export default {
 				axisPointer: {
 					type: 'shadow'
 				},
+				// renderMode: 'richText',
 				// transitionDuration: 0.4,
 				borderColor: '#fff',
 				textStyle: {
@@ -114,9 +127,9 @@ export default {
 				}
 			},
 			grid: {
-				left: '3%',
-				right: '3%',
-				bottom: '3%',
+				left: '0%',
+				right: '0%',
+				bottom: '0%',
 				containLabel: true,
 			},
 			yAxis: {
@@ -229,11 +242,17 @@ export default {
 			}
 		},
 		handle_click(event) {
+			this.clicked = true
 			let location = [event.offsetX, event.offsetY]
 			let selected_month = this.ChartData.xAxis.month[
 					this.$refs['bar-chart'].convertFromPixel({seriesIndex: 0}, location)[0]
 				]
+			this.$emit('input', selected_month)
 			console.info(selected_month)
+		},
+		reset_month() {
+			this.clicked = false
+			this.$emit('input', '')
 		}
 	},
 	mounted() {
