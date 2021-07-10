@@ -13,6 +13,8 @@ export const state = () => ({
 	all_metadata: null,
 	bar_chart_data: {},
 	table_loading: true,
+	treemap_chart_data: {},
+	lineage_definition_data: {},
 	socket: {
 		isConnected: false,
 		isLoaded: {
@@ -20,6 +22,8 @@ export const state = () => ({
 			dashboard: false,
 			all_metadata: false,
 			bar_chart_data: false,
+			treemap_chart_data: false,
+			lineage_definition_data: false
 		}
 	}
 });
@@ -51,6 +55,8 @@ export const mutations = {
 		this.$socket.send(JSON.stringify({'type': 'ALL_METADATA'}))
 		this.$socket.send(JSON.stringify({'type': 'BAR_CHART_DATA'}))
 		this.$socket.send(JSON.stringify({'type': 'MAP_DATA'}))
+		this.$socket.send(JSON.stringify({'type': 'TREEMAP_CHART_DATA'}))
+		this.$socket.send(JSON.stringify({'type': 'LINEAGE_DEFINITION_DATA'}))
 	},
 	SOCKET_ONCLOSE (state, event)  {
 		state.socket.isConnected = false
@@ -75,6 +81,14 @@ export const mutations = {
 		else if(event['type'] == 'MAP_DATA') {
 			state.map_data = event.data
 			state.socket.isLoaded.map_data = true
+		}
+		else if(event['type'] == 'TREEMAP_CHART_DATA') {
+			state.treemap_chart_data = event.data
+			state.socket.isLoaded.treemap_chart_data = true
+		}
+		else if(event['type'] == 'LINEAGE_DEFINITION_DATA') {
+			state.lineage_definition_data = event.data
+			state.socket.isLoaded.lineage_definition_data = true
 		}
 	},
 	SOCKET_RECONNECT(state, count) {
