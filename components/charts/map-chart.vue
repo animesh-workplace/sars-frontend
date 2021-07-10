@@ -2,40 +2,58 @@
 	<div>
 		<div class="box medium has-skeleton mb-3" v-if="view_skeleton"></div>
 		<div v-else>
-
-			<div class="has-text-centered">
+			<div class="has-text-centered mb-2">
 				<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
 					{{ selected.mapName }}'s Genome Distribution
 				</span>
 			</div>
 
-			<div class="column is-10 is-offset-1">
-				<div class="dropdown is-fullwidth is-hoverable">
-					<div class="dropdown-trigger">
-						<div class="button is-light is-fullwidth has-text-grey-dark">
-							{{ selected_state.name }}
+			<div class="columns is-vcentered mb-0">
+				<div class="column is-9">
+					<div class="dropdown is-fullwidth is-hoverable">
+						<div class="dropdown-trigger">
+							<div class="button is-light is-fullwidth has-text-grey-dark">
+								{{ selected_state.name }}
+							</div>
 						</div>
-					</div>
-					<div class="dropdown-menu">
-						<div class="dropdown-content has-background-light">
-							<div class="menu is-small">
-								<ul class="menu-list">
-									<li
-										class="mb-1"
-										:key="state_name"
-										@click="select_state(state_name, state_info)"
-										v-for="(state_info, state_name) in map_config"
-									>
-										<a
-											:class="selected_state.name == state_name ? 'dropdown-item has-background-blue has-text-weight-medium has-text-light' : 'dropdown-item has-text-weight-medium has-text-grey-dark'"
+						<div class="dropdown-menu">
+							<div class="dropdown-content has-background-light">
+								<div class="menu is-small">
+									<ul class="menu-list">
+										<li
+											class="mb-1"
+											:key="state_name"
+											@click="select_state(state_name, state_info)"
+											v-for="(state_info, state_name) in map_config"
 										>
-											{{ state_name }}
-										</a>
-									</li>
-								</ul>
+											<a
+												:class="selected_state.name == state_name ? 'dropdown-item has-background-blue has-text-weight-medium has-text-light' : 'dropdown-item has-text-weight-medium has-text-grey-dark'"
+											>
+												<svg
+													class="icon icon-size has-fill-white"
+													v-if="selected_state.name == state_name"
+												>
+													<use xlink:href="@/assets/images/icons/bds.svg#check-bold-g"></use>
+												</svg>
+												{{ state_name }}
+											</a>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
+				</div>
+
+				<div class="column">
+					<client-only>
+						<div class="button is-borderless is-light is-fullwidth" @click="go_to">
+							<svg class="icon has-fill-grey-darker">
+								<use xlink:href="@/assets/images/icons/bds.svg#orgchart-g"></use>
+							</svg>
+							<span v-if="$screen.breakpoint != 'mobile'" class="has-text-grey-darker">View Tree</span>
+						</div>
+					</client-only>
 				</div>
 			</div>
 
@@ -301,6 +319,11 @@ export default {
 				this.selected_state.type = capitalize(this.selected.mapType)
 			}
 		},
+		go_to() {
+			this.$router.push({
+				path: `/phylotree`,
+			})
+		}
 	},
 	mounted() {
 		this.$nextTick(()=>{
