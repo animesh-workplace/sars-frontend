@@ -70,7 +70,6 @@ export const actions = {
 		this.$auth.$storage.setCookie('token_expiry', false)
 		this.$cookies.remove('c_uid')
 		await commit('SET_TOKEN_EXPIRY', '')
-		await this.dispatch('websocket_disconnect')
 	},
 	async set_uploaded_metadata({ commit }) {
 		const metadata_header = await this.$axios.$post('/files/metadata-info-name/')
