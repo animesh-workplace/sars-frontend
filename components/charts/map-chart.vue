@@ -280,6 +280,9 @@ export default {
 	computed: {
 	},
 	methods: {
+		get_state_info(state) {
+			this.$store.dispatch('websocket_send', {'type': 'MAP_DATA', 'filter': { 'map_data': state }})
+		},
 		select_state(state, info) {
 			this.selected_state = {
 				name: state,
@@ -296,6 +299,7 @@ export default {
 				this.options.series[0].nameProperty = 'st_nm'
 			}
 			this.options.series[0].map = state
+			this.get_state_info(state)
 			this.$emit('input', this.selected)
 		},
 		get_data(event) {
