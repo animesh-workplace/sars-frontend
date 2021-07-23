@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<vs-table v-model="temp_data" :key="id" id="table-advanced">
+		<vs-table id="table-advanced">
 <!-- 			<template #header>
 				<vs-input border color="#065F9E" placeholder="Search" v-model="search" id="search-bar" class="is-size-5">
 					<template #icon>
@@ -14,37 +14,37 @@
 			<template #thead>
 				<vs-tr>
 					<vs-th class="no-pointer-event"></vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'virusName')">
+					<vs-th class="is-size-6">
 						Virus name
 					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'collectionDate')">
+					<vs-th class="is-size-6">
 						Collection date
 					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'state')">
+					<vs-th class="is-size-6">
 						State
 					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'district')">
+					<vs-th class="is-size-6">
 						District
 					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'gender')">
+					<vs-th class="is-size-6">
 						Gender
 					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'patientAge')">
+					<vs-th class="is-size-6">
 						Age
 					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'lastVaccinated')">
+					<vs-th class="is-size-6">
 						Last vaccinated
 					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'submittingLab')">
+					<vs-th class="is-size-6">
 						Submitting lab
 					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'lineage')">
+					<vs-th class="is-size-6">
 						Lineage
 					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'clade')">
+					<vs-th class="is-size-6">
 						Clade
 					</vs-th>
-					<vs-th sort class="is-size-6" @click="temp_data = $vs.sortData($event, temp_data, 'scorpioCall')">
+					<vs-th class="is-size-6">
 						Scorpio
 					</vs-th>
 				</vs-tr>
@@ -53,25 +53,24 @@
 			<template #tbody>
 				<vs-tr
 					:key="i"
-					open-expand-only-td
-					v-for="(tr,i) in $vs.getPage($vs.getSearch(temp_data, search), page, 15)"
+					v-for="(tr,i) in TableData"
 				>
 					<vs-td class="no-pointer-event">
 						<svg class="icon icon-size has-fill-blue-dark">
 							<use xlink:href="@/assets/images/icons/bds.svg#arrow-right-g"></use>
 						</svg>
 					</vs-td>
-					<vs-td class="is-size-6">{{ tr['virusName'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['collectionDate'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['state'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['district'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['gender'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['patientAge'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['lastVaccinated'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['submittingLab'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['Virus name'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['Collection date'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['State'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['District'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['Gender'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['Patient age'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['Last vaccinated'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['Submitting lab'] }}</vs-td>
 					<vs-td class="is-size-6"><Tag :name="tr['lineage']" theme="#FF8F41"/></vs-td>
 					<vs-td class="is-size-6"><Tag :name="tr['clade']" theme="#00C8B5"/></vs-td>
-					<vs-td class="is-size-6"><Tag :name="tr['scorpioCall']" theme="#7DB950"/></vs-td>
+					<vs-td class="is-size-6"><Tag :name="tr['scorpio_call']" theme="#7DB950"/></vs-td>
 
 					<template #expand>
 						<SubTable :detail="tr"/>
@@ -84,7 +83,7 @@
 					v-model="page"
 					color="#087FD2"
 					:dotted-number="10"
-					:length="$vs.getLength($vs.getSearch(temp_data, search), 15)"
+					:length="Size"
 				/>
 			</template>
 		</vs-table>
@@ -101,19 +100,20 @@ export default {
 	data: () => ({
 		page: 1,
 		search: '',
-		temp_data: null,
 		id: Date.now() + Math.floor(Math.random()*10000 + 1),
 	}),
 	props: {
-		tabledata: {
+		TableData: {
 			type: Array
+		},
+		Size: {
+			type: Number
 		}
 	},
 	watch: {
-		// search(value) {
-		// 	// this.temp_data = value
-		// 	this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
-		// }
+		page(value) {
+			this.$store.dispatch('websocket_send', {'type': 'ALL_METADATA', 'filter': { 'each_page': 15, 'page': value }})
+		},
 	},
 	components: {
 		Tag,
@@ -124,15 +124,6 @@ export default {
 	methods: {
 	},
 	beforeMount() {
-		let my_test = []
-		forEach(this.tabledata, (d,i)=>{
-			my_test[i] = {}
-			forEach(d, (d1,i1)=>{
-				my_test[i][camelCase(i1)] = d1
-			})
-		})
-		this.temp_data = my_test
-		this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
 	},
 	mounted() {
 		this.$nextTick(()=>{
