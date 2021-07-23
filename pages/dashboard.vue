@@ -177,10 +177,10 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(()=>{
-			if(this.socket.isConnected) {
+			if(this.socket.isConnected && !this.socket.isLoaded.dashboard) {
 				this.$store.dispatch('websocket_send', {'type': 'DASHBOARD'})
 				this.$store.dispatch('websocket_send', {'type': 'BAR_CHART_DATA'})
-				this.$store.dispatch('websocket_send', {'type': 'MAP_DATA'})
+				this.$store.dispatch('websocket_send', {'type': 'MAP_DATA', 'filter': { 'map_data': 'India' }})
 				this.$store.dispatch('websocket_send', {'type': 'TREEMAP_CHART_DATA'})
 				this.$store.dispatch('websocket_send', {'type': 'LINEAGE_DEFINITION_DATA'})
 			}
