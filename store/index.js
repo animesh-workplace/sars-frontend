@@ -11,6 +11,7 @@ export const state = () => ({
 	map_data: [],
 	dashboard: {},
 	all_metadata: null,
+	metadata_length: 0,
 	bar_chart_data: {},
 	table_loading: true,
 	treemap_chart_data: {},
@@ -52,9 +53,9 @@ export const mutations = {
 		this.$socket = event.currentTarget
 		state.socket.isConnected = true
 		this.$socket.send(JSON.stringify({'type': 'DASHBOARD'}))
-		this.$socket.send(JSON.stringify({'type': 'ALL_METADATA'}))
+		this.$socket.send(JSON.stringify({'type': 'ALL_METADATA', 'filter': { 'each_page': 15, 'page': 1 }}))
 		this.$socket.send(JSON.stringify({'type': 'BAR_CHART_DATA'}))
-		this.$socket.send(JSON.stringify({'type': 'MAP_DATA'}))
+		this.$socket.send(JSON.stringify({'type': 'MAP_DATA', 'filter': { 'map_name': 'India' }}))
 		this.$socket.send(JSON.stringify({'type': 'TREEMAP_CHART_DATA'}))
 		this.$socket.send(JSON.stringify({'type': 'LINEAGE_DEFINITION_DATA'}))
 	},
@@ -66,7 +67,8 @@ export const mutations = {
 	},
 	SOCKET_ONMESSAGE (state, event)  {
 		if(event['type'] == 'ALL_METADATA') {
-			state.all_metadata = event.data
+			state.all_metadata = event.data.metadata
+			state.metadata_length = event.data.total_length
 			state.table_loading = false
 			state.socket.isLoaded.all_metadata = true
 		}
