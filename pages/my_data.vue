@@ -8,7 +8,7 @@
 					</span>
 				</div>
 				<div class="box medium has-skeleton mt-4" v-if="table_loading"></div>
-				<Table :tabledata="all_metadata" v-if="!table_loading && enable_table" class="mt-4"/>
+				<Table :TableData="all_metadata" :Size="metadata_length" v-if="!table_loading && enable_table" class="mt-4"/>
 				<div v-if="!enable_table && !table_loading">
 					<span class="subtitle is-5 has-text-grey-dark">No data uploaded yet</span>
 				</div>
@@ -38,6 +38,7 @@ export default {
 			'socket',
 			'all_metadata',
 			'table_loading',
+			'metadata_length',
 		]),
 		enable_table() {
 			if(this.all_metadata) {
@@ -56,7 +57,10 @@ export default {
 	mounted() {
 		this.$nextTick(()=>{
 			if(this.socket.isConnected && !this.socket.isLoaded.all_metadata) {
-				this.$store.dispatch('websocket_send', {'type': 'ALL_METADATA'})
+				this.$store.dispatch('websocket_send', {
+					'type': 'ALL_METADATA',
+					'filter': { 'each_page': 10, 'page': 1 }
+				})
 			}
 		})
 	},
