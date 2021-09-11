@@ -2,18 +2,21 @@
 	<div>
 		<Navbar/>
 		<Nuxt/>
+		<Footer/>
 	</div>
 </template>
 
 <script>
-import Navbar from '@/components/navbar/top-nav2.vue'
+import Navbar from '@/components/header/navbar_landing.vue'
+import Footer from '@/components/footer/footer_landing.vue'
 
 export default {
 	name: 'normal-layout',
 	data: () => ({
 	}),
 	components: {
-		Navbar
+		Navbar,
+		Footer
 	},
 	computed: {
 	},
