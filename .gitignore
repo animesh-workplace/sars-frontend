@@ -9,6 +9,7 @@ package-lock.json
 *.fa
 *.tsv
 *.xlsx
+*.psd
 
 # Sublime
 *.sublime*
