@@ -86,7 +86,7 @@
     "vue-native-websocket": "^2.0.14",
     "vue-octicon": "^2.1.1",
     "vue-pipeline-scalable": "^1.0.55",
-    "vue-screen": "^1.5.3",
+    "vue-screen": "^1.5.5",
     "vue-sessionstorage": "^1.0.0",
     "vue-typed-js": "^0.1.2",
     "vuedraggable": "^2.24.3",
@@ -97,6 +97,7 @@
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@nuxtjs/device": "^2.1.0",
     "@nuxtjs/fontawesome": "^1.1.2",
     "@vue/composition-api": "*",
     "eslint-config-prettier": "^6.11.0",
