@@ -1,48 +1,12 @@
 <template>
 	<div>
-		<section class="section">
-			<div class="columns is-vcentered">
-				<div class="column is-3 has-text-centered mt-5">
-					<div class="is-size-4 has-text-weight-semibold is-inline has-text-grey-darker">
-						Participating Institutes
-					</div>
-					<div
-						class="box is-raised is-small hover-to-box"
-						v-for="name in institutes"
-						:key="name"
-					>
-						<span class="has-text-weight-semibold has-text-grey-dark">{{ name }}</span>
-					</div>
+		<section class="section is-large has-background-blue is-relative">
+				<div class="custom-shape-divider-bottom-1631345787">
+				    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+				        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+				    </svg>
 				</div>
-
-				<div class="column is-5">
-					<div class="column">
-						<div class="has-text-centered">
-							<nuxt-link  to="/upload">
-								<div class="is-size-2 has-text-weight-semibold is-inline has-text-grey-darker">
-									INSACOG
-								</div>
-								<div class="is-size-2 is-inline has-text-grey-dark">
-									&nbsp;DataHub
-								</div>
-							</nuxt-link>
-						</div>
-						<div class="box is-floating">
-							<LoginLayout/>
-						</div>
-					</div>
-				</div>
-
-				<div class="column is-4 has-text-centered">
-					<div class="is-size-4 has-text-weight-semibold is-inline has-text-grey-darker">
-						Sequences Upload Statistics
-					</div>
-					<PieChartStats/>
-				</div>
-			</div>
 		</section>
-
-
 <!-- 		<div class="column is-5 is-offset-3 p-0">
 			<footer class="footer">
 				<div class="content has-text-centered">
@@ -59,6 +23,7 @@
 </template>
 
 <script>
+import Blob from '@/assets/blob-haikei_1.svg?inline'
 import PieChartStats from "@/components/charts/pie-chart-stats.vue"
 import LoginLayout from "@/components/authentication/login-layout.vue"
 
@@ -69,17 +34,16 @@ export default {
 		institutes: [
 			'CSIR Institute of Genomics and Integrative Biology (IGIB), Delhi',
 			'CSIR Centre for Cellular and Molecular Biology (CCMB), Hyderabad',
-			'DBT National Institute of Biomedical Genomics (NIBMG), Kalyani ',
-			'DBT- Institute of Life Sciences (ILS), Bhubaneshwar',
-			'DBT InSTEM/NCBS, Bengaluru',
-			'DBT-Centre for DNA Fingerprinting and Diagnostics (CDFD), Hyderabad',
-			'ICMR-National Institute of Virology, Pune',
-			'DBT National Centre for Cell Science, Pune',
-			'National Centre for Disease Control, Delhi - Division of Bio-technology, Epidemiology and Central Surveillance Unit',
-			'National Institute of Mental Health and Neuro Sciences Hospital (NIMHANS), Bangalore',
+			'DBT National Institute of Biomedical Genomics (NIBMG), Kalyani1',
+			'DBT National Institute of Biomedical Genomics (NIBMG), Kalyani2',
+			'DBT National Institute of Biomedical Genomics (NIBMG), Kalyan3',
+			'DBT National Institute of Biomedical Genomics (NIBMG), Kalyani',
+			'DBT National Institute of Biomedical Genomics (NIBMG), Kalysani',
+			'DBT National Institute of Biomedical Genomics (NIBMG), Kalyseani',
 		]
 	}),
 	components: {
+		Blob,
 		LoginLayout,
 		PieChartStats,
 	},
@@ -91,10 +55,45 @@ export default {
 </script>
 
 <style scoped>
+.custom-shape-divider-bottom-1631345787 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1631345787 svg {
+    position: relative;
+    display: block;
+    width: calc(160% + 1.3px);
+    height: 150px;
+}
+
+.custom-shape-divider-bottom-1631345787 .shape-fill {
+    fill: #f6f8f9;
+}
 .is-size-4-5 {
 	font-size: 1.45rem !important;
 }
 .footer {
 	padding: 0.5rem 1.5rem;
 }
+.is-right {
+	position: fixed;
+	right:  0;
+	z-index: 1;
+}
+.has-background-mask {
+	-webkit-mask: url('../assets/wavesNegative.svg');
+	-webkit-mask-size: cover;
+	mask-size: cover;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: bottom center;
+	mask-position: bottom center;
+}
+
 </style>
