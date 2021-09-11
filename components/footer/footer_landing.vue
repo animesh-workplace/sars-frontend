@@ -1,20 +1,22 @@
 <template>
-	<section class="section has-background-theme p-2 footer">
-		<div class="has-text-centered">
-			<p class="subtitle is-5 has-text-light my-1">
-				© INSACOG DataHub 2021. All rights reserved.
-			</p>
-			<p class="subtitle is-5 has-text-light my-0">
-				<b>INSACOG</b> DataHub is developed & maintained by NSM group
-			</p>
-			<p class="subtitle is-5 has-text-light my-0">
-				Maintained at National Institute of Biomedical Genomics (NIBMG), Kalyani
-			</p>
-			<p class="subtitle is-5 has-text-light pb-2">
-				Source Code is available at <a class="has-text-blue-light" href="https://github.com/animesh-workplace/sars-frontend">https://github.com/animesh-workplace/sars-frontend</a>
-			</p>
-		</div>
-	</section>
+	<footer>
+		<section class="section has-background-theme p-2">
+			<div class="has-text-centered">
+				<p class="subtitle is-5 has-text-light my-1">
+					© INSACOG DataHub 2021. All rights reserved.
+				</p>
+				<p class="subtitle is-5 has-text-light my-0">
+					<b>INSACOG</b> DataHub is developed & maintained by NSM group
+				</p>
+				<p class="subtitle is-5 has-text-light my-0">
+					Maintained at National Institute of Biomedical Genomics (NIBMG), Kalyani
+				</p>
+				<p class="subtitle is-5 has-text-light pb-2">
+					Source Code is available at <a class="has-text-blue-light" href="https://github.com/animesh-workplace/sars-frontend">https://github.com/animesh-workplace/sars-frontend</a>
+				</p>
+			</div>
+		</section>
+	</footer>
 </template>
 
 <script>
@@ -44,11 +46,5 @@ export default {
 }
 .has-background-theme {
 	background: #0a2d4d;
-}
-.footer {
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	position: fixed;
 }
 </style>
