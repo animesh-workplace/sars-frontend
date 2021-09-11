@@ -2,21 +2,21 @@
 	<div>
 		<vs-navbar class="py-3 px-0 box is-floating is-sticky has-background-theme is-radiusless">
 			<template #left>
-				<div v-if="$screen.breakpoint != 'mobile'">
+				<div v-if="!$device.isMobile">
 					<nuxt-link to="/upload">
 						<Logo class="image has-logo-size"/>
 					</nuxt-link>
 				</div>
 			</template>
 
-			<div v-show="mobile_device || $screen.breakpoint == 'mobile'">
+			<div v-show="$device.isMobile">
 				<nuxt-link to="/upload">
 					<Logo class="image has-logo-size"/>
 				</nuxt-link>
 			</div>
 
 			<template #right>
-				<div v-show="$screen.breakpoint != 'mobile'">
+				<div v-show="!$device.isMobile">
 					<div class="button is-outlined is-inverted is-success mr-2">
 						<span>Login</span>
 					</div>
@@ -25,14 +25,12 @@
 						<span>Get Started</span>
 					</div>
 				</div>
-				<div v-show="$screen.breakpoint == 'mobile'">
+				<div v-show="$device.isMobile">
 					<div class="button is-square is-borderless" @click="open_dropdown_menu">
 						<svg class="icon has-fill-white">
 							<use xlink:href="@/assets/images/icons/bds.svg#dots-vert-g"></use>
 						</svg>
 					</div>
-
-
 				</div>
 			</template>
 		</vs-navbar>
@@ -73,7 +71,7 @@ import Logo from '@/assets/logo/insacog_datahub_logo_white.svg?inline'
 export default {
 	data: () => ({
 		add_shadow: false,
-		mobile_device: false,
+		// mobile_device: false,
 		dropdown_menu: false,
 		navbar_data: [
 			// { name: 'Home', link: '/' },
@@ -89,7 +87,6 @@ export default {
 		Logo,
 	},
 	beforeMount() {
-		this.mobile_device = this.$screen.breakpoint == 'mobile'
 	},
 	mounted() {
 		this.is_authenticated = this.$auth.loggedIn
@@ -123,7 +120,7 @@ export default {
 	background: #0a2d4d;
 }
 .mt-7 {
-	margin-top: 4.2rem!important;
+	margin-top: 4.6rem!important;
 }
 .box-width {
 	width: 100%;
