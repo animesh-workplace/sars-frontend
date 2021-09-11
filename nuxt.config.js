@@ -48,7 +48,7 @@ export default {
 */
 	plugins: [
 		'@/plugins/vuesax',
-		'@/plugins/vue-screen',
+		'@/plugins/vue-typed',
 		// '@/plugins/vue-tag',
 		'@/plugins/vue-moment',
 		'@/plugins/v-clipboard',
@@ -64,14 +64,18 @@ export default {
 ** Auto import components
 ** See https://nuxtjs.org/api/configuration-components
 */
-	components: true,
+	components: false,
 /*
 ** Nuxt.js dev-modules
 */
 	buildModules: [
 		'@nuxtjs/svg',
+		'@nuxtjs/device',
 		'@nuxtjs/style-resources',
 	],
+	device: {
+		refreshOnResize: true
+	},
 /*
 ** Nuxt.js modules
 */
