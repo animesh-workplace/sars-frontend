@@ -17,12 +17,12 @@
 
 			<template #right>
 				<div v-show="!$device.isMobile">
-					<div class="button is-outlined is-inverted is-success mr-2">
+					<div class="button is-inverted is-success mr-2">
 						<span>Login</span>
 					</div>
 
-					<div class="button is-inverted is-info mr-2">
-						<span>Get Started</span>
+					<div class="button is-outlined is-inverted is-info mr-2">
+						<span>Register</span>
 					</div>
 				</div>
 				<div v-show="$device.isMobile">
@@ -37,7 +37,7 @@
 
 		<div
 			v-if="dropdown_menu"
-			class="box box-width is-floating is-sticky has-background-green is-radiusless mt-7"
+			class="box box-width is-floating is-sticky has-background-theme is-radiusless mt-7"
 		>
 			<div class="menu has-text-centered is-inverted">
 				<ul class="menu-list">
@@ -71,7 +71,6 @@ import Logo from '@/assets/logo/insacog_datahub_logo_white.svg?inline'
 export default {
 	data: () => ({
 		add_shadow: false,
-		// mobile_device: false,
 		dropdown_menu: false,
 		navbar_data: [
 			// { name: 'Home', link: '/' },
