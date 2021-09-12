@@ -2,7 +2,7 @@
 	<vs-navbar color="#D5CABD" v-model="active" class="py-3 px-0 box is-floating is-sticky has-background-theme is-radiusless">
 		<template #left>
 			<nuxt-link  to="/upload">
-				<div v-if="$screen.breakpoint != 'mobile'">
+				<div v-if="!$device.isMobile">
 					<div class="is-size-4-5 has-text-weight-semibold is-inline has-text-grey-darker">INSACOG</div>
 					<div class="is-size-4-5 is-inline has-text-grey-dark">DataHub</div>
 				</div>
@@ -38,7 +38,7 @@
 						<use :xlink:href="require('@/assets/images/icons/bds.svg') + `#${menu.icon}`"></use>
 					</svg>
 					<span
-						v-if="$screen.breakpoint != 'mobile'"
+						v-if="!$device.isMobile"
 						:class="active == menu.name ? 'is-size-6 has-text-weight-semibold' : 'is-size-6 has-text-weight-semibold'"
 					>
 						&nbsp;{{ menu.name }}
@@ -54,7 +54,7 @@
 						<svg class="icon has-fill-white">
 							<use xlink:href="@/assets/images/icons/bds.svg#export-g"></use>
 						</svg>
-						<span v-if="$screen.breakpoint != 'mobile'">Download</span>
+						<span v-if="!$device.isMobile">Download</span>
 					</div>
 				</div>
 				<div>
@@ -62,7 +62,7 @@
 						<svg class="icon has-fill-white">
 							<use xlink:href="@/assets/images/icons/bds.svg#exit-g"></use>
 						</svg>
-						<span v-if="$screen.breakpoint != 'mobile'">Logout</span>
+						<span v-if="!$device.isMobile">Logout</span>
 					</div>
 				</div>
 			</client-only>
