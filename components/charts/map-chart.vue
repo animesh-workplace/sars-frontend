@@ -190,12 +190,12 @@ export default {
 			mapType: 'COUNTRY',
 		},
 		loader_option: {
-			color: '#c23531',
 			lineWidth: 3,
-			text: 'Loading',
-			fontFamily: 'Averta',
-			fontWeight: 500,
 			fontSize: 14,
+			text: 'Loading',
+			fontWeight: 500,
+			color: '#c23531',
+			fontFamily: 'Averta',
 		},
 		options: {
 			tooltip: {
