@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<section class="section is-relative mt-5">
-			<div class="columns is-vcentered">
+			<div class="columns is-vcentered pb-6">
 				<div class="column is-8">
 					<div class="column is-8 is-offset-2">
 						<div class="level py-2">
@@ -43,9 +43,9 @@
 						</p>
 					</div>
 
-					<div class="columns is-vcentered is-mobile">
+					<div class="columns is-vcentered is-mobile pt-4">
 						<div class="column has-text-centered">
-							<div class="box is-floating has-background-yellow-lighter">
+							<div class="box is-floating has-background-yellow-lightest">
 								<p class="has-text-weight-medium is-size-5">Genomes Uploaded</p>
 								<p class="has-text-weight-semibold is-size-4">
 									<animated-number value="50123" :duration="1000" :formatValue="formatnumber"/>
@@ -53,7 +53,7 @@
 							</div>
 						</div>
 						<div class="column has-text-centered">
-							<div class="box is-floating has-background-yellow-lighter">
+							<div class="box is-floating has-background-yellow-lightest">
 								<p class="has-text-weight-medium is-size-5">Lineages Found</p>
 								<p class="has-text-weight-semibold is-size-4">
 									<animated-number value="50123" :duration="1000" :formatValue="formatnumber"/>
@@ -61,7 +61,7 @@
 							</div>
 						</div>
 						<div class="column has-text-centered">
-							<div class="box is-floating has-background-yellow-lighter">
+							<div class="box is-floating has-background-yellow-lightest">
 								<p class="has-text-weight-medium is-size-5">States Covered</p>
 								<p class="has-text-weight-semibold is-size-4">
 									<animated-number value="50123" :duration="1000" :formatValue="formatnumber"/>
@@ -71,51 +71,44 @@
 					</div>
 
 				</div>
-				<div class="column">
-					<div class="box is-floating has-background-green is-large">
 
-					</div>
+				<div class="column is-4">
+					<PieChart class="pt-6"/>
 				</div>
 			</div>
 
-<!-- 			<div class="divider">
+			<div class="divider">
 				<svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
 					<path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
 				</svg>
-			</div> -->
+			</div>
 		</section>
 
-		<!-- <section class="section is-large"></section> -->
+		<section class="section has-background-theme">
+			<p align="center" class="has-text-weight-semibold is-size-3">
+				Participating Institutes
+			</p>
+			<Carousel/>
+		</section>
 
 	</div>
 </template>
 
 <script>
 import AnimatedNumber from 'animated-number-vue'
-import PieChartStats from '@/components/charts/pie-chart-stats.vue'
+import PieChart from '@/components/charts/pie-chart.vue'
+import Carousel from '@/components/institutes/institute-carousel.vue'
 import LoginLayout from '@/components/authentication/login-layout.vue'
-// import InsacogLogo from '@/assets/logo/insacog_logo.png?inline'
 
 export default {
 	name: 'login',
 	layout: 'normal2',
 	data: () => ({
-		institutes: [
-			'CSIR Institute of Genomics and Integrative Biology (IGIB), Delhi',
-			'CSIR Centre for Cellular and Molecular Biology (CCMB), Hyderabad',
-			'DBT National Institute of Biomedical Genomics (NIBMG), Kalyani1',
-			'DBT National Institute of Biomedical Genomics (NIBMG), Kalyani2',
-			'DBT National Institute of Biomedical Genomics (NIBMG), Kalyan3',
-			'DBT National Institute of Biomedical Genomics (NIBMG), Kalyani',
-			'DBT National Institute of Biomedical Genomics (NIBMG), Kalysani',
-			'DBT National Institute of Biomedical Genomics (NIBMG), Kalyseani',
-		],
-		mobile_device: false,
 	}),
 	components: {
-		// InsacogLogo,
+		Carousel,
+		PieChart,
 		LoginLayout,
-		PieChartStats,
 		AnimatedNumber,
 	},
 	methods: {
@@ -144,6 +137,7 @@ export default {
 	overflow: hidden;
 	line-height: 0;
 	transform: rotate(180deg);
+	z-index: -1;
 }
 .divider svg {
 	position: relative;
@@ -154,13 +148,14 @@ export default {
 .divider .shape-fill {
 	fill: #EAE9EB;
 }
-.is-right {
-	position: fixed;
-	right:  0;
-	z-index: 1;
+.has-background-theme {
+	background: #EAE9EB;
 }
 .is-180x180 {
 	width: 180px;
 	height: 180px;
+}
+.has-background-yellow-lightest {
+	background: #FFF7D6;
 }
 </style>
