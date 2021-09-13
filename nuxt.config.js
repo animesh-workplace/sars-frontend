@@ -29,9 +29,6 @@ export default {
 		link: [
 			{ rel: 'icon', type: 'image/x-icon', href: `${process.env.ROUTER_BASE}/favicon.ico` },
 		],
-		// script: [
-		// 	{ src: '' }
-		// ],
 	},
 /*
 ** Global CSS
