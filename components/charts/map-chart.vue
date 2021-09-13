@@ -51,7 +51,7 @@
 							<svg class="icon has-fill-grey-darker">
 								<use xlink:href="@/assets/images/icons/bds.svg#orgchart-g"></use>
 							</svg>
-							<span v-if="$screen.breakpoint != 'mobile'" class="has-text-grey-darker">View Tree</span>
+							<span v-if="$device.isMobile" class="has-text-grey-darker">View Tree</span>
 						</div>
 					</client-only>
 				</div>
