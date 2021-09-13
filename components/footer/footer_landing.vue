@@ -1,21 +1,19 @@
 <template>
-	<footer>
-		<section class="section has-background-theme p-2">
-			<div class="has-text-centered">
-				<p class="subtitle is-5 has-text-light my-1">
-					© INSACOG DataHub 2021. All rights reserved.
-				</p>
-				<p class="subtitle is-5 has-text-light my-0">
-					<b>INSACOG</b> DataHub is developed & maintained by NSM group
-				</p>
-				<p class="subtitle is-5 has-text-light my-0">
-					Maintained at National Institute of Biomedical Genomics (NIBMG), Kalyani
-				</p>
-				<p class="subtitle is-5 has-text-light pb-2">
-					Source Code is available at <a class="has-text-blue-light" href="https://github.com/animesh-workplace/sars-frontend">https://github.com/animesh-workplace/sars-frontend</a>
-				</p>
-			</div>
-		</section>
+	<footer class="footer has-background-theme py-4">
+		<div class="content has-text-centered">
+			<p class="subtitle is-5 has-text-light my-1">
+				© INSACOG DataHub 2021. All rights reserved.
+			</p>
+			<p class="subtitle is-5 has-text-light my-0">
+				<b>INSACOG</b> DataHub is developed & maintained by NSM group
+			</p>
+			<p class="subtitle is-5 has-text-light my-0">
+				Maintained at National Institute of Biomedical Genomics (NIBMG), Kalyani
+			</p>
+			<p class="subtitle is-5 has-text-light">
+				Source Code is available at <a class="has-text-blue-light" href="https://github.com/animesh-workplace/sars-frontend">https://github.com/animesh-workplace/sars-frontend</a>
+			</p>
+		</div>
 	</footer>
 </template>
 
