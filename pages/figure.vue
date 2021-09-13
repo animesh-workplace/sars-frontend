@@ -87,7 +87,27 @@ export default {
 		// "Gadag", "value": 25829 }, { "name": "Bidar", "value": 24183 }, { "name":
 		// "Ramanagara", "value": 23667 }, { "name": "Haveri", "value": 21670 } ],
 
-		mapData: [ { "name": "Pune", "value": 1056217 }, { "name": "Mumbai", "value": 722878 }, {
+		mapData: [],
+
+	}),
+	components: {
+		MapChart,
+	},
+	computed: {
+		...mapFields([
+			'active',
+			'socket',
+			// 'map_data',
+		]),
+	},
+	methods: {
+	},
+	beforeMount() {
+		this.active = 'Dashboard'
+	},
+	mounted() {
+		this.$nextTick(()=>{
+			this.mapData = [ { "name": "Pune", "value": 1056217 }, { "name": "Mumbai", "value": 722878 }, {
 		"name": "Thane", "value": 580152 }, { "name": "Nagpur", "value": 492532 }, {
 		"name": "Nashik", "value": 398639 }, { "name": "Ahmednagar", "value": 268273 },
 		{ "name": "Satara", "value": 193851 }, { "name": "Solapur", "value": 174686 }, {
@@ -104,29 +124,10 @@ export default {
 		"name": "Dhule", "value": 45830 }, { "name": "Sindhudurg", "value": 41814 }, {
 		"name": "Washim", "value": 41393 }, { "name": "Gondia", "value": 40436 }, {
 		"name": "Nandurbar", "value": 39029 }, { "name": "Gadchiroli", "value": 29583 },
-		{ "name": "Hingoli", "value": 18284 } ],
-
-	}),
-	components: {
-		MapChart,
-	},
-	computed: {
-		...mapFields([
-			'active',
-			'socket',
-			'map_data',
-		]),
-	},
-	methods: {
-	},
-	beforeMount() {
-		this.active = 'Dashboard'
-	},
-	mounted() {
-		this.$nextTick(()=>{
-			if(this.socket.isConnected && !this.socket.isLoaded.dashboard) {
-				this.$store.dispatch('websocket_send', {'type': 'MAP_DATA', 'filter': { 'map_data': 'India' }})
-			}
+		{ "name": "Hingoli", "value": 18284 } ]
+			// if(this.socket.isConnected && !this.socket.isLoaded.dashboard) {
+			// 	this.$store.dispatch('websocket_send', {'type': 'MAP_DATA', 'filter': { 'map_data': 'India' }})
+			// }
 		})
 	},
 	beforeDestroy() {
