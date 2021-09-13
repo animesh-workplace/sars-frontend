@@ -2,7 +2,7 @@
 	<div>
 		<section class="section is-relative mt-5">
 			<div class="columns is-vcentered pb-6">
-				<div class="column is-8">
+				<div class="column is-8-desktop is-full-tablet">
 					<div class="column is-8 is-offset-2">
 						<div class="level py-2">
 							<div class="level-item has-text-centered">
@@ -14,22 +14,22 @@
 
 						<div class="level is-mobile">
 							<div class="level-item has-text-centered">
-								<figure :class="$device.isMobile ? 'image is-96x96' : 'image is-180x180'">
+								<figure :class="$device.isMobileOrTablet ? 'image is-96x96' : 'image is-180x180'">
 									<img src="@/assets/logo/mohfw_logo.png" alt="Ministry of Health and Family Welfare, Logo">
 								</figure>
 							</div>
 							<div class="level-item has-text-centered">
-								<figure :class="$device.isMobile ? 'image is-96x96' : 'image is-180x180'">
+								<figure :class="$device.isMobileOrTablet ? 'image is-96x96' : 'image is-180x180'">
 									<img src="@/assets/logo/dbt_logo.png" alt="Department of Biotechnology, Governement of India, Logo">
 								</figure>
 							</div>
 							<div class="level-item has-text-centered">
-								<figure :class="$device.isMobile ? 'image is-96x96' : 'image is-180x180'">
+								<figure :class="$device.isMobileOrTablet ? 'image is-96x96' : 'image is-180x180'">
 									<img src="@/assets/logo/csir_logo.png" alt="Council of Scientific and Industrial Research, Logo">
 								</figure>
 							</div>
 							<div class="level-item has-text-centered">
-								<figure :class="$device.isMobile ? 'image is-96x96' : 'image is-180x180'">
+								<figure :class="$device.isMobileOrTablet ? 'image is-96x96' : 'image is-180x180'">
 									<img src="@/assets/logo/icmr_logo.png" alt="Indian Council of Medical Reasearch, Logo">
 								</figure>
 							</div>
@@ -117,6 +117,7 @@ export default {
 		},
 	},
 	beforeMount() {
+		// console.log(this.$device.isMobileOrTablet)
 	},
 	mounted() {
 	}
