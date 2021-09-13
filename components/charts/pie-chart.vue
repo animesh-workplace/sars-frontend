@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<p align="center" class="is-size-4 has-text-weight-semibold has-text-grey-dark">
+		<p align="center" class="is-size-4 has-text-weight-semibold has-text-grey-dark pb-4">
 			Sequence Upload Statistics
 		</p>
 
