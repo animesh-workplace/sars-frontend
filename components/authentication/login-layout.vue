@@ -1,10 +1,10 @@
 <template>
 	<div :key="id">
-		<div class="has-text-centered my-4">
-			<span class="title is-3 has-text-black is-spaced has-text-weight-semibold">
+<!-- 		<div class="has-text-centered my-4">
+			<h3 class="title is-3 has-text-black is-spaced has-text-weight-semibold">
 				Login
-			</span>
-		</div>
+			</h3>
+		</div> -->
 		<Username v-model="username" register/>
 		<Password v-model="password" @keyup.enter.native="submit_login_data"/>
 		<div class="column is-6 is-offset-3 mt-2">
@@ -12,12 +12,6 @@
 				<span>Sign in</span>
 			</div>
 		</div>
-<!-- 		<div class="has-text-centered pb-2">
-			<span class="subtitle is-5 has-text-weight-normal has-text-grey-dark is-clickable" @click="activate_forgot_password_modal">
-				Forgot your password. Click Here
-			</span>
-		</div>
-		<ForgotPassword/> -->
 	</div>
 </template>
 
@@ -45,9 +39,6 @@ export default {
 			}
 			return true
 		},
-		...mapFields('user-info-store', [
-			'activateforgotpasswordmodal',
-		]),
 	},
 	methods: {
 		async submit_login_data() {
@@ -66,9 +57,6 @@ export default {
 				this.$router.push('/upload')
 			}
 		},
-		activate_forgot_password_modal() {
-			this.activateforgotpasswordmodal = true
-		}
 	},
 };
 </script>
