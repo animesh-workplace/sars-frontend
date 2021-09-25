@@ -40,9 +40,9 @@ export default {
 				link: 'https://www.ccmb.res.in'
 			},
 			{
-				name:'Institute of Genomics and Integrative Biology',
-				location: 'New Delhi',
-				link: 'https://www.igib.res.in'
+				name: "All India Institute of Medical Sciences",
+				location: "Raipur, Chhattisgarh",
+				link: "https://www.aiimsraipur.edu.in/"
 			},
 			{
 				name:'National Institute of Virology',
@@ -70,9 +70,9 @@ export default {
 				link: 'https://nimhans.ac.in'
 			},
 			{
-				name: "All India Institute of Medical Sciences",
-				location: "Raipur, Chhattisgarh",
-				link: "https://www.aiimsraipur.edu.in/"
+				name:'Institute of Genomics and Integrative Biology',
+				location: 'New Delhi',
+				link: 'https://www.igib.res.in'
 			},
 			{
 				name: "B.J. Medical College and Civil hospital",
