@@ -17,13 +17,13 @@
 
 			<template #right>
 				<div v-show="!$device.isMobile">
-					<div class="button is-inverted is-success mr-2">
+					<div class="button is-inverted is-success mr-2" @click="active = true">
 						<span>Login</span>
 					</div>
 
-					<div class="button is-outlined is-inverted is-info mr-2">
+<!-- 					<div class="button is-outlined is-inverted is-info mr-2">
 						<span>Register</span>
-					</div>
+					</div> -->
 				</div>
 				<div v-show="$device.isMobile">
 					<div class="button is-square is-borderless" @click="open_dropdown_menu">
@@ -41,7 +41,7 @@
 		>
 			<div class="menu has-text-centered is-inverted">
 				<ul class="menu-list">
-					<li>
+					<li @click="active = true">
 						<a>
 							<svg class="icon has-fill-white">
 								<use xlink:href="@/assets/images/icons/bds.svg#person-assign-g"></use>
@@ -49,17 +49,26 @@
 							Login
 						</a>
 					</li>
-					<li>
+<!-- 					<li>
 						<a>
 							<svg class="icon has-fill-white">
 								<use xlink:href="@/assets/images/icons/bds.svg#badge-g"></use>
 							</svg>
 							Register
 						</a>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 		</div>
+
+		<vs-dialog v-model="active" overflow-hidden blur prevent-close width="35%">
+			<template #header>
+				<h3 class="is-size-4 has-text-weight-medium mt-4">
+					Log into <b>INSACOG</b> DataHub
+				</h3>
+			</template>
+			<LoginLayout/>
+		</vs-dialog>
 
 	</div>
 </template>
@@ -67,23 +76,20 @@
 <script>
 import { mapFields } from 'vuex-map-fields'
 import Logo from '@/assets/logo/insacog_datahub_logo_white.svg?inline'
+import LoginLayout from '@/components/authentication/login-layout.vue'
 
 export default {
 	data: () => ({
+		active: false,
 		add_shadow: false,
 		dropdown_menu: false,
-		navbar_data: [
-			// { name: 'Home', link: '/' },
-			// { name: 'Upload', link: '/upload', icon: 'share-g' },
-			// { name: 'Sequences', link: '/my_data', icon: 'timelines-g' },
-			// { name: 'Dashboard', link: '/dashboard', icon: 'segment-g' },
-		],
 		is_authenticated: false,
 	}),
 	computed: {
 	},
 	components: {
 		Logo,
+		LoginLayout,
 	},
 	beforeMount() {
 	},
@@ -119,7 +125,7 @@ export default {
 	background: #0a2d4d;
 }
 .mt-7 {
-	margin-top: 4.6rem!important;
+	margin-top: 4.2rem!important;
 }
 .box-width {
 	width: 100%;
