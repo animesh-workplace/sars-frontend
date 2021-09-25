@@ -90,7 +90,6 @@
 			</p>
 			<Carousel/>
 		</section>
-
 	</div>
 </template>
 
@@ -98,7 +97,6 @@
 import AnimatedNumber from 'animated-number-vue'
 import PieChart from '@/components/charts/pie-chart.vue'
 import Carousel from '@/components/institutes/institute-carousel.vue'
-import LoginLayout from '@/components/authentication/login-layout.vue'
 
 export default {
 	name: 'login',
@@ -108,7 +106,6 @@ export default {
 	components: {
 		Carousel,
 		PieChart,
-		LoginLayout,
 		AnimatedNumber,
 	},
 	methods: {
@@ -117,7 +114,6 @@ export default {
 		},
 	},
 	beforeMount() {
-		// console.log(this.$device.isMobileOrTablet)
 	},
 	mounted() {
 	}
