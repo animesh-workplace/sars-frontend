@@ -12,7 +12,7 @@ export default async function ({ app, redirect }) {
 									}, time_left);
 		} else {
 			store.dispatch('user-info-store/user_logout_server')
-			return redirect('/login')
+			return redirect('/')
 		}
 	}
 	store.dispatch('set_timeout', true)
