@@ -46,14 +46,12 @@ export default {
 	plugins: [
 		'@/plugins/vuesax',
 		'@/plugins/vue-typed',
-		// '@/plugins/vue-tag',
 		'@/plugins/vue-moment',
 		'@/plugins/v-clipboard',
 		'@/plugins/vue-composition',
 		{ src: '@/plugins/vue-chart', ssr: false },
 		{ src: '@/plugins/vue-flickity', ssr: false },
 		{ src: '@/plugins/vue-websocket', ssr: false },
-		// { src: '~/plugins/vue-echarts', ssr: false },
 		{ src: '@/plugins/vue-localstorage', ssr: false },
 		{ src: '@/plugins/vue-sessionstorage', ssr: false },
 	],
@@ -96,23 +94,13 @@ export default {
 */
 	nuxtValidate: {
 		lang: 'en',
-		nuxti18n: {
-			// rules: ["required", "min", "alpha"]
-		}
 	},
 /*
 ** Nuxt router module configuration
 */
 	router: {
 		base: process.env.ROUTER_BASE,
-	// 	middleware: ['loggedIn']
 	},
-/*
-** Nuxt content module configuration
-*/
-	// content: {
-	// 	liveEdit: false
-	// },
 /*
 ** Nuxt auth module configuration
 */
@@ -128,7 +116,7 @@ export default {
 				endpoints: {
 					user: false,
 					logout: false,
-					login: { url: '/login/', method: 'post', propertyName: 'token' },
+					login: { url: '/', method: 'post', propertyName: 'token' },
 				},
 				tokenType: 'JWT',
 				tokenRequired: true,
@@ -137,8 +125,8 @@ export default {
 		redirect: {
 			home: '/upload',
 			callback: false,
-			login: '/login',
-			logout: '/login',
+			login: '/',
+			logout: '/',
 		}
 	},
 /*
