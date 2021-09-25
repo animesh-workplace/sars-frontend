@@ -17,7 +17,7 @@
 
 			<template #right>
 				<div v-show="!$device.isMobile">
-					<div class="button is-inverted is-success mr-2" @click="active = true">
+					<div class="button is-fullwidth is-inverted is-success mr-2" @click="active = true">
 						<span>Login</span>
 					</div>
 
