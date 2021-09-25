@@ -17,13 +17,16 @@
 
 			<template #right>
 				<div v-show="!$device.isMobile">
-					<div class="button is-fullwidth is-inverted is-success mr-2" @click="active = true">
+					<div
+						@click="active = true" v-if="!$auth.loggedIn"
+						class="button is-fullwidth is-inverted is-success mr-2"
+					>
 						<span>Login</span>
 					</div>
 
-<!-- 					<div class="button is-outlined is-inverted is-info mr-2">
-						<span>Register</span>
-					</div> -->
+					<div class="button is-fullwidth is-danger mr-2" v-if="$auth.loggedIn">
+						<span>Logout</span>
+					</div>
 				</div>
 				<div v-show="$device.isMobile">
 					<div class="button is-square is-borderless" @click="open_dropdown_menu">
@@ -41,7 +44,7 @@
 		>
 			<div class="menu has-text-centered is-inverted">
 				<ul class="menu-list">
-					<li @click="active = true">
+					<li @click="active = true" v-if="!$auth.loggedIn">
 						<a>
 							<svg class="icon has-fill-white">
 								<use xlink:href="@/assets/images/icons/bds.svg#person-assign-g"></use>
@@ -49,14 +52,14 @@
 							Login
 						</a>
 					</li>
-<!-- 					<li>
+					<li @click="active = true" v-if="$auth.loggedIn">
 						<a>
 							<svg class="icon has-fill-white">
-								<use xlink:href="@/assets/images/icons/bds.svg#badge-g"></use>
+								<use xlink:href="@/assets/images/icons/bds.svg#exit-g"></use>
 							</svg>
-							Register
+							Logout
 						</a>
-					</li> -->
+					</li>
 				</ul>
 			</div>
 		</div>
