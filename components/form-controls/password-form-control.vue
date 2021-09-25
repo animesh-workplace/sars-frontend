@@ -113,6 +113,7 @@ export default {
 	computed: {
 	},
 	mounted() {
+		console.log(this.$validator)
 		this.$validator.extend('passwd', {
 			getMessage: field => {
 				// return `<h1>Password requires atleast</h1>
