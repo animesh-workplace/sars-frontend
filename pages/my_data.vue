@@ -59,7 +59,7 @@ export default {
 			if(this.socket.isConnected) {
 				this.$store.dispatch('websocket_send', {
 					'type': 'MY_METADATA',
-					'filter': { 'each_page': 10, 'page': 1 }
+					'filter': { 'each_page': 15, 'page': 1 }
 				})
 			}
 		})
