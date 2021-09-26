@@ -8,7 +8,7 @@
 				<b>INSACOG</b> DataHub is developed & maintained by NSM group
 			</p>
 			<p class="subtitle is-5 has-text-light my-0">
-				Maintained at National Institute of Biomedical Genomics (NIBMG), Kalyani
+				National Institute of Biomedical Genomics (NIBMG), Kalyani
 			</p>
 			<p class="subtitle is-5 has-text-light">
 				Source Code is available at <a class="has-text-blue-light" href="https://github.com/animesh-workplace/sars-frontend">https://github.com/animesh-workplace/sars-frontend</a>
