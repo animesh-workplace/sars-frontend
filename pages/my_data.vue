@@ -1,5 +1,5 @@
 <template>
-	<div class="column is-10 is-offset-1 px-0">
+	<div class="column is-10 is-offset-1 px-0 is-fullheight">
 		<section class="section mt-6">
 			<div class="box is-raised is-unselectable">
 				<div class="has-text-centered">
