@@ -35,7 +35,7 @@
 			<template #right>
 				<div v-show="!$device.isMobile">
 					<div
-						@click="login_active = true" v-if="!$auth.loggedIn"
+						@click="activate_login" v-if="!$auth.loggedIn"
 						class="button is-fullwidth is-inverted is-success mr-2"
 					>
 						<span>Login</span>
@@ -81,7 +81,10 @@
 			</div>
 		</div>
 
-		<vs-dialog v-model="login_active" overflow-hidden blur prevent-close width="35%">
+		<vs-dialog
+			v-model="login_active" @close="login_closed"
+			overflow-hidden blur prevent-close width="35%"
+		>
 			<template #header>
 				<h3 class="is-size-4 has-text-weight-medium mt-4">
 					Log into <b>INSACOG</b> DataHub
@@ -129,6 +132,13 @@ export default {
 		this.is_authenticated = this.$auth.loggedIn
 	},
 	methods: {
+		activate_login() {
+			this.login_active = true
+			this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
+		},
+		login_closed() {
+			this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
+		},
 		logout() {
 			this.$store.dispatch('user-info-store/user_logout')
 			this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
