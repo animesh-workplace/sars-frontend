@@ -1,19 +1,21 @@
 <template>
-	<div class="column is-10 is-offset-1 px-0 is-fullheight">
-		<section class="section mt-6">
-			<div class="box is-raised is-unselectable">
-				<div class="has-text-centered">
-					<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
-						Complete Metadata
-					</span>
+	<div class="is-fullheight">
+		<div class="column is-10 is-offset-1">
+			<section class="section mt-6">
+				<div class="box is-raised is-unselectable">
+					<div class="has-text-centered">
+						<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
+							Complete Metadata
+						</span>
+					</div>
+					<div class="box medium has-skeleton mt-4" v-if="table_loading"></div>
+					<Table :TableData="all_metadata" :Size="metadata_length" v-if="!table_loading && enable_table" class="mt-4"/>
+					<div v-if="!enable_table && !table_loading">
+						<span class="subtitle is-5 has-text-grey-dark">No data uploaded yet</span>
+					</div>
 				</div>
-				<div class="box medium has-skeleton mt-4" v-if="table_loading"></div>
-				<Table :TableData="all_metadata" :Size="metadata_length" v-if="!table_loading && enable_table" class="mt-4"/>
-				<div v-if="!enable_table && !table_loading">
-					<span class="subtitle is-5 has-text-grey-dark">No data uploaded yet</span>
-				</div>
-			</div>
-		</section>
+			</section>
+		</div>
 	</div>
 </template>
 
