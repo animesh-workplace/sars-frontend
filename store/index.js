@@ -55,12 +55,7 @@ export const mutations = {
 		console.log(event)
 		this.$socket = event.currentTarget
 		state.socket.isConnected = true
-		this.$socket.send(JSON.stringify({'type': 'DASHBOARD'}))
-		// this.$socket.send(JSON.stringify({'type': 'ALL_METADATA', 'filter': { 'each_page': 15, 'page': 1 }}))
-		// this.$socket.send(JSON.stringify({'type': 'BAR_CHART_DATA'}))
-		// this.$socket.send(JSON.stringify({'type': 'MAP_DATA', 'filter': { 'map_name': 'India' }}))
-		// this.$socket.send(JSON.stringify({'type': 'TREEMAP_CHART_DATA'}))
-		// this.$socket.send(JSON.stringify({'type': 'LINEAGE_DEFINITION_DATA'}))
+		this.$socket.send(JSON.stringify({'type': 'ALL_METADATA', 'filter': { 'each_page': 15, 'page': 1 }}))
 	},
 	SOCKET_ONCLOSE (state, event)  {
 		state.socket.isConnected = false
@@ -74,26 +69,6 @@ export const mutations = {
 			state.metadata_length = event.data.total_length
 			state.table_loading = false
 			state.socket.isLoaded.all_metadata = true
-		}
-		else if(event['type'] == 'DASHBOARD') {
-			state.dashboard = event.data
-			state.socket.isLoaded.dashboard = true
-		}
-		else if(event['type'] == 'BAR_CHART_DATA') {
-			state.bar_chart_data = event.data
-			state.socket.isLoaded.bar_chart_data = true
-		}
-		else if(event['type'] == 'MAP_DATA') {
-			state.map_data = event.data
-			state.socket.isLoaded.map_data = true
-		}
-		else if(event['type'] == 'TREEMAP_CHART_DATA') {
-			state.treemap_chart_data = event.data
-			state.socket.isLoaded.treemap_chart_data = true
-		}
-		else if(event['type'] == 'LINEAGE_DEFINITION_DATA') {
-			state.lineage_definition_data = event.data
-			state.socket.isLoaded.lineage_definition_data = true
 		}
 	},
 	SOCKET_RECONNECT(state, count) {
