@@ -364,7 +364,7 @@ import LoginLayout from "@/components/authentication/login-layout.vue"
 export default {
 	name: 'upload',
 	layout: 'normal2',
-	middleware: ['auth'],
+	middleware: ['auth', 'auth_logout'],
 	data: () => ({
 		loader: null,
 		metadata: null,
