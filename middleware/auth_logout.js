@@ -5,19 +5,15 @@ export default async function ({ app, redirect }) {
 	let expiry_time_ms = new Date(tokenexpiry).getTime()
 	let time_now_ms = new Date().getTime()
 	let time_left = expiry_time_ms - time_now_ms
-	if(time_left < 1000) {
-		store.dispatch('user-info-store/user_logout_server')
-		return redirect('/')
+	if(store.getters.get_timeout == null) {
+		if(time_left > 1000) {
+			let time_out_function = setTimeout(function() {
+										store.dispatch('user-info-store/user_logout')
+									}, time_left);
+		} else {
+			store.dispatch('user-info-store/user_logout_server')
+			return redirect('/')
+		}
 	}
-	// if(store.getters.get_timeout == null) {
-	// 	if(time_left > 1000) {
-	// 		let time_out_function = setTimeout(function() {
-	// 									store.dispatch('user-info-store/user_logout')
-	// 								}, time_left);
-	// 	} else {
-	// 		store.dispatch('user-info-store/user_logout_server')
-	// 		return redirect('/')
-	// 	}
-	// }
-	// store.dispatch('set_timeout', true)
+	store.dispatch('set_timeout', true)
 }
