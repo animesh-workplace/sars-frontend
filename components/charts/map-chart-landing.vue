@@ -6,9 +6,6 @@
 			</span>
 		</div>
 
-<!-- 		<span class="has-text-weight-semibold has-text-grey-dark">
-			{{ selected_state.type }} : {{ selected.name }}
-		</span> -->
 		<v-chart
 			class="chart"
 			:loading="false"
@@ -88,7 +85,7 @@ export default {
 				min: 0,
 				max: 10,
 				orient: 'horizontal',
-				align: 'left',
+				align: 'top',
 				inRange: {
 					color: ['#e6f2fb', '#cee5f6', '#b5d9f2', '#9ccced', '#84bfe9', '#6bb2e4', '#52a5e0', '#3999db', '#218cd7', '#087fd2']
 				},
