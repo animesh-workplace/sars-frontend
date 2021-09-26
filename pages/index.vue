@@ -98,12 +98,12 @@
 				</svg>
 			</div>
 
-			<div class="columns">
+<!-- 			<div class="columns">
 				<div class="column">
 					<MapChart/>
 				</div>
 				<div class="column"></div>
-			</div>
+			</div> -->
 		</section>
 	</div>
 </template>
