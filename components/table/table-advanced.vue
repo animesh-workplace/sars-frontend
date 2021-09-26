@@ -112,7 +112,9 @@ export default {
 	},
 	watch: {
 		page(value) {
-			this.$store.dispatch('websocket_send', {'type': 'ALL_METADATA', 'filter': { 'each_page': 15, 'page': value }})
+			this.$store.dispatch('websocket_send',
+				{'type': 'MY_METADATA', 'filter': { 'each_page': 15, 'page': value }}
+			)
 		},
 	},
 	components: {
