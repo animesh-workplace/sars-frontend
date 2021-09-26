@@ -64,6 +64,7 @@ import LoginLayout from "@/components/authentication/login-layout.vue"
 
 export default {
 	name: 'login',
+	middleware: ['redirect'],
 	data: () => ({
 		institutes: [
 			'CSIR Institute of Genomics and Integrative Biology (IGIB), Delhi',
