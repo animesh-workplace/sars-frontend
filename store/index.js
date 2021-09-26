@@ -7,6 +7,8 @@ export const state = () => ({
 	active: 'Home',
 	timeout: null,
 	missing_columns: [],
+	landing_info: {},
+	landing_info_loaded: false,
 	// WebSocket data
 	map_data: [],
 	dashboard: {},
@@ -50,14 +52,15 @@ export const mutations = {
 		state.timeout = payload
 	},
 	SOCKET_ONOPEN (state, event)  {
+		console.log(event)
 		this.$socket = event.currentTarget
 		state.socket.isConnected = true
 		this.$socket.send(JSON.stringify({'type': 'DASHBOARD'}))
-		this.$socket.send(JSON.stringify({'type': 'ALL_METADATA', 'filter': { 'each_page': 15, 'page': 1 }}))
-		this.$socket.send(JSON.stringify({'type': 'BAR_CHART_DATA'}))
-		this.$socket.send(JSON.stringify({'type': 'MAP_DATA', 'filter': { 'map_name': 'India' }}))
-		this.$socket.send(JSON.stringify({'type': 'TREEMAP_CHART_DATA'}))
-		this.$socket.send(JSON.stringify({'type': 'LINEAGE_DEFINITION_DATA'}))
+		// this.$socket.send(JSON.stringify({'type': 'ALL_METADATA', 'filter': { 'each_page': 15, 'page': 1 }}))
+		// this.$socket.send(JSON.stringify({'type': 'BAR_CHART_DATA'}))
+		// this.$socket.send(JSON.stringify({'type': 'MAP_DATA', 'filter': { 'map_name': 'India' }}))
+		// this.$socket.send(JSON.stringify({'type': 'TREEMAP_CHART_DATA'}))
+		// this.$socket.send(JSON.stringify({'type': 'LINEAGE_DEFINITION_DATA'}))
 	},
 	SOCKET_ONCLOSE (state, event)  {
 		state.socket.isConnected = false
@@ -99,6 +102,10 @@ export const mutations = {
 	SOCKET_RECONNECT_ERROR(state) {
 		console.info('socket_reconnect_error')
 	},
+	SET_LANDING(state, payload) {
+		state.landing_info = payload
+		state.landing_info_loaded = true
+	},
 }
 
 export const actions = {
@@ -113,5 +120,9 @@ export const actions = {
 	},
 	async websocket_send({ commit }, payload) {
 		this.$socket.send(JSON.stringify(payload))
-	}
+	},
+	async set_landing_info({ commit }) {
+		const data = await this.$axios.$post('/files/landing-stats/')
+		commit('SET_LANDING', data)
+	},
 }
