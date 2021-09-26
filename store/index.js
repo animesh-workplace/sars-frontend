@@ -42,7 +42,6 @@ export const mutations = {
 		state.timeout = payload
 	},
 	SOCKET_ONOPEN (state, event)  {
-		console.log(event)
 		this.$socket = event.currentTarget
 		state.socket.isConnected = true
 		this.$socket.send(JSON.stringify({'type': 'MY_METADATA', 'filter': { 'each_page': 15, 'page': 1 }}))
