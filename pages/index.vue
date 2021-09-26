@@ -73,7 +73,7 @@
 				</div>
 
 				<div class="column is-4">
-					<PieChart class="pt-6"/>
+					<PieChart class="pt-6" :key="landing_info_loaded ? Date.now() + Math.floor(Math.random()*10000 + 1) : 123"/>
 				</div>
 			</div>
 
@@ -138,7 +138,6 @@ export default {
 		},
 	},
 	beforeMount() {
-		// this.$store.dispatch('get_landing_info')
 	},
 	mounted() {
 	}
