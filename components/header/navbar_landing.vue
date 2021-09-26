@@ -1,30 +1,47 @@
 <template>
 	<div>
-		<vs-navbar class="py-3 px-0 box is-floating is-sticky has-background-theme is-radiusless">
+		<vs-navbar class="py-3 px-0 box is-floating is-sticky has-background-theme is-radiusless" :key="id">
 			<template #left>
 				<div v-if="!$device.isMobile">
-					<nuxt-link to="/upload">
+					<nuxt-link to="/">
 						<Logo class="image has-logo-size"/>
 					</nuxt-link>
 				</div>
 			</template>
 
-			<div v-show="$device.isMobile">
-				<nuxt-link to="/upload">
+			<div v-if="$device.isMobile">
+				<nuxt-link to="/">
 					<Logo class="image has-logo-size"/>
 				</nuxt-link>
+			</div>
+
+			<div v-if="$auth.loggedIn && !$device.isMobile" class="shift-center">
+				<vs-navbar-item
+					v-for="(menu, index) in navbar_data" :key="index"
+					:id="menu.name" :active="active == menu.name" :to="menu.link"
+				>
+					<svg class="icon has-fill-white is-clickable">
+						<use :xlink:href="require('@/assets/images/icons/bds.svg') + `#${menu.icon}`"></use>
+					</svg>
+					<span
+						v-if="!$device.isMobile"
+						:class="active == menu.name ? 'is-size-6 has-text-weight-semibold has-text-white' : 'is-size-6 has-text-weight-semibold has-text-light'"
+					>
+						&nbsp;{{ menu.name }}
+					</span>
+				</vs-navbar-item>
 			</div>
 
 			<template #right>
 				<div v-show="!$device.isMobile">
 					<div
-						@click="active = true" v-if="!$auth.loggedIn"
+						@click="login_active = true" v-if="!$auth.loggedIn"
 						class="button is-fullwidth is-inverted is-success mr-2"
 					>
 						<span>Login</span>
 					</div>
 
-					<div class="button is-fullwidth is-danger mr-2" v-if="$auth.loggedIn">
+					<div class="button is-fullwidth is-danger mr-2" v-if="$auth.loggedIn" @click="logout">
 						<span>Logout</span>
 					</div>
 				</div>
@@ -52,7 +69,7 @@
 							Login
 						</a>
 					</li>
-					<li @click="active = true" v-if="$auth.loggedIn">
+					<li @click="logout" v-if="$auth.loggedIn">
 						<a>
 							<svg class="icon has-fill-white">
 								<use xlink:href="@/assets/images/icons/bds.svg#exit-g"></use>
@@ -64,13 +81,13 @@
 			</div>
 		</div>
 
-		<vs-dialog v-model="active" overflow-hidden blur prevent-close width="35%">
+		<vs-dialog v-model="login_active" overflow-hidden blur prevent-close width="35%">
 			<template #header>
 				<h3 class="is-size-4 has-text-weight-medium mt-4">
 					Log into <b>INSACOG</b> DataHub
 				</h3>
 			</template>
-			<LoginLayout/>
+			<LoginLayout v-model="login_active"/>
 		</vs-dialog>
 
 	</div>
@@ -83,12 +100,24 @@ import LoginLayout from '@/components/authentication/login-layout.vue'
 
 export default {
 	data: () => ({
-		active: false,
 		add_shadow: false,
+		login_active: false,
 		dropdown_menu: false,
 		is_authenticated: false,
+		id: Date.now() + Math.floor(Math.random()*10000 + 1),
+		navbar_data: [
+			{ name: 'Upload', link: '/upload', icon: 'share-g' },
+			{ name: 'Sequences', link: '/my_data', icon: 'timelines-g' },
+			// { name: 'Dashboard', link: '/dashboard', icon: 'segment-g' },
+		],
 	}),
 	computed: {
+		...mapFields([
+			'active'
+		]),
+		...mapFields('user-info-store',[
+			'download_link'
+		])
 	},
 	components: {
 		Logo,
@@ -102,9 +131,19 @@ export default {
 	methods: {
 		logout() {
 			this.$store.dispatch('user-info-store/user_logout')
+			this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
 		},
 		open_dropdown_menu() {
 			this.dropdown_menu = !this.dropdown_menu
+		},
+		async download() {
+			this.loader = this.$vs.loading()
+			await this.$store.dispatch('user-info-store/set_download_link')
+			let link = document.createElement('a')
+			link.target = '_blank'
+			link.href = this.download_link
+			link.click()
+			this.loader.close()
 		}
 	}
 };
@@ -133,5 +172,8 @@ export default {
 .box-width {
 	width: 100%;
 	z-index: 9999;
+}
+.shift-center {
+	margin-right: 15vw;
 }
 </style>
