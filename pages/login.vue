@@ -12,7 +12,7 @@ import Carousel from '@/components/institutes/institute-carousel.vue'
 export default {
 	name: 'login',
 	layout: 'normal2',
-	middleware: ['redirect'],
+	middleware: ['redirect_page'],
 	data: () => ({
 	}),
 	components: {
