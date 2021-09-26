@@ -25,7 +25,7 @@ import Table from "@/components/table/table-advanced.vue"
 export default {
 	name: 'my_data',
 	layout: 'normal2',
-	middleware: ['auth'],
+	middleware: ['auth', 'auth_logout'],
 	data: () => ({
 		page: 1,
 	}),
