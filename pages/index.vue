@@ -48,7 +48,7 @@
 							<div class="box is-floating has-background-yellow-lightest">
 								<p class="has-text-weight-medium is-size-5">Genomes Uploaded</p>
 								<p class="has-text-weight-semibold is-size-4">
-									<animated-number value="50123" :duration="1000" :formatValue="formatnumber"/>
+									<animated-number :value="landing_info.genomes_sequenced" :duration="1000" :formatValue="formatnumber"/>
 								</p>
 							</div>
 						</div>
@@ -56,7 +56,7 @@
 							<div class="box is-floating has-background-yellow-lightest">
 								<p class="has-text-weight-medium is-size-5">Lineages Found</p>
 								<p class="has-text-weight-semibold is-size-4">
-									<animated-number value="50123" :duration="1000" :formatValue="formatnumber"/>
+									<animated-number :value="landing_info.lineages_catalogued" :duration="1000" :formatValue="formatnumber"/>
 								</p>
 							</div>
 						</div>
@@ -64,7 +64,7 @@
 							<div class="box is-floating has-background-yellow-lightest">
 								<p class="has-text-weight-medium is-size-5">States Covered</p>
 								<p class="has-text-weight-semibold is-size-4">
-									<animated-number value="50123" :duration="1000" :formatValue="formatnumber"/>
+									<animated-number :value="landing_info.states_covered" :duration="1000" :formatValue="formatnumber"/>
 								</p>
 							</div>
 						</div>
@@ -109,13 +109,14 @@
 </template>
 
 <script>
+import { mapFields } from 'vuex-map-fields'
 import AnimatedNumber from 'animated-number-vue'
 import PieChart from '@/components/charts/pie-chart.vue'
 import MapChart from '@/components/charts/map-chart-landing.vue'
 import Carousel from '@/components/institutes/institute-carousel.vue'
 
 export default {
-	name: 'login',
+	name: 'landing',
 	layout: 'normal2',
 	data: () => ({
 	}),
@@ -125,12 +126,19 @@ export default {
 		MapChart,
 		AnimatedNumber,
 	},
+	computed: {
+		...mapFields([
+			'landing_info',
+			'landing_info_loaded'
+		]),
+	},
 	methods: {
 		formatnumber(x) {
 			return x.toLocaleString('en-EN');
 		},
 	},
 	beforeMount() {
+		// this.$store.dispatch('get_landing_info')
 	},
 	mounted() {
 	}
