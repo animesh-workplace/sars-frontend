@@ -17,7 +17,7 @@
 									    </span>
 										<a
 											class="button has-text-grey-dark is-light is-small ml-3"
-											href="http://research.nibmg.ac.in/insacog/media/template_metadata.csv"
+											href="https://research.nibmg.ac.in/insacog/media/template_metadata.csv"
 										>
 											Download Template
 										</a>
