@@ -1,6 +1,6 @@
 <template>
-	<div class="column is-10 is-offset-1 p-0">
-		<section class="section mt-6 pb-1">
+	<div class="column is-10 is-offset-1 px-0">
+		<section class="section mt-6">
 			<div class="box is-raised is-unselectable">
 				<div class="has-text-centered">
 					<span class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark">
