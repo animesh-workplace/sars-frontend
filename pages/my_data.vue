@@ -56,7 +56,7 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(()=>{
-			if(this.socket.isConnected && !this.socket.isLoaded.all_metadata) {
+			if(this.socket.isConnected) {
 				this.$store.dispatch('websocket_send', {
 					'type': 'ALL_METADATA',
 					'filter': { 'each_page': 10, 'page': 1 }
