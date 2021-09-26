@@ -3,6 +3,7 @@
 		<div class="box medium has-skeleton mb-3" v-if="view_skeleton"></div>
 		<file-pond
 			maxFiles="1"
+			credits="false"
 			name="file-upload"
 			ref="pond_sequence"
 			allowReplace="true"
