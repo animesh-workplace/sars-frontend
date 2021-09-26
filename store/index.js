@@ -10,23 +10,13 @@ export const state = () => ({
 	landing_info: {},
 	landing_info_loaded: false,
 	// WebSocket data
-	map_data: [],
-	dashboard: {},
 	all_metadata: null,
 	metadata_length: 0,
-	bar_chart_data: {},
 	table_loading: true,
-	treemap_chart_data: {},
-	lineage_definition_data: {},
 	socket: {
 		isConnected: false,
 		isLoaded: {
-			map_data: false,
-			dashboard: false,
 			all_metadata: false,
-			bar_chart_data: false,
-			treemap_chart_data: false,
-			lineage_definition_data: false
 		}
 	}
 });
@@ -64,7 +54,7 @@ export const mutations = {
 		console.error(state, event)
 	},
 	SOCKET_ONMESSAGE (state, event)  {
-		if(event['type'] == 'ALL_METADATA') {
+		if(event['type'] == 'MY_METADATA') {
 			state.all_metadata = event.data.metadata
 			state.metadata_length = event.data.total_length
 			state.table_loading = false
