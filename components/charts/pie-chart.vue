@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { mapFields } from 'vuex-map-fields'
 import { forEach, sortBy, map, intersection } from "lodash"
 import { use } from 'echarts/core'
 import {
@@ -117,6 +118,10 @@ export default {
 	},
 	watch: {},
 	computed: {
+		...mapFields([
+			'landing_info',
+			'landing_info_loaded'
+		]),
 	},
 	methods: {
 		async get_chartdata() {
@@ -134,6 +139,7 @@ export default {
 				this.$refs['pie-chart'].clear()
 				this.options.series[0].data = this.chartdata
 				this.options.series[0].label.formatter = `Total: ${this.total_sum.toLocaleString('en-EN')}`
+				console.log(this.chartdata)
 			}
 			this.chart_loader = false
 		},
