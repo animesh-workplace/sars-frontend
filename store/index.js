@@ -50,7 +50,7 @@ export const mutations = {
 		state.socket.isConnected = false
 	},
 	SOCKET_ONERROR (state, event)  {
-		console.error(state, event)
+		console.error('Error', state, event)
 	},
 	SOCKET_ONMESSAGE (state, event)  {
 		if(event['type'] == 'MY_METADATA') {
