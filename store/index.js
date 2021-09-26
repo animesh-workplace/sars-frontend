@@ -55,7 +55,7 @@ export const mutations = {
 		console.log(event)
 		this.$socket = event.currentTarget
 		state.socket.isConnected = true
-		this.$socket.send(JSON.stringify({'type': 'ALL_METADATA', 'filter': { 'each_page': 15, 'page': 1 }}))
+		this.$socket.send(JSON.stringify({'type': 'MY_METADATA', 'filter': { 'each_page': 15, 'page': 1 }}))
 	},
 	SOCKET_ONCLOSE (state, event)  {
 		state.socket.isConnected = false
