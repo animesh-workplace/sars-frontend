@@ -54,6 +54,7 @@ export default {
 				await this.$store.dispatch('user-info-store/user_login', logininfo)
 				this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
 				loading.close()
+				this.$emit('input', false)
 				this.$router.push('/upload')
 			}
 		},
