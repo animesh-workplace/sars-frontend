@@ -58,7 +58,7 @@ export default {
 		this.$nextTick(()=>{
 			if(this.socket.isConnected) {
 				this.$store.dispatch('websocket_send', {
-					'type': 'ALL_METADATA',
+					'type': 'MY_METADATA',
 					'filter': { 'each_page': 10, 'page': 1 }
 				})
 			}
