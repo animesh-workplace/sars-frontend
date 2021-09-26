@@ -1,9 +1,9 @@
 <template>
 	<div :class="$device.isMobile ? 'box is-popping has-background-white fixed-size-mobile mr-3' : 'box is-popping has-background-white fixed-size mr-3'">
 		<div class="columns is-mobile">
-			<div class="column is-2" v-if="!$device.isMobile">
+<!-- 			<div class="column is-2" v-if="!$device.isMobile">
 				<div class="image is-64x64 is-circle has-background-red-light"></div>
-			</div>
+			</div> -->
 			<div class="column">
 				<p class="has-text-weight-medium is-size-5">
 					<svg class="icon">
@@ -49,9 +49,9 @@ export default {
 
 <style scoped>
 .fixed-size {
-	min-width: 600px;
-	max-width: 600px;
-	min-height: 140px;
+	min-width: 500px;
+	max-width: 500px;
+	min-height: 130px;
 }
 .fixed-size-mobile {
 	min-width: 320px;
