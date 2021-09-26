@@ -21,10 +21,11 @@ export default {
 	computed: {
 	},
 	beforeMount(){
+		this.$store.dispatch('set_landing_info')
 		if(this.$auth.loggedIn) {
 			console.log('This message should appear after refresh')
-			this.$store.dispatch('websocket_connect')
-			this.$store.dispatch('user-info-store/set_uploaded_metadata')
+			// this.$store.dispatch('websocket_connect')
+			// this.$store.dispatch('user-info-store/set_uploaded_metadata')
 			// this.$store.dispatch('user-info-store/set_download_link')
 		}
 	},
