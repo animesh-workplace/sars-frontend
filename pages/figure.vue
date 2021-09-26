@@ -27,7 +27,7 @@ import MapChart from "@/components/charts/map-chart.vue"
 export default {
 	layout: 'normal',
 	name: 'dashboard',
-	middleware: ['auth', 'auth_logout'],
+	middleware: ['redirect', 'auth', 'auth_logout'],
 	data: () => ({
 		map_output: {},
 		bar_output: '',
