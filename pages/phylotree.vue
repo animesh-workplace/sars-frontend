@@ -15,7 +15,7 @@ import { mapFields } from 'vuex-map-fields'
 export default {
 	layout: 'normal',
 	name: 'phylotree',
-	middleware: ['auth', 'auth_logout'],
+	middleware: ['redirect', 'auth', 'auth_logout'],
 	data: () => ({
 	}),
 	components: {
