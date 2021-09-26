@@ -65,7 +65,7 @@ export default {
 			legend: {
 				itemGap: 10,
 				itemWidth: 20,
-				itemHeight: 20,
+				itemHeight: 15,
 				icon: 'circle',
 				left: 'center',
 				textStyle: {
