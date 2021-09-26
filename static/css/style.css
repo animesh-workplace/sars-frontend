@@ -176,4 +176,6 @@
 	.vs-navbar__line {
 		background: #EEF4FC !important;
 	}
-
+	.is-fullheight {
+		min-height: calc(100vh - 11rem);
+	}
