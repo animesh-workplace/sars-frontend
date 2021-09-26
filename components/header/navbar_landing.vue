@@ -61,7 +61,7 @@
 		>
 			<div class="menu has-text-centered is-inverted">
 				<ul class="menu-list">
-					<li @click="active = true" v-if="!$auth.loggedIn">
+					<li @click="activate_login" v-if="!$auth.loggedIn">
 						<a>
 							<svg class="icon has-fill-white">
 								<use xlink:href="@/assets/images/icons/bds.svg#person-assign-g"></use>
