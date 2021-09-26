@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import { map, forEach } from "lodash"
+import { map, forEach } from 'lodash'
 import { mapFields } from 'vuex-map-fields'
-import Table from "@/components/table/table-advanced.vue"
+import Table from '@/components/table/table-advanced.vue'
 
 export default {
 	name: 'my_data',
