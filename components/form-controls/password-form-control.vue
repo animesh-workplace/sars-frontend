@@ -113,18 +113,8 @@ export default {
 	computed: {
 	},
 	mounted() {
-		console.log(this.$validator)
 		this.$validator.extend('passwd', {
 			getMessage: field => {
-				// return `<h1>Password requires atleast</h1>
-				// 			<ul>
-				// 				<li>1 Capital Letter,</li>
-				// 				<li>1 Small Letter,</li>
-				// 				<li>1 Special Character,</li>
-				// 				<li>1 Number and</li>
-				// 				<li>length should be greater than 6</li>
-				// 			</ul>
-				// 		<h1>Click to reveal password</h1>`
 				return `Password requires atleast
 							1 Capital Letter,
 							1 Small Letter,
