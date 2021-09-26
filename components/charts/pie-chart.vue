@@ -35,8 +35,6 @@ use([
 
 export default {
 	data: () => ({
-		total_sum: 0,
-		chartdata: [],
 		chart_loader: true,
 		loader_option: {
 			lineWidth: 3,
@@ -112,9 +110,6 @@ export default {
 		[THEME_KEY]: "light"
 	},
 	props: {
-		// ChartData: {
-		// 	type: Object
-		// },
 	},
 	watch: {},
 	computed: {
@@ -125,30 +120,18 @@ export default {
 	},
 	methods: {
 		async get_chartdata() {
-			const data = await this.$axios.$post('https://research.nibmg.ac.in/insacog/api/files/metadata-stats/')
-			if(data.message == null) {
-				let temp = []
-				let sum = 0
-				forEach(data, (d,i)=> temp.push({
-					name: i.split('Insacog_')[1] + ` (${d})`,
-					value: d
-				}))
-				forEach(data, (d,i)=> sum = sum + d)
-				this.total_sum = sum
-				this.chartdata = temp
-				this.$refs['pie-chart'].clear()
-				this.options.series[0].data = this.chartdata
-				this.options.series[0].label.formatter = `Total: ${this.total_sum.toLocaleString('en-EN')}`
-				console.log(this.chartdata)
+			if(this.landing_info_loaded) {
+				this.options.series[0].data = this.landing_info.pie_chart_data
+				this.options.series[0].label.formatter = `Total: ${this.landing_info.genomes_sequenced.toLocaleString('en-EN')}`
 			}
 			this.chart_loader = false
 		},
 	},
 	beforeMount() {
-		this.get_chartdata()
 	},
 	mounted() {
 		this.$nextTick(()=>{
+			this.get_chartdata()
 		})
 	}
 };
