@@ -118,6 +118,7 @@ import Carousel from '@/components/institutes/institute-carousel.vue'
 export default {
 	name: 'landing',
 	layout: 'normal2',
+	middleware: ['guest'],
 	data: () => ({
 	}),
 	components: {
