@@ -1,9 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 
-# NPM lock
-package-lock.json
-
 # Temp files
 *.fasta
 *.fa
