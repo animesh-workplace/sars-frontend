@@ -47,7 +47,7 @@
 
 					<div class="columns is-vcentered pt-4">
 						<div class="column has-text-centered">
-							<div class="box p-2 is-floating has-background-yellow-lightest">
+							<div class="box p-4 is-floating has-background-yellow-lightest">
 								<div v-if="$device.isDesktop">
 									<p class="has-text-weight-medium is-size-5">Genomes Uploaded</p>
 									<p class="has-text-weight-medium is-size-4">
@@ -60,7 +60,7 @@
 							</div>
 						</div>
 						<div class="column has-text-centered">
-							<div class="box p-2 is-floating has-background-yellow-lightest">
+							<div class="box p-4 is-floating has-background-yellow-lightest">
 								<div v-if="$device.isDesktop">
 									<p class="has-text-weight-medium is-size-5">Lineages Found</p>
 									<p class="has-text-weight-medium is-size-4">
@@ -73,7 +73,7 @@
 							</div>
 						</div>
 						<div class="column has-text-centered">
-							<div class="box p-2 is-floating has-background-yellow-lightest">
+							<div class="box p-4 is-floating has-background-yellow-lightest">
 								<div v-if="$device.isDesktop">
 									<p class="has-text-weight-medium is-size-5">States Covered</p>
 									<p class="has-text-weight-medium is-size-4">
