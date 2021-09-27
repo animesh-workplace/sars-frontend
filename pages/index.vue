@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<section class="section is-relative mt-5">
+		<section class="section is-relative mt-6">
 			<div class="columns is-vcentered pb-6">
 				<div class="column is-8">
 
@@ -16,22 +16,22 @@
 
 							<div class="level is-mobile">
 								<div class="level-item has-text-centered">
-									<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-180x180'">
+									<figure :class="$device.isMobileOrTablet ? 'image is-80x80' : 'image is-180x180'">
 										<img src="@/assets/logo/mohfw_logo.png" alt="Ministry of Health and Family Welfare, Logo">
 									</figure>
 								</div>
 								<div class="level-item has-text-centered">
-									<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-180x180'">
+									<figure :class="$device.isMobileOrTablet ? 'image is-80x80' : 'image is-180x180'">
 										<img src="@/assets/logo/dbt_logo.png" alt="Department of Biotechnology, Governement of India, Logo">
 									</figure>
 								</div>
 								<div class="level-item has-text-centered">
-									<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-180x180'">
+									<figure :class="$device.isMobileOrTablet ? 'image is-80x80' : 'image is-180x180'">
 										<img src="@/assets/logo/csir_logo.png" alt="Council of Scientific and Industrial Research, Logo">
 									</figure>
 								</div>
 								<div class="level-item has-text-centered">
-									<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-180x180'">
+									<figure :class="$device.isMobileOrTablet ? 'image is-80x80' : 'image is-180x180'">
 										<img src="@/assets/logo/icmr_logo.png" alt="Indian Council of Medical Reasearch, Logo">
 									</figure>
 								</div>
@@ -45,28 +45,43 @@
 						</p>
 					</div>
 
-					<div class="columns is-vcentered is-mobile pt-4">
+					<div class="columns is-vcentered pt-4">
 						<div class="column has-text-centered">
 							<div class="box p-2 is-floating has-background-yellow-lightest">
-								<p :class="$device.isMobileOrTablet ? 'has-text-weight-medium is-size-7' : 'has-text-weight-medium is-size-5'">Genomes Uploaded</p>
-								<p :class="$device.isMobileOrTablet ? 'has-text-weight-medium is-size-6' : 'has-text-weight-medium is-size-4'">
-									<animated-number :value="landing_info.genomes_sequenced" :duration="1000" :formatValue="formatnumber"/>
+								<div v-if="$device.isDesktop">
+									<p class="has-text-weight-medium is-size-5">Genomes Uploaded</p>
+									<p class="has-text-weight-medium is-size-4">
+										<animated-number :value="landing_info.genomes_sequenced" :duration="1000" :formatValue="formatnumber"/>
+									</p>
+								</div>
+								<p class="has-text-weight-medium is-size-5" v-else>
+									Genomes Uploaded: <animated-number :value="landing_info.genomes_sequenced" :duration="1000" :formatValue="formatnumber"/>
 								</p>
 							</div>
 						</div>
 						<div class="column has-text-centered">
 							<div class="box p-2 is-floating has-background-yellow-lightest">
-								<p :class="$device.isMobileOrTablet ? 'has-text-weight-medium is-size-7' : 'has-text-weight-medium is-size-5'">Lineages Found</p>
-								<p :class="$device.isMobileOrTablet ? 'has-text-weight-medium is-size-6' : 'has-text-weight-medium is-size-4'">
-									<animated-number :value="landing_info.lineages_catalogued" :duration="1000" :formatValue="formatnumber"/>
+								<div v-if="$device.isDesktop">
+									<p class="has-text-weight-medium is-size-5">Lineages Found</p>
+									<p class="has-text-weight-medium is-size-4">
+										<animated-number :value="landing_info.lineages_catalogued" :duration="1000" :formatValue="formatnumber"/>
+									</p>
+								</div>
+								<p class="has-text-weight-medium is-size-5" v-else>
+									Lineages Found: <animated-number :value="landing_info.lineages_catalogued" :duration="1000" :formatValue="formatnumber"/>
 								</p>
 							</div>
 						</div>
 						<div class="column has-text-centered">
 							<div class="box p-2 is-floating has-background-yellow-lightest">
-								<p :class="$device.isMobileOrTablet ? 'has-text-weight-medium is-size-7' : 'has-text-weight-medium is-size-5'">States Covered</p>
-								<p :class="$device.isMobileOrTablet ? 'has-text-weight-medium is-size-6' : 'has-text-weight-medium is-size-4'">
-									<animated-number :value="landing_info.states_covered" :duration="1000" :formatValue="formatnumber"/>
+								<div v-if="$device.isDesktop">
+									<p class="has-text-weight-medium is-size-5">States Covered</p>
+									<p class="has-text-weight-medium is-size-4">
+										<animated-number :value="landing_info.states_covered" :duration="1000" :formatValue="formatnumber"/>
+									</p>
+								</div>
+								<p class="has-text-weight-medium is-size-5" v-else>
+									States Covered: <animated-number :value="landing_info.states_covered" :duration="1000" :formatValue="formatnumber"/>
 								</p>
 							</div>
 						</div>
@@ -196,6 +211,10 @@ export default {
 .is-180x180 {
 	width: 180px;
 	height: 180px;
+}
+.is-80x80 {
+	width: 80px;
+	height: 80px;
 }
 .has-background-yellow-lightest {
 	background: #FFF7D6;
