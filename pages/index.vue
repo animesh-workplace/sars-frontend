@@ -2,39 +2,41 @@
 	<div>
 		<section class="section is-relative mt-5">
 			<div class="columns is-vcentered pb-6">
-				<div class="column is-8-desktop is-full-tablet">
-					<div class="column is-8 is-offset-2">
-						<div class="level py-2">
-							<div class="level-item has-text-centered">
-								<figure class="image has-logo-size">
-									<img src="@/assets/logo/insacog_logo.png" alt="Indian SARS-CoV-2 Genomics Consortium, Logo">
-								</figure>
+				<div class="column is-8">
+
+					<div class="columns is-centered">
+						<div class="column is-8">
+							<div class="level py-2">
+								<div class="level-item has-text-centered">
+									<figure class="image has-logo-size">
+										<img src="@/assets/logo/insacog_logo.png" alt="Indian SARS-CoV-2 Genomics Consortium, Logo">
+									</figure>
+								</div>
+							</div>
+
+							<div class="level is-mobile">
+								<div class="level-item has-text-centered">
+									<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-180x180'">
+										<img src="@/assets/logo/mohfw_logo.png" alt="Ministry of Health and Family Welfare, Logo">
+									</figure>
+								</div>
+								<div class="level-item has-text-centered">
+									<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-180x180'">
+										<img src="@/assets/logo/dbt_logo.png" alt="Department of Biotechnology, Governement of India, Logo">
+									</figure>
+								</div>
+								<div class="level-item has-text-centered">
+									<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-180x180'">
+										<img src="@/assets/logo/csir_logo.png" alt="Council of Scientific and Industrial Research, Logo">
+									</figure>
+								</div>
+								<div class="level-item has-text-centered">
+									<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-180x180'">
+										<img src="@/assets/logo/icmr_logo.png" alt="Indian Council of Medical Reasearch, Logo">
+									</figure>
+								</div>
 							</div>
 						</div>
-
-						<div class="level is-mobile">
-							<div class="level-item has-text-centered">
-								<figure :class="$device.isMobileOrTablet ? 'image is-96x96' : 'image is-180x180'">
-									<img src="@/assets/logo/mohfw_logo.png" alt="Ministry of Health and Family Welfare, Logo">
-								</figure>
-							</div>
-							<div class="level-item has-text-centered">
-								<figure :class="$device.isMobileOrTablet ? 'image is-96x96' : 'image is-180x180'">
-									<img src="@/assets/logo/dbt_logo.png" alt="Department of Biotechnology, Governement of India, Logo">
-								</figure>
-							</div>
-							<div class="level-item has-text-centered">
-								<figure :class="$device.isMobileOrTablet ? 'image is-96x96' : 'image is-180x180'">
-									<img src="@/assets/logo/csir_logo.png" alt="Council of Scientific and Industrial Research, Logo">
-								</figure>
-							</div>
-							<div class="level-item has-text-centered">
-								<figure :class="$device.isMobileOrTablet ? 'image is-96x96' : 'image is-180x180'">
-									<img src="@/assets/logo/icmr_logo.png" alt="Indian Council of Medical Reasearch, Logo">
-								</figure>
-							</div>
-						</div>
-
 					</div>
 
 					<div class="pb-3">
@@ -45,25 +47,25 @@
 
 					<div class="columns is-vcentered is-mobile pt-4">
 						<div class="column has-text-centered">
-							<div class="box is-floating has-background-yellow-lightest">
-								<p class="has-text-weight-medium is-size-5">Genomes Uploaded</p>
-								<p class="has-text-weight-semibold is-size-4">
+							<div class="box p-2 is-floating has-background-yellow-lightest">
+								<p :class="$device.isMobileOrTablet ? 'has-text-weight-medium is-size-7' : 'has-text-weight-medium is-size-5'">Genomes Uploaded</p>
+								<p :class="$device.isMobileOrTablet ? 'has-text-weight-medium is-size-6' : 'has-text-weight-medium is-size-4'">
 									<animated-number :value="landing_info.genomes_sequenced" :duration="1000" :formatValue="formatnumber"/>
 								</p>
 							</div>
 						</div>
 						<div class="column has-text-centered">
-							<div class="box is-floating has-background-yellow-lightest">
-								<p class="has-text-weight-medium is-size-5">Lineages Found</p>
-								<p class="has-text-weight-semibold is-size-4">
+							<div class="box p-2 is-floating has-background-yellow-lightest">
+								<p :class="$device.isMobileOrTablet ? 'has-text-weight-medium is-size-7' : 'has-text-weight-medium is-size-5'">Lineages Found</p>
+								<p :class="$device.isMobileOrTablet ? 'has-text-weight-medium is-size-6' : 'has-text-weight-medium is-size-4'">
 									<animated-number :value="landing_info.lineages_catalogued" :duration="1000" :formatValue="formatnumber"/>
 								</p>
 							</div>
 						</div>
 						<div class="column has-text-centered">
-							<div class="box is-floating has-background-yellow-lightest">
-								<p class="has-text-weight-medium is-size-5">States Covered</p>
-								<p class="has-text-weight-semibold is-size-4">
+							<div class="box p-2 is-floating has-background-yellow-lightest">
+								<p :class="$device.isMobileOrTablet ? 'has-text-weight-medium is-size-7' : 'has-text-weight-medium is-size-5'">States Covered</p>
+								<p :class="$device.isMobileOrTablet ? 'has-text-weight-medium is-size-6' : 'has-text-weight-medium is-size-4'">
 									<animated-number :value="landing_info.states_covered" :duration="1000" :formatValue="formatnumber"/>
 								</p>
 							</div>
