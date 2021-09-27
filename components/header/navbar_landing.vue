@@ -47,7 +47,7 @@
 				</div>
 				<div v-show="$device.isMobile">
 					<div class="button is-square is-borderless" @click="open_dropdown_menu">
-						<svg class="icon has-fill-white">
+						<svg class="icon has-fill-black">
 							<use xlink:href="@/assets/images/icons/bds.svg#dots-vert-g"></use>
 						</svg>
 					</div>
