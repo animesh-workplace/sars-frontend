@@ -65,6 +65,7 @@
     "nuxt-bundle-buddy": "0.0.2",
     "nuxt-svg-loader": "^1.2.0",
     "nuxt-validate": "^1.0.1",
+    "simple-test-package": "^0.2.2",
     "topojson-client": "^3.1.0",
     "v-calendar": "^2.1.1",
     "v-clipboard": "^2.2.3",
