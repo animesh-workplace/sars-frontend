@@ -9,7 +9,7 @@
 				</div>
 			</template>
 
-			<div v-if="$device.isMobile">
+			<div v-if="$device.isMobile" class="has-text-centered">
 				<nuxt-link to="/">
 					<Logo class="image has-logo-size"/>
 				</nuxt-link>
@@ -47,7 +47,7 @@
 				</div>
 				<div v-show="$device.isMobile">
 					<div class="button is-square is-borderless" @click="open_dropdown_menu">
-						<svg class="icon has-fill-black">
+						<svg class="icon has-fill-white">
 							<use xlink:href="@/assets/images/icons/bds.svg#dots-vert-g"></use>
 						</svg>
 					</div>
@@ -161,7 +161,7 @@ export default {
 
 <style scoped>
 .has-logo-size {
-	width: 350px;
+	width: 98%;
 	max-height: 44px;
 	max-width: 350px;
 }
