@@ -37,7 +37,7 @@
     "csvjson-csv2json": "^5.0.6",
     "csvjson-json2csv": "^1.0.3",
     "d3": "^6.7.0",
-    "echarts": "5.1.1",
+    "echarts": "^5.1.1",
     "filepond": "^4.19.2",
     "filepond-plugin-file-encode": "^2.1.6",
     "filepond-plugin-file-metadata": "^1.0.7",
