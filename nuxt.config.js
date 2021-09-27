@@ -24,7 +24,19 @@ export default {
 		meta: [
 			{ charset: 'utf-8' },
 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-			{ hid: 'description', name: 'description', content: 'INSACOG (Indian SARS-CoV-2 Consortium on Genomics or Indian SARS-CoV-2 Genetics Consortium) is the forum set up under the Ministry of Health and Family Welfare by the Government of India on 25 December 2020, to study and monitor genome sequencing and virus variation of circulating strains of COVID-19 in India. INSACOG works as a consortium of 10 national laboratories for genome sequencing located in different parts of India. All these 10 laboratories are required to share 5% of positive samples to INSACOG Data Hub for further research and studies. This is a national genomic sequencing database (INSACOG Data-Hub) center are appointed at National Institute of Biomedical Genomics (NIBMG)' }
+			{ hid: 'description', name: 'description', content: 'INSACOG (Indian SARS-CoV-2 Consortium on Genomics or Indian SARS-CoV-2 Genetics Consortium) is the forum set up under the Ministry of Health and Family Welfare by the Government of India on 25 December 2020, to study and monitor genome sequencing and virus variation of circulating strains of COVID-19 in India. INSACOG works as a consortium of 10 national laboratories for genome sequencing located in different parts of India. All these 10 laboratories are required to share 5% of positive samples to INSACOG Data Hub for further research and studies. This is a national genomic sequencing database (INSACOG Data-Hub) center are appointed at National Institute of Biomedical Genomics (NIBMG)' },
+			// Open Graph / Facebook
+			{ hid: 'og:type', name: 'og:type', content: 'Website' },
+			{ hid: 'og:url', name: 'og:url', content: 'https://research.nibmg.ac.in/insacog/' },
+			{ hid: 'og:title', name: 'og:title', content: 'INSACOG DataHub | National Institute of Biomedical Genomics' },
+			{ hid: 'og:description', name: 'og:description', content: 'INSACOG (Indian SARS-CoV-2 Consortium on Genomics or Indian SARS-CoV-2 Genetics Consortium) is the forum set up under the Ministry of Health and Family Welfare by the Government of India on 25 December 2020, to study and monitor genome sequencing and virus variation of circulating strains of COVID-19 in India. INSACOG works as a consortium of 10 national laboratories for genome sequencing located in different parts of India. All these 10 laboratories are required to share 5% of positive samples to INSACOG Data Hub for further research and studies. This is a national genomic sequencing database (INSACOG Data-Hub) center are appointed at National Institute of Biomedical Genomics (NIBMG)' },
+			{ hid: 'og:image', name: 'og:image', content: 'https://research.nibmg.ac.in/insacog/social/insacog_social.png' },
+			// Twitter
+			{ hid: 'twitter:card', name: 'twitter:card', content: 'summary_large_image' },
+			{ hid: 'twitter:url', name: 'twitter:url', content: 'https://research.nibmg.ac.in/insacog/' },
+			{ hid: 'twitter:title', name: 'twitter:title', content: 'INSACOG DataHub | National Institute of Biomedical Genomics' },
+			{ hid: 'twitter:description', name: 'twitter:description', content: 'INSACOG (Indian SARS-CoV-2 Consortium on Genomics or Indian SARS-CoV-2 Genetics Consortium) is the forum set up under the Ministry of Health and Family Welfare by the Government of India on 25 December 2020, to study and monitor genome sequencing and virus variation of circulating strains of COVID-19 in India. INSACOG works as a consortium of 10 national laboratories for genome sequencing located in different parts of India. All these 10 laboratories are required to share 5% of positive samples to INSACOG Data Hub for further research and studies. This is a national genomic sequencing database (INSACOG Data-Hub) center are appointed at National Institute of Biomedical Genomics (NIBMG)' },
+			{ hid: 'twitter:image', name: 'twitter:image', content: 'https://research.nibmg.ac.in/insacog/social/insacog_social.png' },
 		],
 		link: [
 			{ rel: 'icon', type: 'image/x-icon', href: `${process.env.ROUTER_BASE}/favicon.ico` },
