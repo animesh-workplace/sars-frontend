@@ -13,7 +13,7 @@
 								<div class="level is-clickable mb-0">
 									<div class="level-left">
 									    <span class="title is-4 has-text-weight-semibold mb-0 has-text-grey-darker">
-									    	Metadata requirements
+									    	Metadata requirement
 									    </span>
 										<a
 											class="button has-text-grey-dark is-light is-small ml-3"
