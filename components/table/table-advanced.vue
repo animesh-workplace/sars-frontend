@@ -60,17 +60,17 @@
 							<use xlink:href="@/assets/images/icons/bds.svg#arrow-right-g"></use>
 						</svg>
 					</vs-td>
-					<vs-td class="is-size-6">{{ tr['Virus name'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['Collection date'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['Virus_name'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['Collection_date'] }}</vs-td>
 					<vs-td class="is-size-6">{{ tr['State'] }}</vs-td>
 					<vs-td class="is-size-6">{{ tr['District'] }}</vs-td>
 					<vs-td class="is-size-6">{{ tr['Gender'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['Patient age'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['Last vaccinated'] }}</vs-td>
-					<vs-td class="is-size-6">{{ tr['Submitting lab'] }}</vs-td>
-					<vs-td class="is-size-6"><Tag :name="tr['lineage']" theme="#FF8F41"/></vs-td>
-					<vs-td class="is-size-6"><Tag :name="tr['clade']" theme="#00C8B5"/></vs-td>
-					<vs-td class="is-size-6"><Tag :name="tr['scorpio_call']" theme="#7DB950"/></vs-td>
+					<vs-td class="is-size-6">{{ tr['Patient_age'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['Last_vaccinated'] }}</vs-td>
+					<vs-td class="is-size-6">{{ tr['Submitting_lab'] }}</vs-td>
+					<vs-td class="is-size-6"><Tag :name="tr['Lineage']" theme="#FF8F41"/></vs-td>
+					<vs-td class="is-size-6"><Tag :name="tr['Clade']" theme="#00C8B5"/></vs-td>
+					<vs-td class="is-size-6"><Tag :name="tr['Scorpio_call']" theme="#7DB950"/></vs-td>
 
 					<template #expand>
 						<SubTable :detail="tr"/>
