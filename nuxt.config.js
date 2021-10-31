@@ -10,6 +10,10 @@ export default {
 */
 	target: 'server',
 	loading: false,
+	server: {
+		port: 3000,
+		host: '0.0.0.0'
+	},
 	// loading: {
 	// 	color: 'blue',
 	// 	height: '5px',
