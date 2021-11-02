@@ -5,6 +5,7 @@ import { getField, updateField } from 'vuex-map-fields'
 export const state = () => ({
 	token_expiry: '',
 	download_link: '',
+	show_download: false,
 	uploaded_metadata: {},
 });
 
@@ -22,6 +23,9 @@ export const mutations = {
 	SET_DOWNLOAD_LINK(state, payload) {
 		state.download_link = payload
 	},
+	SET_SHOW_DOWNLOAD(state, payload) {
+		state.show_download = payload
+	},
 	updateField,
 }
 
@@ -35,7 +39,9 @@ export const actions = {
 			this.$auth.setUser(data.username)
 			this.$auth.ctx.app.$axios.setHeader('Authorization', `JWT ${ data.token }`)
 			await commit('SET_TOKEN_EXPIRY', data.expires)
+			await commit('SET_SHOW_DOWNLOAD', data.download)
 			this.$auth.$storage.setCookie('token_expiry', data.expires)
+			this.$auth.$storage.setCookie('download', data.download)
 			await dispatch('set_uploaded_metadata')
 			await dispatch('set_download_link')
 			await this.dispatch('websocket_connect')
@@ -57,6 +63,7 @@ export const actions = {
 	async user_logout({ commit, dispatch }) {
 		this.$auth.logout()
 		this.$cookies.remove('c_uid')
+		this.$auth.$storage.setCookie('download', false)
 		this.$auth.$storage.setCookie('token_expiry', false)
 		await commit('SET_TOKEN_EXPIRY', '')
 		await this.dispatch('websocket_disconnect')
@@ -68,6 +75,7 @@ export const actions = {
 	},
 	async user_logout_server({ commit, dispatch }) {
 		this.$auth.logout()
+		this.$auth.$storage.setCookie('download', false)
 		this.$auth.$storage.setCookie('token_expiry', false)
 		this.$cookies.remove('c_uid')
 		await commit('SET_TOKEN_EXPIRY', '')
@@ -77,8 +85,12 @@ export const actions = {
 		commit('SET_UPLOADED_METADATA', metadata_header)
 	},
 	async set_download_link({ commit }) {
-		const link_api = await this.$axios.$post('/files/metadata-download/')
-		let link = link_api.link
-		commit('SET_DOWNLOAD_LINK', link)
+		let download_enabled = this.$auth.$storage.getCookie('download')
+		await commit('SET_SHOW_DOWNLOAD', download_enabled)
+		if(download_enabled) {
+			const link_api = await this.$axios.$post('/files/metadata-download/')
+			let link = link_api.link
+			commit('SET_DOWNLOAD_LINK', link)
+		}
 	},
 }
