@@ -51,7 +51,7 @@
 
 					<div class="has-text-centered">
 						<Tag class="is-inline-block mt-1" name="Pangolin version: " theme="#FF8F41"/>
-						<Tag class="is-inline-block mt-1" name="Pango version: " theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" name="Pangolearn version: " theme="#FF8F41"/>
 						<Tag class="is-inline-block mt-1" name="Scorpio version: " theme="#FF8F41"/>
 						<Tag class="is-inline-block mt-1" name="Nextclade version: " theme="#FF8F41"/>
 					</div>
