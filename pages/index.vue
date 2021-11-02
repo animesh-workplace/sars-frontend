@@ -45,6 +45,17 @@
 						</p>
 					</div>
 
+					<div class="has-text-centered mb-2">
+						<Tag class="is-inline-block" :name="last_updated" theme="#FF8F41"/>
+					</div>
+
+					<div class="has-text-centered">
+						<Tag class="is-inline-block mt-1" name="Pangolin version: " theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" name="Pango version: " theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" name="Scorpio version: " theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" name="Nextclade version: " theme="#FF8F41"/>
+					</div>
+
 					<div class="columns is-vcentered pt-4">
 						<div class="column has-text-centered">
 							<div class="box p-4 is-floating has-background-yellow-lightest">
@@ -128,6 +139,7 @@
 <script>
 import { mapFields } from 'vuex-map-fields'
 import AnimatedNumber from 'animated-number-vue'
+import Tag from '@/components/table/cool-tag.vue'
 import PieChart from '@/components/charts/pie-chart.vue'
 import MapChart from '@/components/charts/map-chart-landing.vue'
 import Carousel from '@/components/institutes/institute-carousel.vue'
@@ -139,6 +151,7 @@ export default {
 	data: () => ({
 	}),
 	components: {
+		Tag,
 		Carousel,
 		PieChart,
 		MapChart,
@@ -149,6 +162,10 @@ export default {
 			'landing_info',
 			'landing_info_loaded'
 		]),
+		last_updated() {
+			let text = `Last updated: ${ this.$dayjs(this.landing_info.last_updated).format('DD-MM-YYYY hh:mm A')}`
+			return text
+		}
 	},
 	methods: {
 		formatnumber(x) {
@@ -158,6 +175,9 @@ export default {
 	beforeMount() {
 	},
 	mounted() {
+		this.$nextTick(()=>{
+			console.log(this.$dayjs(this.landing_info.last_updated).format('DD-MM-YYYY hh:mm A'))
+		})
 	}
 };
 </script>
