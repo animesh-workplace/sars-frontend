@@ -24,4 +24,10 @@
 	<a href="https://github.com/animesh-workplace/sars-frontend">
 		<img src="https://img.shields.io/github/languages/code-size/animesh-workplace/sars-frontend?style=for-the-badge" alt="Total code size"/>
 	</a>
+	<a href="https://github.com/animesh-workplace/sars-frontend">
+		<img src="https://img.shields.io/github/repo-size/animesh-workplace/sars-frontend?style=for-the-badge" alt="Repository size"/>
+	</a>
+	<a href="https://github.com/animesh-workplace/sars-frontend">
+		<img src="https://img.shields.io/tokei/lines/github/animesh-workplace/sars-frontend?style=for-the-badge" alt="Lines of code written"/>
+	</a>
 </p>
