@@ -6,9 +6,7 @@
 
 <h1 align="center">INSACOG DataHub</h1>
 
-> Indian SARS-CoV-2 Genomics Consortium (INSACOG), a Pan-India network to monitor genomic variations in the SARS-CoV-2 by a sentinel sequencing effort
-
-> INSACOG DataHub is a part of INSACOG that is used to store and analyze SARS-CoV-2 genomic data
+> Indian SARS-CoV-2 Genomics Consortium (INSACOG), a Pan-India network to monitor genomic variations in the SARS-CoV-2 by a sentinel sequencing effort. INSACOG DataHub is a part of INSACOG that is used to store and analyze SARS-CoV-2 genomic data.
 
 
 <!-- <p align="center">
