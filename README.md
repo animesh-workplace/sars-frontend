@@ -35,7 +35,7 @@
 ## Contributing Institutes
 
 | **Institute Name**                                                    | **Location**               | **Website**                                                                           |
-|:---------------------------------------------------------------------:|:--------------------------:|:----------------------------------------------------------------------------------:|
+|---------------------------------------------------------------------|:--------------------------:|:----------------------------------------------------------------------------------:|
 | All India Institute of Medical Sciences                               | New Delhi                  | <a href="https://www.aiims.edu/en.html"> Link </a>                                                      |
 | All India Institute of Medical Sciences                               | Bhopal, Madhya Pradesh     | <a href="https://www.aiimsbhopal.edu.in"> Link </a>                                                     |
 | Byramjee Jeejeebhoy Government Medical College                        | Pune, Maharashtra          | <a href="http://www.bjmcabd.edu.in/"> Link </a>                                                         |
