@@ -4,7 +4,7 @@
 			<div class="columns is-vcentered pb-6">
 				<div class="column is-8">
 
-					<div class="columns is-centered">
+					<div class="columns is-centered mb-0">
 						<div class="column is-8">
 							<div class="level py-2">
 								<div class="level-item has-text-centered">
@@ -15,35 +15,41 @@
 							</div>
 
 							<div class="level is-mobile">
-								<div class="level-item has-text-centered">
-									<figure :class="$device.isMobileOrTablet ? 'image is-80x80' : 'image is-180x180'">
-										<img src="@/assets/logo/mohfw_logo.png" alt="Ministry of Health and Family Welfare, Logo">
-									</figure>
-								</div>
-								<div class="level-item has-text-centered">
-									<figure :class="$device.isMobileOrTablet ? 'image is-80x80' : 'image is-180x180'">
-										<img src="@/assets/logo/dbt_logo.png" alt="Department of Biotechnology, Governement of India, Logo">
-									</figure>
-								</div>
-								<div class="level-item has-text-centered">
-									<figure :class="$device.isMobileOrTablet ? 'image is-80x80' : 'image is-180x180'">
-										<img src="@/assets/logo/csir_logo.png" alt="Council of Scientific and Industrial Research, Logo">
-									</figure>
-								</div>
-								<div class="level-item has-text-centered">
-									<figure :class="$device.isMobileOrTablet ? 'image is-80x80' : 'image is-180x180'">
-										<img src="@/assets/logo/icmr_logo.png" alt="Indian Council of Medical Reasearch, Logo">
-									</figure>
-								</div>
+								<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-128x128'">
+									<img src="@/assets/logo/mohfw_logo.png" alt="Ministry of Health and Family Welfare, Logo">
+								</figure>
+								<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-128x128'">
+									<img src="@/assets/logo/dbt_logo.png" alt="Department of Biotechnology, Governement of India, Logo">
+								</figure>
+								<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-128x128'">
+									<img src="@/assets/logo/csir_logo.png" alt="Council of Scientific and Industrial Research, Logo">
+								</figure>
+								<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-128x128'">
+									<img src="@/assets/logo/icmr_logo.png" alt="Indian Council of Medical Reasearch, Logo">
+								</figure>
 							</div>
 						</div>
 					</div>
 
 					<div class="pb-3">
-						<p align="justify">
-							The Indian SARS-CoV-2 Genomics Consortium (INSACOG), jointly initiated by the Union Health Ministry of Health, and Department of Biotechnology (DBT) with Council for Scientific & Industrial Research (CSIR) and Indian Council of Medical Research (ICMR), is a consortium of 28 National Laboratories to monitor the genomic variations in the SARS-CoV-2. INSACOG is a multi-laboratory, multi-agency, Pan-India network to monitor genomic variations in the SARS-CoV-2 by a sentinel sequencing effort. The network carries out whole genome sequencing of SARS-CoV-2 virus across the nation, aiding the understanding of how the virus spreads and evolves, and provide information to aid public health response.
+						<div class="level mb-0">
+							<div class="level-item has-text-centered">
+								<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-128x128'">
+									<img src="@/assets/logo/icmr_logo.png" alt="Indian Council of Medical Reasearch, Logo">
+								</figure>
+							</div>
+						</div>
+						<p class="has-text-centered">
+							INSACOG DataHub developed & maintained at National Institute of Biomedical Genomics is an effort to store and analyze the whole genome sequence of SARS-CoV-2.
 						</p>
 					</div>
+
+					<div class="pb-3">
+						<p align="justify">
+							The Indian SARS-CoV-2 Genomics Consortium (INSACOG), a consortium of 38 National Laboratories is a Pan-India network to monitor genomic variations in the SARS-CoV-2 by a sentinel sequencing effort. The network carries out whole genome sequencing of SARS-CoV-2 virus across the nation, aiding the understanding of how the virus spreads and evolves, and provide information to aid public health response. It is jointly initiated by the Union Health Ministry of Health, and Department of Biotechnology (DBT) with Council for Scientific & Industrial Research (CSIR) and Indian Council of Medical Research (ICMR).
+						</p>
+					</div>
+
 
 					<div class="has-text-centered mb-2">
 						<Tag class="is-inline-block" :name="last_updated" theme="#FF8F41"/>
