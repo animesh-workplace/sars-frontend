@@ -95,10 +95,12 @@ export default {
 		'@nuxtjs/auth',
 		'@nuxtjs/axios',
 		'nuxt-validate',
+		'@nuxtjs/dayjs',
 		'@nuxtjs/dotenv',
 		'cookie-universal-nuxt',
 		['nuxt-buefy', { materialDesignIcons: false }],
 	],
+
 /*
 ** Axios module configuration
 ** See https://axios.nuxtjs.org/options
