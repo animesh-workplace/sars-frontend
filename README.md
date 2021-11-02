@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://research.nibmg.ac.in/insacog/">
-    <img alt="INSACOG DataHub" src="https://repository-images.githubusercontent.com/342469060/88372b5d-c9d6-4f36-b461-5810e9d634f2" width="100%"/>
+    <img alt="INSACOG DataHub" src="https://repository-images.githubusercontent.com/342469060/849ca85d-e631-4ab1-83d0-55f78fc9c616" width="100%"/>
   </a>
 </p>
 
