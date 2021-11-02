@@ -44,8 +44,9 @@ export default {
 		async submit_login_data() {
 			if(!this.enable_submit) {
 				const loading = this.$vs.loading({
-					color: '#114b5f',
-					text: 'Loading...'
+					color: '#ffffff',
+					text: 'Loading...',
+					background: '#020202',
 				})
 				let logininfo = {
 					username: this.username.value,
