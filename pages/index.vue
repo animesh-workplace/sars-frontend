@@ -32,39 +32,14 @@
 					</div>
 
 					<div class="pb-3">
-						<div class="level mb-0">
-							<div class="level-item has-text-centered">
-								<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-128x128'">
-									<img src="@/assets/logo/icmr_logo.png" alt="Indian Council of Medical Reasearch, Logo">
-								</figure>
-							</div>
-						</div>
-						<p class="has-text-centered">
-							INSACOG DataHub developed & maintained at National Institute of Biomedical Genomics is an effort to store and analyze the whole genome sequence of SARS-CoV-2.
-						</p>
-					</div>
-
-					<div class="pb-3">
 						<p align="justify">
-							The Indian SARS-CoV-2 Genomics Consortium (INSACOG), a consortium of 38 National Laboratories is a Pan-India network to monitor genomic variations in the SARS-CoV-2 by a sentinel sequencing effort. The network carries out whole genome sequencing of SARS-CoV-2 virus across the nation, aiding the understanding of how the virus spreads and evolves, and provide information to aid public health response. It is jointly initiated by the Union Health Ministry of Health, and Department of Biotechnology (DBT) with Council for Scientific & Industrial Research (CSIR) and Indian Council of Medical Research (ICMR).
+							The Indian SARS-CoV-2 Genomics Consortium (INSACOG), a consortium of 38 National Laboratories is a Pan-India network to monitor genomic variations in the SARS-CoV-2 by a sentinel sequencing effort. The network carries out whole genome sequencing of SARS-CoV-2 virus across the nation, aiding the understanding of how the virus spreads and evolves, and provide information to aid public health response. It is jointly initiated by the Union Health Ministry of Health, and Department of Biotechnology (DBT) with Council for Scientific & Industrial Research (CSIR) and Indian Council of Medical Research (ICMR). INSACOG DataHub developed & maintained at National Institute of Biomedical Genomics is an effort to store and analyze the whole genome sequence of SARS-CoV-2.
 						</p>
-					</div>
-
-
-					<div class="has-text-centered mb-2">
-						<Tag class="is-inline-block" :name="last_updated" theme="#FF8F41"/>
-					</div>
-
-					<div class="has-text-centered">
-						<Tag class="is-inline-block mt-1" name="Pangolin version: " theme="#FF8F41"/>
-						<Tag class="is-inline-block mt-1" name="Pangolearn version: " theme="#FF8F41"/>
-						<Tag class="is-inline-block mt-1" name="Scorpio version: " theme="#FF8F41"/>
-						<Tag class="is-inline-block mt-1" name="Nextclade version: " theme="#FF8F41"/>
 					</div>
 
 					<div class="columns is-vcentered pt-4">
 						<div class="column has-text-centered">
-							<div class="box p-4 is-floating has-background-yellow-lightest">
+							<div class="box p-2 is-floating has-background-yellow-lightest">
 								<div v-if="$device.isDesktop">
 									<p class="has-text-weight-medium is-size-5">Genomes Uploaded</p>
 									<p class="has-text-weight-medium is-size-4">
@@ -77,7 +52,7 @@
 							</div>
 						</div>
 						<div class="column has-text-centered">
-							<div class="box p-4 is-floating has-background-yellow-lightest">
+							<div class="box p-2 is-floating has-background-yellow-lightest">
 								<div v-if="$device.isDesktop">
 									<p class="has-text-weight-medium is-size-5">Lineages Found</p>
 									<p class="has-text-weight-medium is-size-4">
@@ -90,7 +65,7 @@
 							</div>
 						</div>
 						<div class="column has-text-centered">
-							<div class="box p-4 is-floating has-background-yellow-lightest">
+							<div class="box p-2 is-floating has-background-yellow-lightest">
 								<div v-if="$device.isDesktop">
 									<p class="has-text-weight-medium is-size-5">States Covered</p>
 									<p class="has-text-weight-medium is-size-4">
@@ -100,6 +75,40 @@
 								<p class="has-text-weight-medium is-size-5" v-else>
 									States Covered: <animated-number :value="landing_info.states_covered" :duration="1000" :formatValue="formatnumber"/>
 								</p>
+							</div>
+						</div>
+						<div class="column has-text-centered">
+							<div class="box p-2 is-floating has-background-yellow-lightest">
+								<div v-if="$device.isDesktop">
+									<p class="has-text-weight-medium is-size-5">Variants Found</p>
+									<p class="has-text-weight-medium is-size-4">
+										<animated-number :value="landing_info.variants_catalogued" :duration="1000" :formatValue="formatnumber"/>
+									</p>
+								</div>
+								<p class="has-text-weight-medium is-size-5" v-else>
+									Variants Found: <animated-number :value="landing_info.variants_catalogued" :duration="1000" :formatValue="formatnumber"/>
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="has-text-centered">
+						<Tag class="is-inline-block mt-1" name="Pangolin version: " theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" name="Pangolearn version: " theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" name="Scorpio version: " theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" name="Nextclade version: " theme="#FF8F41"/>
+					</div>
+
+					<div class="has-text-centered mt-2">
+						<Tag class="is-inline-block" :name="last_updated" theme="#7DB950"/>
+					</div>
+
+					<div class="pb-3">
+						<div class="level mt-2 mb-0">
+							<div class="level-item has-text-centered">
+								<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-custom'">
+									<img src="@/assets/logo/nibmg_logo.png" alt="National Institute of Biomedical Genomics, Logo">
+								</figure>
 							</div>
 						</div>
 					</div>
@@ -244,5 +253,9 @@ export default {
 }
 .has-background-yellow-lightest {
 	background: #FFF7D6;
+}
+.is-custom {
+	width: 128px;
+	height: 52px;
 }
 </style>
