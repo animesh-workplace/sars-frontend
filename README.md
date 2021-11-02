@@ -30,6 +30,9 @@
 	<a href="https://github.com/animesh-workplace/sars-frontend">
 		<img src="https://img.shields.io/tokei/lines/github/animesh-workplace/sars-frontend?style=for-the-badge" alt="Lines of code written"/>
 	</a>
+	<a href="https://github.com/animesh-workplace/sars-frontend">
+		<img src="https://img.shields.io/github/commit-activity/w/animesh-workplace/sars-frontend?color=%231AB385&style=for-the-badge" alt="Commits per week"/>
+	</a>
 </p>
 
 ## 🏫 Contributing Institutes
