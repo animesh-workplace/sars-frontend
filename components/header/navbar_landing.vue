@@ -279,9 +279,9 @@ export default {
 				color 		: '#ffffff',
 				background 	: '#020202',
 			})
-			// this.$store.dispatch('websocket_send',
-			// 	{'type': 'MY_DOWNLOAD', 'filter': { 'each_page': 15, 'page': 2 }}
-			// )
+			this.$store.dispatch('websocket_send',
+				{type: 'MY_DOWNLOAD', filter: { period: this.selected_time_period.period, value: this.selected_time_period.value }}
+			)
 			this.loader.close()
 		},
 	}
