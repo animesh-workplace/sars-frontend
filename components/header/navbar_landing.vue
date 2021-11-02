@@ -100,7 +100,7 @@
 										</div>
 
 										<div class="has-text-centered mb-2">
-											<div class="button is-light has-rounded-input">
+											<div class="button is-light has-rounded-input" @click="download_limit">
 												<span>Download</span>
 											</div>
 										</div>
@@ -271,7 +271,19 @@ export default {
 					text: "This doesn't work for you, don't try to be smart."
 				})
 			}
-		}
+		},
+		download_limit() {
+			this.loader = this.$vs.loading({
+				type 		: 'border',
+				text 		: 'Fetching data...',
+				color 		: '#ffffff',
+				background 	: '#020202',
+			})
+			// this.$store.dispatch('websocket_send',
+			// 	{'type': 'MY_DOWNLOAD', 'filter': { 'each_page': 15, 'page': 2 }}
+			// )
+			this.loader.close()
+		},
 	}
 };
 </script>
