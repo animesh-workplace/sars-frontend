@@ -8,15 +8,20 @@
 
 > Indian SARS-CoV-2 Genomics Consortium (INSACOG), a Pan-India network to monitor genomic variations in the SARS-CoV-2 by a sentinel sequencing effort. INSACOG DataHub is a part of INSACOG that is used to store and analyze SARS-CoV-2 genomic data.
 
-
-<!-- <p align="center">
-	<a href="https://github.com/carbon-design-system/carbon/blob/master/LICENSE">
-		<img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" alt="INSACOG DataHub is released under the GNU GENERAL PUBLIC LICENSE (GPL v3)"/>
+<p align="center">
+	<a href="https://raw.githubusercontent.com/animesh-workplace/sars-frontend/master/LICENSE">
+		<img src="https://img.shields.io/github/license/animesh-workplace/sars-frontend?style=for-the-badge" alt="INSACOG DataHub is released under the GNU GENERAL PUBLIC LICENSE (GPL v3)"/>
 	</a>
-	<a href="https://github.com/carbon-design-system/carbon-for-ibm-dotcom/blob/master/.github/CONTRIBUTING.md">
-		<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome"/>
+	<a href="https://github.com/marketplace/actions/github-actions-nodejs">
+		<img src="https://img.shields.io/github/workflow/status/animesh-workplace/sars-frontend/Node.js%20CI?color=%2300C46C&style=for-the-badge" alt="INSACOG DataHub Build Status"/>
 	</a>
-	<a href="https://percy.io/538fc19a/Carbon-for-IBM.com-Web-Components">
-		<img src="https://percy.io/static/images/percy-badge.svg" alt="This project is using Percy.io for visual regression testing."/>
+	<a href="https://github.com/animesh-workplace/sars-frontend">
+		<img src="https://img.shields.io/github/last-commit/animesh-workplace/sars-frontend/master?color=%2300C46C&style=for-the-badge" alt="INSACOG DataHub Last Commit"/>
 	</a>
-</p> -->
+	<a href="https://nuxtjs.org">
+		<img src="https://img.shields.io/github/package-json/dependency-version/animesh-workplace/sars-frontend/nuxt?style=for-the-badge" alt="Nuxtjs version used"/>
+	</a>
+	<a href="https://github.com/animesh-workplace/sars-frontend">
+		<img src="https://img.shields.io/github/languages/code-size/animesh-workplace/sars-frontend?style=for-the-badge" alt="Total code size"/>
+	</a>
+</p>
