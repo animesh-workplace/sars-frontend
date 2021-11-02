@@ -9,7 +9,7 @@
 > Indian SARS-CoV-2 Genomics Consortium (INSACOG), a Pan-India network to monitor genomic variations in the SARS-CoV-2 by a sentinel sequencing effort. INSACOG DataHub is a part of INSACOG that is used to store and analyze SARS-CoV-2 genomic data.
 
 <p align="center">
-	<a href="https://raw.githubusercontent.com/animesh-workplace/sars-frontend/master/LICENSE">
+	<a href="https://github.com/animesh-workplace/sars-frontend/blob/master/LICENSE">
 		<img src="https://img.shields.io/github/license/animesh-workplace/sars-frontend?style=for-the-badge" alt="INSACOG DataHub is released under the GNU GENERAL PUBLIC LICENSE (GPL v3)"/>
 	</a>
 	<a href="https://github.com/marketplace/actions/github-actions-nodejs">
@@ -32,7 +32,7 @@
 	</a>
 </p>
 
-## Contributing Institutes
+## 🏫 Contributing Institutes
 
 | **Institute Name**                                                    | **Location**               | **Website**                                                                           |
 |:---------------------------------------------------------------------:|:--------------------------:|:----------------------------------------------------------------------------------:|
@@ -75,3 +75,7 @@
 | Sri Aurobindo Institute of Medical Sciences & Post Graduate Institute | Indore, Madhya Pradesh     | <a href="https://www.saimsonline.com"> Link </a>                                                       |
 | Translational Health Science and Technology Institute                 | Faridabad, Haryana         | <a href="https://thsti.res.in/newthsti/"> Link </a>                                                     |
 
+
+## 📜 License
+
+Licensed under the [GNU General Public License v3.0](https://github.com/animesh-workplace/sars-frontend/blob/master/LICENSE)
