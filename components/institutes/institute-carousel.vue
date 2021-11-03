@@ -243,6 +243,6 @@ export default {
 	transform: translateX(-300px);
 }
 .shift-mobile {
-	transform: translateX(-160px);
+	/*transform: translateX(-160px);*/
 }
 </style>
