@@ -43,12 +43,17 @@
 
 					<div class="field has-addons mb-0 mr-2" v-show="$auth.loggedIn && show_download" v-click-outside="handleBlur">
 						<div class="control">
-							<div class="button is-fullwidth is-success" @click="download">
-								<svg class="icon has-fill-white">
-									<use xlink:href="@/assets/images/icons/bds.svg#export-g"></use>
-								</svg>
-								<span>Download all</span>
-							</div>
+							<vs-tooltip bottom color="#065F9E">
+								<div class="button is-fullwidth is-success" @click="download">
+									<svg class="icon has-fill-white">
+										<use xlink:href="@/assets/images/icons/bds.svg#export-g"></use>
+									</svg>
+									<span>Download all</span>
+								</div>
+								<template #tooltip>
+									{{ last_updated }}
+								</template>
+							</vs-tooltip>
 						</div>
 
 <!-- 						<div class="control">
@@ -227,12 +232,17 @@ export default {
 	}),
 	computed: {
 		...mapFields([
-			'active'
+			'active',
+			'landing_info',
 		]),
 		...mapFields('user-info-store',[
 			'download_link',
 			'show_download'
-		])
+		]),
+		last_updated() {
+			let text = `Last updated: ${ this.$dayjs(this.landing_info.last_updated).format('DD-MM-YYYY hh:mm A')}`
+			return text
+		}
 	},
 	components: {
 		Logo,
