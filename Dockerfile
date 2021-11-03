@@ -5,4 +5,4 @@ WORKDIR /frontend
 # RUN addgroup non-root && adduser -DH -G non-root non-root
 COPY package.json package.json
 COPY package-lock.json package-lock.json
-RUN npm install
+RUN npm ci
