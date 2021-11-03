@@ -21,7 +21,7 @@
 					<svg class="icon has-fill-grey-dark">
 						<use xlink:href="@/assets/images/icons/bds.svg#link-g"></use>
 					</svg>
-					<a :href="item.link" target="_blank" class="has-text-info">{{ item.link }}</a>
+					<a :href="item.link" target="_blank" class="has-text-info">Website Link</a>
 				</div>
 			</div>
 		</div>
@@ -56,7 +56,7 @@ export default {
 .fixed-size-mobile {
 	min-width: 320px;
 	max-width: 320px;
-	min-height: 120px;
+	min-height: 160px;
 }
 .is-circle {
 	border-radius: 96px;
