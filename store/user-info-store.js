@@ -89,7 +89,7 @@ export const actions = {
 		await commit('SET_SHOW_DOWNLOAD', download_enabled)
 		if(download_enabled) {
 			const link_api = await this.$axios.$post('/files/metadata-download/')
-			let link = link_api.link
+			let link = link_api
 			commit('SET_DOWNLOAD_LINK', link)
 		}
 	},
