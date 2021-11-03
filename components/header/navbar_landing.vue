@@ -51,7 +51,7 @@
 									<span>Download all</span>
 								</div>
 								<template #tooltip>
-									{{ last_updated }}
+									<span class="has-text-weight-semibold">{{ last_updated }}</span>
 								</template>
 							</vs-tooltip>
 						</div>
@@ -233,14 +233,13 @@ export default {
 	computed: {
 		...mapFields([
 			'active',
-			'landing_info',
 		]),
 		...mapFields('user-info-store',[
 			'download_link',
 			'show_download'
 		]),
 		last_updated() {
-			let text = `Last updated: ${ this.$dayjs(this.landing_info.last_updated).format('DD-MM-YYYY hh:mm A')}`
+			let text = `Last updated: ${ this.$dayjs(this.download_link.last_updated).format('DD-MM-YYYY hh:mm A')}`
 			return text
 		}
 	},
@@ -297,7 +296,7 @@ export default {
 				await this.$store.dispatch('user-info-store/set_download_link')
 				let link = document.createElement('a')
 				link.target = '_blank'
-				link.href = this.download_link
+				link.href = this.download_link.link
 				link.click()
 				this.loader.close()
 			} else {
