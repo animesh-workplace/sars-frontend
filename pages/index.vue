@@ -77,7 +77,7 @@
 								</p>
 							</div>
 						</div>
-						<div class="column has-text-centered">
+<!-- 						<div class="column has-text-centered">
 							<div class="box p-2 is-floating has-background-yellow-lightest">
 								<div v-if="$device.isDesktop">
 									<p class="has-text-weight-medium is-size-5">Variants Found</p>
@@ -89,7 +89,7 @@
 									Variants Found: <animated-number :value="landing_info.variants_catalogued" :duration="1000" :formatValue="formatnumber"/>
 								</p>
 							</div>
-						</div>
+						</div> -->
 					</div>
 
 					<div class="has-text-centered">
