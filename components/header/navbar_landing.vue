@@ -51,7 +51,7 @@
 							</div>
 						</div>
 
-						<div class="control">
+<!-- 						<div class="control">
 							<div
 								:class="time_dropdown ? 'dropdown is-iconless is-right is-active' : 'dropdown is-iconless is-right'"
 							>
@@ -74,6 +74,7 @@
 											<input
 												type="number"
 												placeholder="Enter Period"
+												v-model="selected_time_period.value"
 												class="input is-small has-rounded-input mr-2"
 											>
 											<div class="dropdown is-hoverable is-size-6">
@@ -99,6 +100,31 @@
 											</div>
 										</div>
 
+										<p class="has-text-weight-medium is-size-5 has-text-centered mb-3">
+											Choose where to get data from
+										</p>
+
+										<div class="columns">
+											<div class="column">
+												<div class="field">
+												    <label class="radio">
+												        <input type="radio" name="answer" value="all" v-model="selected_time_period.from">
+												        <span class="radio-mark"></span>
+												        <span>Complete metadata</span>
+												    </label>
+												</div>
+											</div>
+											<div class="column">
+												<div class="field">
+												    <label class="radio">
+												        <input type="radio" name="answer" value="my" v-model="selected_time_period.from">
+												        <span class="radio-mark"></span>
+												        <span>My metadata</span>
+												    </label>
+												</div>
+											</div>
+										</div>
+
 										<div class="has-text-centered mb-2">
 											<div class="button is-light has-rounded-input" @click="download_limit">
 												<span>Download</span>
@@ -108,7 +134,8 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
+
 					</div>
 
 					<div class="button is-fullwidth is-danger mr-2" v-if="$auth.loggedIn" @click="logout">
@@ -181,14 +208,16 @@ export default {
 		time_dropdown: false,
 		is_authenticated: false,
 		selected_time_period: {
+			value: 5,
+			from: 'my',
+			period: '',
 			pristine: true,
-			value: 0,
-			period: ''
 		},
 		time_period: [
 			{ name: 'Days', active: false },
 			{ name: 'Months', active: false },
 			{ name: 'Year', active: false },
+			{ name: 'All', active: false },
 		],
 		id: Date.now() + Math.floor(Math.random()*10000 + 1),
 		navbar_data: [
@@ -280,7 +309,7 @@ export default {
 				background 	: '#020202',
 			})
 			this.$store.dispatch('websocket_send',
-				{type: 'MY_DOWNLOAD', filter: { period: this.selected_time_period.period, value: this.selected_time_period.value }}
+				{type: 'MY_DOWNLOAD', filter: { period: this.selected_time_period.period, value: this.selected_time_period.value, from: this.selected_time_period.from }}
 			)
 			this.loader.close()
 		},
@@ -323,5 +352,14 @@ export default {
 }
 .width-100p {
 	width: 100%;
+}
+.radio-mark:after {
+	background-color: #065F9E;
+}
+.field>label.radio {
+	min-height: 2em;
+}
+.field>.radio>.radio-mark {
+	top: calc(0.7em - 1px);
 }
 </style>
