@@ -190,7 +190,6 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(()=>{
-			console.log(this.$dayjs(this.landing_info.last_updated).format('DD-MM-YYYY hh:mm A'))
 		})
 	}
 };
