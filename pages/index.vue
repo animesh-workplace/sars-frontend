@@ -93,20 +93,19 @@
 					</div>
 
 					<div class="has-text-centered">
-						<Tag class="is-inline-block mt-1" name="Pangolin version: " theme="#FF8F41"/>
-						<Tag class="is-inline-block mt-1" name="Pangolearn version: " theme="#FF8F41"/>
-						<Tag class="is-inline-block mt-1" name="Scorpio version: " theme="#FF8F41"/>
-						<Tag class="is-inline-block mt-1" name="Nextclade version: " theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" :name="landing_info.pangolin_version" theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" :name="landing_info.scorpio_version" theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" :name="landing_info.nextclade_version" theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" :name="landing_info.constellation_version" theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" :name="landing_info.pangolearn_version" theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" :name="landing_info.pango_designation_version" theme="#FF8F41"/>
+						<Tag class="is-inline-block mt-1" :name="last_updated" theme="#7DB950"/>
 					</div>
 
-					<div class="has-text-centered mt-2">
-						<Tag class="is-inline-block" :name="last_updated" theme="#7DB950"/>
-					</div>
-
-					<div class="pb-3">
+					<div class="py-3">
 						<div class="level mt-2 mb-0">
 							<div class="level-item has-text-centered">
-								<figure :class="$device.isMobileOrTablet ? 'image is-64x64' : 'image is-custom'">
+								<figure :class="$device.isMobileOrTablet ? 'image is-custom-mobile' : 'image is-custom'">
 									<img src="@/assets/logo/nibmg_logo.png" alt="National Institute of Biomedical Genomics, Logo">
 								</figure>
 							</div>
@@ -255,7 +254,9 @@ export default {
 	background: #FFF7D6;
 }
 .is-custom {
+	width: 140px;
+}
+.is-custom-mobile {
 	width: 128px;
-	height: 52px;
 }
 </style>
