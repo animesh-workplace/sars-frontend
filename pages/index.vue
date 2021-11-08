@@ -80,7 +80,7 @@
 						<div class="column has-text-centered">
 							<div class="box p-2 is-floating has-background-yellow-lightest">
 								<div v-if="$device.isDesktop">
-									<p class="has-text-weight-medium is-size-5">Variants Found</p>
+									<p class="has-text-weight-medium is-size-5">Unique Mutations</p>
 									<p class="has-text-weight-medium is-size-4">
 										<animated-number :value="landing_info.variants_catalogued" :duration="1000" :formatValue="formatnumber"/>
 									</p>
