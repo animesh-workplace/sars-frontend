@@ -272,7 +272,6 @@ export default {
 	watch: {
 		ChartData(value) {
 			let max_value = ceil(max(map(value, d=>d.value)), -2)
-			console.log(max_value)
 			this.options.series[0].data = value
 			this.options.visualMap.max = max_value
 			this.options.visualMap.text = [max_value, 0]
