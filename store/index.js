@@ -6,9 +6,12 @@ import { getField, updateField } from 'vuex-map-fields'
 export const state = () => ({
 	active: 'Home',
 	timeout: null,
-	missing_columns: [],
+	table_search: '',
 	landing_info: {},
+	missing_columns: [],
+	download_metadata: [],
 	landing_info_loaded: false,
+	download_notification: false,
 	// WebSocket data
 	all_metadata: null,
 	metadata_length: 0,
@@ -58,6 +61,9 @@ export const mutations = {
 			state.metadata_length = event.data.total_length
 			state.table_loading = false
 			state.socket.isLoaded.all_metadata = true
+		} else if(event['type'] == 'DOWNLOAD_METADATA') {
+			state.download_metadata = event.data.metadata
+			state.download_notification = false
 		}
 	},
 	SOCKET_RECONNECT(state, count) {
