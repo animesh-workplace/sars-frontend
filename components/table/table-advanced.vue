@@ -93,6 +93,7 @@
 
 <script>
 import { forEach, camelCase } from 'lodash'
+import { mapFields } from 'vuex-map-fields'
 import Tag from "@/components/table/cool-tag.vue"
 import SubTable from "@/components/table/sub-table.vue"
 
@@ -108,7 +109,7 @@ export default {
 		},
 		Size: {
 			type: Number
-		}
+		},
 	},
 	watch: {
 		page(value) {
@@ -128,9 +129,13 @@ export default {
 		SubTable
 	},
 	computed: {
+		...mapFields([
+			'table_search',
+		]),
 	},
 	methods: {
 		search_this() {
+			this.table_search = this.search
 			this.$store.dispatch('websocket_send',
 				{'type': 'MY_METADATA', 'filter': { 'each_page': 15, 'page': this.page, 'search': this.search }}
 			)
