@@ -41,106 +41,21 @@
 						<span>Login</span>
 					</div>
 
-					<div class="field has-addons mb-0 mr-2" v-show="$auth.loggedIn && show_download" v-click-outside="handleBlur">
-						<div class="control">
-							<vs-tooltip bottom color="#065F9E">
-								<div class="button is-fullwidth is-success" @click="download">
-									<svg class="icon has-fill-white">
-										<use xlink:href="@/assets/images/icons/bds.svg#export-g"></use>
-									</svg>
-									<span>Download all</span>
-								</div>
-								<template #tooltip>
-									<span class="has-text-weight-semibold">{{ last_updated }}</span>
-								</template>
-							</vs-tooltip>
-						</div>
-
-<!-- 						<div class="control">
-							<div
-								:class="time_dropdown ? 'dropdown is-iconless is-right is-active' : 'dropdown is-iconless is-right'"
-							>
-								<div class="dropdown-trigger">
-									<div
-										@click="activate_time_dropdown"
-										:class="time_dropdown ? 'button has-background-success-dark' : 'button has-background-success'"
-									>
-										<svg class="icon has-fill-white">
-											<use xlink:href="@/assets/images/icons/bds.svg#arrow-down-g"></use>
-										</svg>
-									</div>
-								</div>
-								<div class="dropdown-menu">
-									<div class="dropdown-content width-adjust p-3">
-										<p class="has-text-weight-medium is-size-5 has-text-centered">
-											Limit your download to last
-										</p>
-										<div class="level my-2">
-											<input
-												type="number"
-												placeholder="Enter Period"
-												v-model="selected_time_period.value"
-												class="input is-small has-rounded-input mr-2"
-											>
-											<div class="dropdown is-hoverable is-size-6">
-												<div class="dropdown-trigger">
-													<div class="button has-rounded-input">
-														<span class="has-text-weight-normal is-size-5">
-															{{ !selected_time_period.pristine ? selected_time_period.period : 'Select Interval' }}
-														</span>
-													</div>
-												</div>
-
-												<div class="dropdown-menu width-100p">
-													<div class="dropdown-content">
-														<a
-															v-for="(time, index) in time_period"
-															:class="time.active ? 'dropdown-item is-active has-text-weight-semibold has-text-black mb-1' : 'dropdown-item mb-1'"
-															@click="select_time_period(time.name, index)"
-														>
-															{{ time.name }}
-														</a>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<p class="has-text-weight-medium is-size-5 has-text-centered mb-3">
-											Choose where to get data from
-										</p>
-
-										<div class="columns">
-											<div class="column">
-												<div class="field">
-												    <label class="radio">
-												        <input type="radio" name="answer" value="all" v-model="selected_time_period.from">
-												        <span class="radio-mark"></span>
-												        <span>Complete metadata</span>
-												    </label>
-												</div>
-											</div>
-											<div class="column">
-												<div class="field">
-												    <label class="radio">
-												        <input type="radio" name="answer" value="my" v-model="selected_time_period.from">
-												        <span class="radio-mark"></span>
-												        <span>My metadata</span>
-												    </label>
-												</div>
-											</div>
-										</div>
-
-										<div class="has-text-centered mb-2">
-											<div class="button is-light has-rounded-input" @click="download_limit">
-												<span>Download</span>
-											</div>
-										</div>
-
-									</div>
-								</div>
+					<div class="field has-addons mb-0 mr-2" v-show="$auth.loggedIn && show_download">
+						<vs-tooltip bottom color="#065F9E">
+							<div class="button is-fullwidth is-success" @click="download">
+								<svg class="icon has-fill-white">
+									<use xlink:href="@/assets/images/icons/bds.svg#export-g"></use>
+								</svg>
+								<span>Download all</span>
 							</div>
-						</div> -->
-
+							<template #tooltip>
+								<p class="has-text-weight-semibold">
+									This downloads the metadata and sequences from all institutes
+								</p>
+								<p class="has-text-weight-semibold has-text-centered">{{ last_updated }}</p>
+							</template>
+						</vs-tooltip>
 					</div>
 
 					<div class="button is-fullwidth is-danger mr-2" v-if="$auth.loggedIn" @click="logout">
@@ -170,6 +85,22 @@
 								<use xlink:href="@/assets/images/icons/bds.svg#person-assign-g"></use>
 							</svg>
 							Login
+						</a>
+					</li>
+					<li v-if="$auth.loggedIn" @click="change_page('upload')">
+						<a>
+							<svg class="icon has-fill-white">
+								<use xlink:href="@/assets/images/icons/bds.svg#share-g"></use>
+							</svg>
+							Upload
+						</a>
+					</li>
+					<li v-if="$auth.loggedIn" @click="change_page('my_data')">
+						<a>
+							<svg class="icon has-fill-white">
+								<use xlink:href="@/assets/images/icons/bds.svg#timelines-g"></use>
+							</svg>
+							Sequences
 						</a>
 					</li>
 					<li @click="logout" v-if="$auth.loggedIn">
@@ -210,20 +141,7 @@ export default {
 		add_shadow: false,
 		login_active: false,
 		dropdown_menu: false,
-		time_dropdown: false,
 		is_authenticated: false,
-		selected_time_period: {
-			value: 5,
-			from: 'my',
-			period: '',
-			pristine: true,
-		},
-		time_period: [
-			{ name: 'Days', active: false },
-			{ name: 'Months', active: false },
-			{ name: 'Year', active: false },
-			{ name: 'All', active: false },
-		],
 		id: Date.now() + Math.floor(Math.random()*10000 + 1),
 		navbar_data: [
 			{ name: 'Upload', link: '/upload', icon: 'share-g' },
@@ -253,6 +171,9 @@ export default {
 		this.is_authenticated = this.$auth.loggedIn
 	},
 	methods: {
+		change_page(page) {
+			this.$router.push(`/${page}`)
+		},
 		activate_login() {
 			this.login_active = true
 			this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
@@ -266,29 +187,6 @@ export default {
 		},
 		open_dropdown_menu() {
 			this.dropdown_menu = !this.dropdown_menu
-		},
-		activate_time_dropdown() {
-			if(this.show_download) {
-				this.time_dropdown = !this.time_dropdown
-			} else {
-				this.$vs.notification({
-					sticky: true,
-					color: 'danger',
-					duration: 'none',
-					position: 'top-center',
-					title: 'Well, would you look at that!!',
-					text: "This doesn't work for you, don't try to be smart"
-				})
-			}
-		},
-		select_time_period(value, index) {
-			this.selected_time_period.pristine = false
-			this.selected_time_period.period = value
-			map(this.time_period, d=>d.active = false)
-			this.time_period[index].active = true
-		},
-		handleBlur() {
-			this.time_dropdown = false
 		},
 		async download() {
 			if(this.show_download) {
@@ -352,23 +250,5 @@ export default {
 }
 .shift-center {
 	margin-right: 15vw;
-}
-.width-adjust{
-	width: 500px;
-}
-.has-rounded-input {
-	border-radius: 0.25rem !important;
-}
-.width-100p {
-	width: 100%;
-}
-.radio-mark:after {
-	background-color: #065F9E;
-}
-.field>label.radio {
-	min-height: 2em;
-}
-.field>.radio>.radio-mark {
-	top: calc(0.7em - 1px);
 }
 </style>
