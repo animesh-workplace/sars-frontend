@@ -86,7 +86,7 @@
 									</p>
 								</div>
 								<p class="has-text-weight-medium is-size-5" v-else>
-									Variants Found: <animated-number :value="landing_info.variants_catalogued" :duration="1000" :formatValue="formatnumber"/>
+									Unique Mutations: <animated-number :value="landing_info.variants_catalogued" :duration="1000" :formatValue="formatnumber"/>
 								</p>
 							</div>
 						</div>
