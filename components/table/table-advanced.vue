@@ -1,15 +1,15 @@
 <template>
 	<div>
 		<vs-table id="table-advanced">
-<!-- 			<template #header>
-				<vs-input border color="#065F9E" placeholder="Search" v-model="search" id="search-bar" class="is-size-5">
+			<template #header>
+				<vs-input border color="#065F9E" placeholder="Search" v-model="search" id="search-bar" class="is-size-5" @keypress.enter="search_this">
 					<template #icon>
 						<svg class="icon has-fill-blue-dark">
 							<use xlink:href="@/assets/images/icons/bds.svg#search"></use>
 						</svg>
 					</template>
 				</vs-input>
-			</template> -->
+			</template>
 
 			<template #thead>
 				<vs-tr>
@@ -112,9 +112,15 @@ export default {
 	},
 	watch: {
 		page(value) {
-			this.$store.dispatch('websocket_send',
-				{'type': 'MY_METADATA', 'filter': { 'each_page': 15, 'page': value }}
-			)
+			if(this.search) {
+				this.$store.dispatch('websocket_send',
+					{'type': 'MY_METADATA', 'filter': { 'each_page': 15, 'page': value, 'search': this.search }}
+				)
+			} else {
+				this.$store.dispatch('websocket_send',
+					{'type': 'MY_METADATA', 'filter': { 'each_page': 15, 'page': value }}
+				)
+			}
 		},
 	},
 	components: {
@@ -124,6 +130,11 @@ export default {
 	computed: {
 	},
 	methods: {
+		search_this() {
+			this.$store.dispatch('websocket_send',
+				{'type': 'MY_METADATA', 'filter': { 'each_page': 15, 'page': this.page, 'search': this.search }}
+			)
+		}
 	},
 	beforeMount() {
 	},
