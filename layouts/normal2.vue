@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<Navbar/>
-		<Nuxt/>
+		<Nuxt class="min-height"/>
 		<Footer/>
 	</div>
 </template>
@@ -31,4 +31,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.min-height {
+	min-height: calc(100vh - 128px);
+}
+</style>
