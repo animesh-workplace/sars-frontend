@@ -4,14 +4,14 @@
 			<section class="section mt-6">
 				<div class="box is-raised is-unselectable">
 
-					<div class="level">
+					<div :class="show_download ? 'level' : 'space' ">
 						<div class="has-text-centered">
 							<span class="is-size-4 has-text-weight-semibold has-text-grey-dark">
 								Complete Metadata
 							</span>
 						</div>
 
-						<div class="field has-addons mb-0 mr-2" v-click-outside="handleBlur">
+						<div class="field has-addons mb-0 mr-2" v-click-outside="handleBlur" v-if="show_download">
 							<div class="control">
 								<vs-tooltip bottom color="#52A5E0">
 									<div class="button is-fullwidth is-info" @click="download_annotated">
