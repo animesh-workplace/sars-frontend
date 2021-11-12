@@ -11,7 +11,7 @@
 							</span>
 						</div>
 
-						<div class="field has-addons mb-0 mr-2" v-click-outside="handleBlur" v-if="show_download">
+						<div class="field has-addons mb-0 mr-2" v-click-outside="handleBlur" v-show="show_download">
 							<div class="control">
 								<vs-tooltip bottom color="#52A5E0">
 									<div class="button is-fullwidth is-info" @click="download_annotated">
@@ -183,7 +183,9 @@ export default {
 					link.href = URL.createObjectURL(content)
 					link.download = `download_data_${date_time}.zip`
 					link.click()
-					vm.my_notification.close()
+					setInterval(() => {
+						vm.my_notification.close()
+					}, 2000)
 				})
 			}
 		}
@@ -213,26 +215,37 @@ export default {
 			this.time_dropdown = false
 		},
 		download_annotated() {
-			this.my_notification = this.$vs.notification({
-				type 		: 'border',
-				text		: '<span class="has-text-grey-white">Please wait while we fetch and compile the data. Please do not close this window</span>',
-				title 		: '<span class="is-size-5 has-text-weight-medium has-text-grey-white">Fetching data</span>',
-				color 		: '#CE9F44',
-				sticky		: true,
-				duration 	: 'none',
-				position	: 'top-center',
-				buttonClose : false,
-			})
-			if(this.table_search) {
-				this.$store.dispatch('websocket_send',
-					{ type: 'DOWNLOAD_METADATA', filter: { search: this.table_search, 'each_page': 15, 'page': 1 }}
-				)
+			if(this.show_download) {
+				this.my_notification = this.$vs.notification({
+					type 		: 'border',
+					text		: '<span class="has-text-grey-white">Please wait while we fetch and compile the data. Please do not close this window</span>',
+					title 		: '<span class="is-size-5 has-text-weight-medium has-text-grey-white">Fetching data</span>',
+					color 		: '#CE9F44',
+					sticky		: true,
+					duration 	: 'none',
+					position	: 'top-center',
+					buttonClose : false,
+				})
+				if(this.table_search) {
+					this.$store.dispatch('websocket_send',
+						{ type: 'DOWNLOAD_METADATA', filter: { search: this.table_search, 'each_page': 15, 'page': 1 }}
+					)
+				} else {
+					this.$store.dispatch('websocket_send',
+						{ type: 'DOWNLOAD_METADATA', filter: { 'each_page': 15, 'page': 1 }}
+					)
+				}
+				this.download_notification = true
 			} else {
-				this.$store.dispatch('websocket_send',
-					{ type: 'DOWNLOAD_METADATA', filter: { 'each_page': 15, 'page': 1 }}
-				)
+				this.$vs.notification({
+					sticky: true,
+					color: 'danger',
+					duration: 'none',
+					position: 'top-center',
+					title: 'Well, would you look at that!!',
+					text: "This doesn't work for you, don't try to be smart"
+				})
 			}
-			this.download_notification = true
 		},
 	},
 	beforeMount() {
