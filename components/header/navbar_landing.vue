@@ -41,7 +41,7 @@
 						<span>Login</span>
 					</div>
 
-					<div class="field has-addons mb-0 mr-2" v-show="$auth.loggedIn && show_download">
+					<div class="field has-addons mb-0 mr-2" v-if="$auth.loggedIn && show_download">
 						<vs-tooltip bottom color="#065F9E">
 							<div class="button is-fullwidth is-success" @click="download">
 								<svg class="icon has-fill-white">
