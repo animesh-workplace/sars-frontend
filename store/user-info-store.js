@@ -54,7 +54,7 @@ export const actions = {
 			})
 		} catch(err) {
 			Toast.open({
-				message: err.response.data['message'] || err.response.data || err,
+				message: err.response.data['message'][0] || err.response.data || err,
 				type: 'is-danger',
 				position: 'is-bottom'
 			})
