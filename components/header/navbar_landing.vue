@@ -116,7 +116,7 @@
 		</div>
 
 		<vs-dialog
-			v-model="login_active" @close="login_closed"
+			v-model="login_active"
 			overflow-hidden blur prevent-close width="35%"
 		>
 			<template #header>
@@ -165,6 +165,11 @@ export default {
 		Logo,
 		LoginLayout,
 	},
+	watch: {
+		login_active(value) {
+			this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
+		}
+	},
 	beforeMount() {
 	},
 	mounted() {
@@ -176,9 +181,6 @@ export default {
 		},
 		activate_login() {
 			this.login_active = true
-			this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
-		},
-		login_closed() {
 			this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
 		},
 		logout() {
