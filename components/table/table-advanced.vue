@@ -2,7 +2,7 @@
 	<div>
 		<vs-table id="table-advanced">
 			<template #header>
-				<vs-input border color="#065F9E" placeholder="Search" v-model="search" id="search-bar" class="is-size-5" @keypress.enter="search_this">
+				<vs-input border color="#065F9E" placeholder="Type your query and press enter" v-model="search" id="search-bar" class="is-size-5" @keypress.enter="search_this">
 					<template #icon>
 						<svg class="icon has-fill-blue-dark">
 							<use xlink:href="@/assets/images/icons/bds.svg#search"></use>
