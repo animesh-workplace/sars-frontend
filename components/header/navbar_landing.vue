@@ -41,6 +41,13 @@
 						<span>Login</span>
 					</div>
 
+					<div class="button is-fullwidth mr-2 no-pointer is-small" v-if="$auth.loggedIn">
+						<svg class="icon has-fill-white">
+							<use xlink:href="@/assets/images/icons/bds.svg#person-g"></use>
+						</svg>
+						<span class="has-text-white">{{ $auth.user }}</span>
+					</div>
+
 					<div class="field has-addons mb-0 mr-2" v-show="$auth.loggedIn && show_download">
 						<vs-tooltip bottom color="#065F9E">
 							<div class="button is-fullwidth is-success" @click="download">
@@ -61,6 +68,7 @@
 					<div class="button is-fullwidth is-danger mr-2" v-if="$auth.loggedIn" @click="logout">
 						<span>Logout</span>
 					</div>
+
 				</div>
 
 				<div v-show="$device.isMobile">
@@ -79,6 +87,7 @@
 		>
 			<div class="menu has-text-centered is-inverted">
 				<ul class="menu-list">
+					{{ $auth.user }}
 					<li @click="activate_login" v-if="!$auth.loggedIn">
 						<a>
 							<svg class="icon has-fill-white">
@@ -252,5 +261,8 @@ export default {
 }
 .shift-center {
 	margin-right: 15vw;
+}
+.no-pointer {
+	pointer-events: none;
 }
 </style>
