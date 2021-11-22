@@ -79,7 +79,6 @@ export const actions = {
 	async user_logout({ commit, dispatch }) {
 		this.$auth.logout()
 		this.$cookies.remove('c_uid')
-		this.$auth.$storage.setCookie('download', false)
 		this.$auth.$storage.setCookie('token_expiry', false)
 		await commit('SET_TOKEN_EXPIRY', '')
 		await this.dispatch('websocket_disconnect')
