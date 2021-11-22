@@ -4,14 +4,14 @@
 			<section class="section mt-6">
 				<div class="box is-raised is-unselectable">
 
-					<div :class="show_download ? 'level' : 'space' ">
+					<div :class="show_export ? 'level' : 'space' ">
 						<div class="has-text-centered">
 							<span class="is-size-4 has-text-weight-semibold has-text-grey-dark">
 								Complete Metadata
 							</span>
 						</div>
 
-						<div class="field has-addons mb-0 mr-2" v-click-outside="handleBlur" v-show="show_download">
+						<div class="field has-addons mb-0 mr-2" v-click-outside="handleBlur" v-show="show_export">
 							<div class="control">
 								<vs-tooltip bottom color="#52A5E0">
 									<div class="button is-fullwidth is-info" @click="download_annotated">
@@ -148,7 +148,7 @@ export default {
 		]),
 		...mapFields('user-info-store',[
 			'download_link',
-			'show_download'
+			'show_export'
 		]),
 		enable_table() {
 			if(this.all_metadata) {
@@ -192,7 +192,7 @@ export default {
 	},
 	methods: {
 		activate_time_dropdown() {
-			if(this.show_download) {
+			if(this.show_export) {
 				this.time_dropdown = !this.time_dropdown
 			} else {
 				this.$vs.notification({
@@ -215,7 +215,7 @@ export default {
 			this.time_dropdown = false
 		},
 		download_annotated() {
-			if(this.show_download) {
+			if(this.show_export) {
 				this.my_notification = this.$vs.notification({
 					type 		: 'border',
 					text		: '<span class="has-text-grey-white">Please wait while we fetch and compile the data. Please do not close this window</span>',
