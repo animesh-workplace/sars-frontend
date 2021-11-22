@@ -91,7 +91,6 @@ export const actions = {
 	},
 	async user_logout_server({ commit, dispatch }) {
 		this.$auth.logout()
-		this.$auth.$storage.setCookie('download', false)
 		this.$auth.$storage.setCookie('token_expiry', false)
 		this.$cookies.remove('c_uid')
 		await commit('SET_TOKEN_EXPIRY', '')
