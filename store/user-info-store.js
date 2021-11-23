@@ -7,7 +7,7 @@ export const state = () => ({
 	download_link: '',
 	show_export: false,
 	show_download: false,
-	uploaded_metadata: {},
+	// uploaded_metadata: {},
 });
 
 export const getters = {
@@ -18,9 +18,9 @@ export const mutations = {
 	SET_TOKEN_EXPIRY(state, payload) {
 		state.token_expiry = payload
 	},
-	SET_UPLOADED_METADATA(state, payload) {
-		state.uploaded_metadata = payload
-	},
+	// SET_UPLOADED_METADATA(state, payload) {
+	// 	state.uploaded_metadata = payload
+	// },
 	SET_DOWNLOAD_LINK(state, payload) {
 		state.download_link = payload
 	},
@@ -45,7 +45,7 @@ export const actions = {
 			await commit('SET_SHOW_DOWNLOAD', data.download)
 			this.$auth.$storage.setCookie('token_expiry', data.expires)
 			await dispatch('get_user_status')
-			await dispatch('set_uploaded_metadata')
+			// await dispatch('set_uploaded_metadata')
 			await dispatch('set_download_link')
 			await this.dispatch('websocket_connect')
 			this.$router.push('/upload')
@@ -94,10 +94,10 @@ export const actions = {
 		this.$cookies.remove('c_uid')
 		await commit('SET_TOKEN_EXPIRY', '')
 	},
-	async set_uploaded_metadata({ commit }) {
-		const metadata_header = await this.$axios.$post('/files/metadata-info-name/')
-		commit('SET_UPLOADED_METADATA', metadata_header)
-	},
+	// async set_uploaded_metadata({ commit }) {
+	// 	const metadata_header = await this.$axios.$post('/files/metadata-info-name/')
+	// 	commit('SET_UPLOADED_METADATA', metadata_header)
+	// },
 	async set_download_link({ commit, state }) {
 		if(state.show_download) {
 			const link_api = await this.$axios.$post('/files/metadata-download/')
