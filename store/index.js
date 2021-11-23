@@ -14,6 +14,7 @@ export const state = () => ({
 	download_notification: false,
 	// WebSocket data
 	all_metadata: null,
+	uploaded_metadata: {},
 	metadata_length: 0,
 	table_loading: true,
 	socket: {
@@ -48,6 +49,7 @@ export const mutations = {
 		this.$socket = event.currentTarget
 		state.socket.isConnected = true
 		this.$socket.send(JSON.stringify({'type': 'MY_METADATA', 'filter': { 'each_page': 15, 'page': 1 }}))
+		this.$socket.send(JSON.stringify({'type': 'MY_METADATA_NAME'}))
 	},
 	SOCKET_ONCLOSE (state, event)  {
 		state.socket.isConnected = false
@@ -64,6 +66,8 @@ export const mutations = {
 		} else if(event['type'] == 'DOWNLOAD_METADATA') {
 			state.download_metadata = event.data.metadata
 			state.download_notification = false
+		} else if(event['type'] == 'MY_METADATA_NAME') {
+			state.uploaded_metadata = event.data.name
 		}
 	},
 	SOCKET_RECONNECT(state, count) {
