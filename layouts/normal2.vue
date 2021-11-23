@@ -25,7 +25,7 @@ export default {
 		if(this.$auth.loggedIn) {
 			this.$store.dispatch('user-info-store/get_user_status')
 			this.$store.dispatch('websocket_connect')
-			this.$store.dispatch('user-info-store/set_uploaded_metadata')
+			// this.$store.dispatch('user-info-store/set_uploaded_metadata')
 			this.$store.dispatch('user-info-store/set_download_link')
 		}
 	},
