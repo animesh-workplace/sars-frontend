@@ -427,11 +427,12 @@ export default {
 			return metadata_url
 		},
 		...mapFields([
-			'active'
-		]),
-		...mapFields('user-info-store',[
+			'active',
 			'uploaded_metadata'
 		]),
+		// ...mapFields('user-info-store',[
+		// 	'uploaded_metadata'
+		// ]),
 	},
 	methods: {
 		clipboard_success({ value, event }) {
@@ -734,7 +735,8 @@ export default {
 				let main_label = this.$el.querySelectorAll('.filepond--file-status-main')
 				forEach(file, d=> d.setAttribute('data-filepond-item-state', 'processing-complete'))
 				forEach(main_label, d=> d.textContent = 'Uploaded Successfully')
-				this.$store.dispatch('user-info-store/set_uploaded_metadata')
+				this.$store.dispatch('websocket_send', {'type': 'MY_METADATA_NAME' })
+				// this.$store.dispatch('user-info-store/set_uploaded_metadata')
 				this.id = Date.now() + Math.floor(Math.random()*10000 + 1)
 				this.show_log = false
 				this.activate_only_qc_passed_upload = false
