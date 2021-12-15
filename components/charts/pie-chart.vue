@@ -4,7 +4,7 @@
 			align="center"
 			class="is-size-4 has-text-weight-semibold has-text-grey-dark pb-4"
 		>
-			Sequence Upload Statistics
+			Sequence statistics (Institute)
 		</p>
 
 		<v-chart
@@ -71,6 +71,12 @@ export default {
 					fontWeight: 500,
 					fontFamily: 'Averta',
 				},
+			},
+			grid: {
+				left: '0%',
+				right: '0%',
+				bottom: '0%',
+				containLabel: true,
 			},
 			series: [
 				{
