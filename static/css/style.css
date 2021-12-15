@@ -107,9 +107,9 @@
 }*/
 
 .vs-tooltip {
-	max-width: 900px;
-	padding: 16px 20px;
-	text-align: left;
+	/*max-width: 900px;*/
+	padding: 0.9rem;
+	/*text-align: left;*/
 }
 
 .vs-pagination__button {
