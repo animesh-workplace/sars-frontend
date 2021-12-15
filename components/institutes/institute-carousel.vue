@@ -212,7 +212,7 @@ export default {
 		],
 		flickityOptions: {
 			contain: true,
-			pageDots: false,
+			pageDots: true,
 			wrapAround: true,
 			freeScroll: true,
 			prevNextButtons: true,
