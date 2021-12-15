@@ -247,6 +247,7 @@
 				<div class="column is-4">
 					<PieChart
 						class="pt-6"
+						v-if="page_loaded"
 						:key="
 							landing_info_loaded
 								? Date.now() +
@@ -273,21 +274,28 @@
 				</svg>
 			</div>
 
-			<div class="columns pb-6">
-				<div class="column">
+			<div class="columns pb-6 is-vcentered">
+				<div class="column pb-12">
 					<!-- <MapChart /> -->
-					<StackChart />
+					<StackChart v-if="page_loaded" />
 				</div>
-				<div class="column"></div>
+<!-- 				<div class="column pb-6">
+					<StateChart v-if="page_loaded" />
+				</div> -->
 			</div>
 
-			<div class="column pb-6">
-				<!-- <div class="column"> -->
-				<!-- <MapChart /> -->
-				<ThemeRiverChart />
-				<!-- </div> -->
-				<!-- <div class="column"></div> -->
+			<div class="columns pb-6 is-vcentered">
+				<div class="column pb-6">
+					<StateChart v-if="page_loaded" />
+				</div>
 			</div>
+			<!-- <div class="column pb-6"> -->
+			<!-- <div class="column"> -->
+			<!-- <MapChart /> -->
+			<!-- <ThemeRiverChart /> -->
+			<!-- </div> -->
+			<!-- <div class="column"></div> -->
+			<!-- </div> -->
 		</section>
 
 		<section class="section has-background-theme">
@@ -322,6 +330,7 @@ import Tag from '@/components/table/cool-tag.vue'
 import PieChart from '@/components/charts/pie-chart.vue'
 import MapChart from '@/components/charts/map-chart-landing.vue'
 import StackChart from '@/components/charts/stacked-area-chart.vue'
+import StateChart from '@/components/charts/bar-chart-state.vue'
 import Carousel from '@/components/institutes/institute-carousel.vue'
 import ThemeRiverChart from '@/components/charts/themeriver-chart.vue'
 
@@ -329,12 +338,15 @@ export default {
 	name: 'landing',
 	layout: 'normal2',
 	middleware: ['guest'],
-	data: () => ({}),
+	data: () => ({
+		page_loaded: false,
+	}),
 	components: {
 		Tag,
 		Carousel,
 		PieChart,
 		MapChart,
+		StateChart,
 		StackChart,
 		AnimatedNumber,
 		ThemeRiverChart,
@@ -355,7 +367,9 @@ export default {
 	},
 	beforeMount() {},
 	mounted() {
-		this.$nextTick(() => {})
+		this.$nextTick(() => {
+			this.page_loaded = true
+		})
 	},
 }
 </script>
