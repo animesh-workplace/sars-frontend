@@ -195,6 +195,7 @@ export default {
 					'en-EN'
 				)}`
 				if(this.$device.isMobileOrTablet) {
+					this.options.series[0].top = '25%'
 					this.options.series[0].radius = ['50%', '100%']
 				}
 			}
