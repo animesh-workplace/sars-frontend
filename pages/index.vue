@@ -277,7 +277,7 @@
 			<div class="columns pb-6 is-vcentered">
 				<div class="column pb-12">
 					<!-- <MapChart /> -->
-					<StackChart v-if="page_loaded" />
+					<!-- <StackChart v-if="page_loaded" /> -->
 				</div>
 				<!-- 				<div class="column pb-6">
 					<StateChart v-if="page_loaded" />
@@ -286,7 +286,7 @@
 
 			<div class="columns pb-6 is-vcentered">
 				<div class="column pb-6">
-					<StateChart
+<!-- 					<StateChart
 						v-if="page_loaded"
 						:key="
 							landing_info_loaded
@@ -294,7 +294,7 @@
 								  Math.floor(Math.random() * 10000 + 1)
 								: 123
 						"
-					/>
+					/> -->
 				</div>
 			</div>
 			<!-- <div class="column pb-6"> -->
