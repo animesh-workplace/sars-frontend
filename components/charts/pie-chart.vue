@@ -8,11 +8,11 @@
 		</p>
 
 		<v-chart
-			class="chart"
 			ref="pie-chart"
 			:option="options"
 			:loading="chart_loader"
 			:loading-options="loader_option"
+			:class="$device.isMobileOrTablet ? 'chart-mobile': 'chart-desktop'"
 		/>
 	</div>
 </template>
@@ -66,17 +66,12 @@ export default {
 				icon: 'circle',
 				left: 'center',
 				top: 'top',
+				padding: [0, 0, 0, 0],
 				textStyle: {
 					fontSize: 15,
 					fontWeight: 500,
 					fontFamily: 'Averta',
 				},
-			},
-			grid: {
-				left: '0%',
-				right: '0%',
-				bottom: '0%',
-				containLabel: true,
 			},
 			series: [
 				{
@@ -199,6 +194,9 @@ export default {
 				this.options.series[0].label.formatter = `Total: ${this.landing_info.genomes_sequenced.toLocaleString(
 					'en-EN'
 				)}`
+				if(this.$device.isMobileOrTablet) {
+					this.options.series[0].radius = ['50%', '100%']
+				}
 			}
 			this.chart_loader = false
 		},
@@ -213,7 +211,10 @@ export default {
 </script>
 
 <style scoped>
-.chart {
+.chart-desktop {
 	height: 650px;
+}
+.chart-mobile {
+	height: 750px;
 }
 </style>
