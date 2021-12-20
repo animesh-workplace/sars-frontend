@@ -6,24 +6,6 @@
 					class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark"
 				>
 					Sequence distribution (State)
-					<vs-tooltip
-						top
-						class="is-inline-block is-shaked"
-						color="#CEE5F6"
-					>
-						<svg class="icon is-small is-color-changed mb-1">
-							<use
-								xlink:href="@/assets/images/icons/bds.svg#info-bold-g"
-							></use>
-						</svg>
-						<template #tooltip>
-							<p class="has-text-black is-size-5">
-								The numbers represented here are quality
-								checked data and doesn't represent the actual genomes
-								sequenced from these states
-							</p>
-						</template>
-					</vs-tooltip>
 				</div>
 			</div>
 		</div>
@@ -49,8 +31,9 @@
 </template>
 
 <script>
-import { orderBy, map } from 'lodash'
 import { use } from 'echarts/core'
+import { orderBy, map } from 'lodash'
+import { mapFields } from 'vuex-map-fields'
 import {
 	GridComponent,
 	LegendComponent,
@@ -243,6 +226,9 @@ export default {
 			series: [],
 		},
 	}),
+	computed: {
+		...mapFields(['landing_info', 'landing_info_loaded']),
+	},
 	components: {
 		VChart,
 	},
@@ -250,132 +236,102 @@ export default {
 		[THEME_KEY]: 'light',
 	},
 	methods: {
-		get_chartdata() {
-			let my_data = [
-				{ name: 'Delhi', value: 7201 },
-				{ name: 'Kerala', value: 7444 },
-				{ name: 'Haryana', value: 2811 },
-				{ name: 'Uttar Pradesh', value: 1766 },
-				{ name: 'Ladakh', value: 189 },
-				{ name: 'Bihar', value: 359 },
-				{ name: 'Assam', value: 1641 },
-				{ name: 'Arunachal Pradesh', value: 126 },
-				{ name: 'Karnataka', value: 4601 },
-				{ name: 'Puducherry', value: 890 },
-				{ name: 'Maharashtra', value: 10625 },
-				{ name: 'Chandigarh', value: 351 },
-				{ name: 'Himachal Pradesh', value: 1343 },
-				{ name: 'Andhra Pradesh', value: 5569 },
-				{ name: 'Telangana', value: 6925 },
-				{ name: 'Rajasthan', value: 2254 },
-				{ name: 'Tamil Nadu', value: 3802 },
-				{ name: 'Odisha', value: 3454 },
-				{ name: 'Meghalaya', value: 309 },
-				{ name: 'Punjab', value: 3341 },
-				{ name: 'Gujarat', value: 4405 },
-				{ name: 'Madhya Pradesh', value: 1885 },
-				{ name: 'Dadra and Nagar Haveli and Daman and Diu', value: 32 },
-				{ name: 'Uttarakhand', value: 969 },
-				{ name: 'Jharkhand', value: 851 },
-				{ name: 'Jammu and Kashmir', value: 1792 },
-				{ name: 'Manipur', value: 2056 },
-				{ name: 'Goa', value: 738 },
-				{ name: 'Andaman and Nicobar Islands', value: 56 },
-				{ name: 'Chhattisgarh', value: 1992 },
-				{ name: 'Lakshadweep', value: 70 },
-				{ name: 'Tripura', value: 329 },
-				{ name: 'West Bengal', value: 7405 },
-				{ name: 'Mizoram', value: 2889 },
-				{ name: 'Sikkim', value: 689 },
-				{ name: 'Nagaland', value: 203 },
-			]
-			let rename = {
-				'Andhra Pradesh': 'AP',
-				'Arunachal Pradesh': 'AR',
-				Assam: 'AS',
-				Bihar: 'BR',
-				Chhattisgarh: 'CT',
-				Goa: 'GA',
-				Gujarat: 'GJ',
-				Haryana: 'HR',
-				'Himachal Pradesh': 'HP',
-				Jharkhand: 'JH',
-				Karnataka: 'KA',
-				Kerala: 'KL',
-				'Madhya Pradesh': 'MP',
-				Maharashtra: 'MH',
-				Manipur: 'MN',
-				Meghalaya: 'ML',
-				Mizoram: 'MZ',
-				Nagaland: 'NL',
-				Odisha: 'OR',
-				Punjab: 'PB',
-				Rajasthan: 'RJ',
-				Sikkim: 'SK',
-				'Tamil Nadu': 'TN',
-				Telangana: 'TG',
-				Tripura: 'TR',
-				Uttarakhand: 'UT',
-				'Uttar Pradesh': 'UP',
-				'West Bengal': 'WB',
-				'Andaman and Nicobar Islands': 'AN',
-				Chandigarh: 'CH',
-				'Dadra and Nagar Haveli and Daman and Diu': 'DN',
-				Delhi: 'DL',
-				'Jammu and Kashmir': 'JK',
-				Ladakh: 'LA',
-				Lakshadweep: 'LD',
-				Puducherry: 'PY',
-			}
+		async get_chartdata() {
+			if (this.landing_info_loaded) {
+				let my_data = this.landing_info.map_data
+				let rename = {
+					'Andhra Pradesh': 'AP',
+					'Arunachal Pradesh': 'AR',
+					Assam: 'AS',
+					Bihar: 'BR',
+					Chhattisgarh: 'CT',
+					Goa: 'GA',
+					Gujarat: 'GJ',
+					Haryana: 'HR',
+					'Himachal Pradesh': 'HP',
+					Jharkhand: 'JH',
+					Karnataka: 'KA',
+					Kerala: 'KL',
+					'Madhya Pradesh': 'MP',
+					Maharashtra: 'MH',
+					Manipur: 'MN',
+					Meghalaya: 'ML',
+					Mizoram: 'MZ',
+					Nagaland: 'NL',
+					Odisha: 'OR',
+					Punjab: 'PB',
+					Rajasthan: 'RJ',
+					Sikkim: 'SK',
+					'Tamil Nadu': 'TN',
+					Telangana: 'TG',
+					Tripura: 'TR',
+					Uttarakhand: 'UT',
+					'Uttar Pradesh': 'UP',
+					'West Bengal': 'WB',
+					'Andaman and Nicobar Islands': 'AN',
+					Chandigarh: 'CH',
+					'Dadra and Nagar Haveli and Daman and Diu': 'DN',
+					Delhi: 'DL',
+					'Jammu and Kashmir': 'JK',
+					Ladakh: 'LA',
+					Lakshadweep: 'LD',
+					Puducherry: 'PY',
+				}
 
-			if (this.$device.isMobileOrTablet) {
-				let output = [
-					{
-						type: 'bar',
-						data: map(
-							orderBy(my_data, ['name'], 'desc'),
-							(d) => d.value
-						),
-						label: {
-							show: true,
-							fontSize: 11,
-							fontWeight: 500,
-							fontFamily: 'Averta',
-							position: this.$device.isMobileOrTablet
-								? 'right'
-								: 'top',
+				if (this.$device.isMobileOrTablet) {
+					let output = [
+						{
+							type: 'bar',
+							data: map(
+								orderBy(my_data, ['name'], 'desc'),
+								(d) => d.value
+							),
+							label: {
+								show: true,
+								fontSize: 11,
+								fontWeight: 500,
+								fontFamily: 'Averta',
+								position: this.$device.isMobileOrTablet
+									? 'right'
+									: 'top',
+							},
 						},
-					},
-				]
-				this.options_mobile.yAxis.data = map(
-					orderBy(my_data, ['name'], 'desc'),
-					(d) => rename[d.name]
-				)
-				this.options_mobile.series = output
+					]
+					this.options_mobile.yAxis.data = map(
+						orderBy(my_data, ['name'], 'desc'),
+						(d) => rename[d.name]
+					)
+					this.options_mobile.series = output
+				} else {
+					let output = [
+						{
+							type: 'bar',
+							data: map(
+								orderBy(my_data, ['name'], 'asc'),
+								(d) => d.value
+							),
+							itemStyle: {
+								borderRadius: [3, 3, 0, 0],
+							},
+							label: {
+								show: true,
+								fontSize: 11,
+								fontWeight: 500,
+								fontFamily: 'Averta',
+								position: this.$device.isMobileOrTablet
+									? 'right'
+									: 'top',
+							},
+						},
+					]
+					this.options_desktop.xAxis.data = map(
+						orderBy(my_data, ['name'], 'asc'),
+						(d) => rename[d.name]
+					)
+					this.options_desktop.series = output
+				}
 			} else {
-				let output = [
-					{
-						type: 'bar',
-						data: map(
-							orderBy(my_data, ['name'], 'asc'),
-							(d) => d.value
-						),
-						label: {
-							show: true,
-							fontSize: 11,
-							fontWeight: 500,
-							fontFamily: 'Averta',
-							position: this.$device.isMobileOrTablet
-								? 'right'
-								: 'top',
-						},
-					},
-				]
-				this.options_desktop.xAxis.data = map(
-					orderBy(my_data, ['name'], 'asc'),
-					(d) => rename[d.name]
-				)
-				this.options_desktop.series = output
+				console.log('Data not loaded')
 			}
 		},
 	},
