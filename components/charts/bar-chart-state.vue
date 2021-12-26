@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="columns is-mobile mb-0">
-			<div class="column is-8 is-offset-2 has-text-centered pb-4">
+			<div class="column is-8 is-offset-2 has-text-centered">
 				<div
 					class="is-size-4 has-text-medium has-text-weight-semibold has-text-grey-dark"
 				>
