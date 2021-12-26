@@ -330,8 +330,6 @@ export default {
 					)
 					this.options_desktop.series = output
 				}
-			} else {
-				console.log('Data not loaded')
 			}
 		},
 	},
