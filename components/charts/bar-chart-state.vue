@@ -286,6 +286,9 @@ export default {
 								orderBy(my_data, ['name'], 'desc'),
 								(d) => d.value
 							),
+							itemStyle: {
+								borderRadius: [0, 3, 3, 0],
+							},
 							label: {
 								show: true,
 								fontSize: 11,
