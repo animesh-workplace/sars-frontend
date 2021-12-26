@@ -285,7 +285,7 @@
 				/>
 			</div> -->
 
-			<div class="column pb-6">
+			<div class="column pb-12">
 				<StateChart
 					v-if="page_loaded"
 					:key="
@@ -443,5 +443,8 @@ export default {
 }
 .is-custom-mobile {
 	width: 128px;
+}
+.pb-12 {
+	padding-bottom: 12rem;
 }
 </style>
