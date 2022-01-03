@@ -274,7 +274,7 @@
 				</svg>
 			</div>
 
-<!-- 			<div class="column pb-6">
+			<div class="column pb-6">
 				<StackChart
 					v-if="page_loaded"
 					:key="
@@ -283,7 +283,7 @@
 							: 123
 					"
 				/>
-			</div> -->
+			</div>
 
 			<div class="column pb-12">
 				<StateChart
