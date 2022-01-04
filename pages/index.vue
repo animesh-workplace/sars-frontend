@@ -72,7 +72,7 @@
 					<div class="pb-3">
 						<p align="justify">
 							The Indian SARS-CoV-2 Genomics Consortium (INSACOG),
-							a consortium of 38 National Laboratories is a
+							a consortium of 43 National Laboratories is a
 							Pan-India network to monitor genomic variations in
 							the SARS-CoV-2 by a sentinel sequencing effort. The
 							network carries out whole genome sequencing of
