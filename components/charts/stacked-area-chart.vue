@@ -94,6 +94,7 @@ export default {
 				data: [],
 			},
 			grid: {
+				y: '10%',
 				left: '0%',
 				right: '0%',
 				bottom: '0%',
@@ -189,7 +190,9 @@ export default {
 				}))
 				this.options.series = s
 				this.options.legend.data = only_name
-				this.chart_loader = false
+				if(this.$device.isMobileOrTablet) {
+					this.options.grid.y = '30%'
+				}
 			}
 			this.chart_loader = false
 		},
