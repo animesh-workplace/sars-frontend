@@ -369,7 +369,7 @@ export default {
 	},
 	methods: {
 		formatnumber(x) {
-			return x.toLocaleString('en-EN')
+			return x.toLocaleString('en-IN')
 		},
 	},
 	beforeMount() {},
