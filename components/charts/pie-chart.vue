@@ -192,7 +192,7 @@ export default {
 			if (this.landing_info_loaded) {
 				this.options.series[0].data = this.landing_info.pie_chart_data
 				this.options.series[0].label.formatter = `Total: ${this.landing_info.genomes_sequenced.toLocaleString(
-					'en-EN'
+					'en-IN'
 				)}`
 				if(this.$device.isMobileOrTablet) {
 					this.options.series[0].top = '30%'
