@@ -73,11 +73,6 @@ export default {
 					fontFamily: 'Averta',
 					fontWeight: 500,
 				},
-				// formatter: function (params) {
-				// 	let selected = filter(params, (d) => d.value)
-				// 	console.log(selected)
-				// 	// console.log(filter(params, (d) => d.value))
-				// },
 			},
 			legend: {
 				top: 'top',
