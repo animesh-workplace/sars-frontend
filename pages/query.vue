@@ -25,7 +25,7 @@
 			</div>
 		</section>
 		<section class="section">
-			<div class="my-container">
+			<div :class="$device.isMobileOrTablet ? 'my-container-mobile': 'my-container'">
 				<div class="columns">
 					<div class="column is-5">
 						<div class="mb-4">
@@ -160,7 +160,7 @@
 								</div>
 							</div>
 
-							<div class="columns">
+							<div class="columns is-mobile">
 								<div class="column">
 									<div class="mb-2">
 										<label class="label has-text-grey-dark">
@@ -378,6 +378,10 @@ td {
 }
 .my-container {
 	margin: 0 5rem;
+	position: relative;
+}
+.my-container-mobile {
+	margin: 0 auto;
 	position: relative;
 }
 .has-logo-size {
