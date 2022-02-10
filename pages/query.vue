@@ -206,7 +206,7 @@
 							@click="send_websocket()"
 							class="button is-fullwidth is-info"
 						>
-							<span>Send Websocket</span>
+							<span>Search</span>
 						</div>
 					</div>
 
