@@ -1,224 +1,272 @@
 <template>
-	<section class="section mt-6 pb-0">
-		<div class="my-container">
-			<div class="columns">
-				<div class="column is-4">
-					<div class="mb-4">
-						<div class="mb-2">
-							<label class="label has-text-grey-dark">
-								Lineage
-							</label>
-							<div class="control has-icons-left has-icons-right">
-								<input
-									type="text"
-									class="input"
-									v-model="form.lineage"
-								/>
-								<svg class="icon is-left">
-									<use
-										xlink:href="@/assets/images/icons/bds.svg#filter-g"
-									></use>
-								</svg>
-								<div class="icon is-right is-clickable">
-									<b-tooltip
-										animated
-										multilined
-										:delay="100"
-										type="is-info"
-										size="is-small"
-										label="Testing"
-										position="is-top"
-									>
-										<svg
-											class="image is-20x20 has-fill-grey"
-										>
-											<use
-												xlink:href="@/assets/images/icons/bds.svg#info-bold-g"
-											></use>
-										</svg>
-									</b-tooltip>
-								</div>
-							</div>
-						</div>
-
-						<div class="mb-2">
-							<label class="label has-text-grey-dark">
-								State
-							</label>
-							<div class="control has-icons-left has-icons-right">
-								<input
-									type="text"
-									class="input"
-									v-model="form.state"
-								/>
-								<svg class="icon is-left">
-									<use
-										xlink:href="@/assets/images/icons/bds.svg#filter-g"
-									></use>
-								</svg>
-								<div class="icon is-right is-clickable">
-									<b-tooltip
-										animated
-										multilined
-										:delay="100"
-										type="is-info"
-										size="is-small"
-										label="Testing"
-										position="is-top"
-									>
-										<svg
-											class="image is-20x20 has-fill-grey"
-										>
-											<use
-												xlink:href="@/assets/images/icons/bds.svg#info-bold-g"
-											></use>
-										</svg>
-									</b-tooltip>
-								</div>
-							</div>
-						</div>
-
-						<div class="mb-2">
-							<label class="label has-text-grey-dark">
-								Mutation
-							</label>
-							<div class="control has-icons-left has-icons-right">
-								<input
-									type="text"
-									class="input"
-									v-model="form.mutation"
-								/>
-								<svg class="icon is-left">
-									<use
-										xlink:href="@/assets/images/icons/bds.svg#filter-g"
-									></use>
-								</svg>
-								<div class="icon is-right is-clickable">
-									<b-tooltip
-										animated
-										multilined
-										:delay="100"
-										type="is-info"
-										size="is-small"
-										label="Testing"
-										position="is-top"
-									>
-										<svg
-											class="image is-20x20 has-fill-grey"
-										>
-											<use
-												xlink:href="@/assets/images/icons/bds.svg#info-bold-g"
-											></use>
-										</svg>
-									</b-tooltip>
-								</div>
-							</div>
-						</div>
-
-						<div class="columns">
-							<div class="column">
-								<div class="mb-2">
-									<label class="label has-text-grey-dark">
-										From
-									</label>
-									<div class="control has-icons-left">
-										<input
-											type="date"
-											class="input"
-											v-model="form.from_date"
-										/>
-										<svg class="icon is-left">
-											<use
-												xlink:href="@/assets/images/icons/bds.svg#filter-g"
-											></use>
-										</svg>
-									</div>
-								</div>
-							</div>
-							<div class="column">
-								<div class="mb-2">
-									<label class="label has-text-grey-dark">
-										To
-									</label>
-									<div class="control has-icons-left">
-										<input
-											type="date"
-											class="input"
-											v-model="form.to_date"
-										/>
-										<svg class="icon is-left">
-											<use
-												xlink:href="@/assets/images/icons/bds.svg#filter-g"
-											></use>
-										</svg>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div
-						@click="send_websocket()"
-						class="button is-fullwidth is-info"
-					>
-						<span>Send Websocket</span>
-					</div>
+	<div>
+		<section class="section mt-6 pb-0">
+			<div class="container">
+				<div class="level-item has-text-centered">
+					<figure class="image has-logo-size">
+						<img
+							src="@/assets/logo/insacog_queryhub_logo.png"
+							alt="INSACOG QueryHub, Logo"
+						/>
+					</figure>
 				</div>
+				<p align="justify">
+					The INSACOG QueryHub enables the user to query across the
+					SARS-CoV-2 genome sequences present at INSACOG DataHub. The
+					idea behind creating the INSACOG QueryHub is to make the
+					genomic data discoverable for research and clinical purpose
+					to the public which will help in understanding the spread
+					and control of the new coronavirus.The INSACOG QueryHub
+					allows the user to search queries related to the presence or
+					absence of specific/multiple variants and lineages in the
+					dataset. The interface is developed and managed at National
+					Institute of Biomedical Genomics.
+				</p>
+			</div>
+		</section>
+		<section class="section">
+			<div class="my-container">
+				<div class="columns">
+					<div class="column is-5">
+						<div class="mb-4">
+							<div class="mb-2">
+								<label class="label has-text-grey-dark">
+									Lineage
+								</label>
+								<div
+									class="control has-icons-left has-icons-right"
+								>
+									<input
+										type="text"
+										class="input"
+										v-model="form.lineage"
+									/>
+									<svg class="icon is-left">
+										<use
+											xlink:href="@/assets/images/icons/bds.svg#filter-g"
+										></use>
+									</svg>
+									<div class="icon is-right is-clickable">
+										<vs-tooltip>
+											<svg
+												class="image is-20x20 has-fill-grey"
+											>
+												<use
+													xlink:href="@/assets/images/icons/bds.svg#info-bold-g"
+												></use>
+											</svg>
+											<template #tooltip>
+												<p>
+													Multiple lineages need to be
+													comma separated
+												</p>
+											</template>
+										</vs-tooltip>
+									</div>
+								</div>
+							</div>
 
-				<div class="column is-8 mt-4">
-					<div class="columns" v-if="output != null">
-						<div class="column is-4"></div>
-						<div class="column">
-							<table
-								class="table is-striped is-hoverable is-bordered is-narrow has-text-centered is-fullwidth"
-							>
-								<thead>
-									<tr
-										class="has-text-weight-medium is-size-4"
-									>
-										<th>State</th>
-										<th>Count</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr
-										:key="index"
-										v-for="(item, index) in output.state"
-									>
-										<td>{{ item.state }}</td>
-										<td>{{ item.count }}</td>
-									</tr>
-								</tbody>
-							</table>
+							<div class="mb-2">
+								<label class="label has-text-grey-dark">
+									State
+								</label>
+								<div
+									class="control has-icons-left has-icons-right"
+								>
+									<input
+										type="text"
+										class="input"
+										v-model="form.state"
+									/>
+									<svg class="icon is-left">
+										<use
+											xlink:href="@/assets/images/icons/bds.svg#filter-g"
+										></use>
+									</svg>
+									<div class="icon is-right is-clickable">
+										<vs-tooltip>
+											<svg
+												class="image is-20x20 has-fill-grey"
+											>
+												<use
+													xlink:href="@/assets/images/icons/bds.svg#info-bold-g"
+												></use>
+											</svg>
+											<template #tooltip>
+												<p>
+													Multiple states need to be
+													comma separated
+												</p>
+											</template>
+										</vs-tooltip>
+									</div>
+								</div>
+							</div>
+
+							<div class="mb-2">
+								<label class="label has-text-grey-dark">
+									Mutation
+								</label>
+								<div
+									class="control has-icons-left has-icons-right"
+								>
+									<input
+										type="text"
+										class="input"
+										v-model="form.mutation"
+									/>
+									<svg class="icon is-left">
+										<use
+											xlink:href="@/assets/images/icons/bds.svg#filter-g"
+										></use>
+									</svg>
+									<div class="icon is-right is-clickable">
+										<vs-tooltip>
+											<svg
+												class="image is-20x20 has-fill-grey"
+											>
+												<use
+													xlink:href="@/assets/images/icons/bds.svg#info-bold-g"
+												></use>
+											</svg>
+											<template #tooltip>
+												<p>
+													Mutations need to be in the
+													format of <br />
+													<span class="tag mt-2">
+														Gene
+													</span>
+													:
+													<span class="tag mt-2">
+														Reference
+													</span>
+													<span class="tag mt-2">
+														Position
+													</span>
+													<span class="tag mt-2">
+														Mutant
+													</span>
+													<br />
+													example:
+													<span class="tag mt-2"
+														>S:D614G</span
+													>
+													<br />Multiple mutations
+													need to be comma separated
+												</p>
+											</template>
+										</vs-tooltip>
+									</div>
+								</div>
+							</div>
+
+							<div class="columns">
+								<div class="column">
+									<div class="mb-2">
+										<label class="label has-text-grey-dark">
+											From
+										</label>
+										<div class="control has-icons-left">
+											<input
+												type="date"
+												class="input"
+												v-model="form.from_date"
+											/>
+											<svg class="icon is-left">
+												<use
+													xlink:href="@/assets/images/icons/bds.svg#filter-g"
+												></use>
+											</svg>
+										</div>
+									</div>
+								</div>
+								<div class="column">
+									<div class="mb-2">
+										<label class="label has-text-grey-dark">
+											To
+										</label>
+										<div class="control has-icons-left">
+											<input
+												type="date"
+												class="input"
+												v-model="form.to_date"
+											/>
+											<svg class="icon is-left">
+												<use
+													xlink:href="@/assets/images/icons/bds.svg#filter-g"
+												></use>
+											</svg>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="column">
-							<table
-								class="table is-striped is-hoverable is-bordered is-narrow has-text-centered is-fullwidth"
-							>
-								<thead>
-									<tr
-										class="has-text-weight-medium is-size-4"
-									>
-										<th>Lineage</th>
-										<th>Count</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr
-										:key="index"
-										v-for="(item, index) in output.lineage"
-									>
-										<td>{{ item.lineage }}</td>
-										<td>{{ item.count }}</td>
-									</tr>
-								</tbody>
-							</table>
+
+						<div
+							@click="send_websocket()"
+							class="button is-fullwidth is-info"
+						>
+							<span>Send Websocket</span>
+						</div>
+					</div>
+
+					<div class="column is-7 mt-4">
+						<div class="columns" v-if="output != null">
+							<div class="column is-1"></div>
+							<div class="column">
+								<table
+									class="table is-striped is-hoverable is-bordered is-narrow has-text-centered is-fullwidth is-rounded"
+								>
+									<thead>
+										<tr
+											class="has-text-weight-medium is-size-4"
+										>
+											<th>State</th>
+											<th>Count</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											:key="index"
+											v-for="(item,
+											index) in output.state"
+										>
+											<td>{{ item.state }}</td>
+											<td>{{ item.count }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="column">
+								<table
+									class="table is-striped is-hoverable is-bordered is-narrow has-text-centered is-fullwidth"
+								>
+									<thead>
+										<tr
+											class="has-text-weight-medium is-size-4"
+										>
+											<th>Lineage</th>
+											<th>Count</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											:key="index"
+											v-for="(item,
+											index) in output.lineage"
+										>
+											<td>{{ item.lineage }}</td>
+											<td>{{ item.count }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</div>
 </template>
 
 <script>
@@ -278,7 +326,7 @@ export default {
 								  ),
 							to_date: isEmpty(this.form.to_date)
 								? null
-								: to_date,
+								: this.form.to_date,
 							lineage: isEmpty(this.form.lineage)
 								? null
 								: map(this.form.lineage.split(','), (d) =>
@@ -289,9 +337,9 @@ export default {
 								: map(this.form.mutation.split(','), (d) =>
 										toUpper(d)
 								  ),
-							from_date: isEmpty(this.form.to_date)
+							from_date: isEmpty(this.form.from_date)
 								? null
-								: from_date,
+								: this.form.from_date,
 						},
 					})
 				)
@@ -331,5 +379,13 @@ td {
 .my-container {
 	margin: 0 5rem;
 	position: relative;
+}
+.has-logo-size {
+	width: 550px;
+	max-height: 70px;
+	max-width: 550px;
+}
+.is-rounded {
+	border-radius: 1rem;
 }
 </style>
