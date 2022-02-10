@@ -2,7 +2,7 @@
 	<footer class="footer has-background-theme py-4">
 		<div class="content has-text-centered">
 			<p class="subtitle is-5 has-text-light my-1">
-				© INSACOG DataHub 2021. All rights reserved.
+				© INSACOG DataHub 2022. All rights reserved.
 			</p>
 			<p class="subtitle is-5 has-text-light my-0">
 				<b>INSACOG</b> DataHub is developed & maintained by NSM group
