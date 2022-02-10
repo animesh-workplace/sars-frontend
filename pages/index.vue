@@ -250,7 +250,7 @@
 									<figure class="image has-logo-size">
 										<img
 											src="@/assets/logo/insacog_queryhub_logo.png"
-											alt="Indian SARS-CoV-2 Genomics Consortium, Logo"
+											alt="INSACOG QueryHub, Logo"
 										/>
 									</figure>
 								</nuxt-link>
