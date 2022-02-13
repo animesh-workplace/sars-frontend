@@ -72,7 +72,7 @@
 					<div class="pb-3">
 						<p align="justify">
 							The Indian SARS-CoV-2 Genomics Consortium (INSACOG),
-							a consortium of 49 Laboratories is a Pan-India
+							a consortium of 52 Laboratories is a Pan-India
 							network to monitor genomic variations in the
 							SARS-CoV-2 by a sentinel sequencing effort. The
 							network carries out whole genome sequencing of
@@ -243,7 +243,7 @@
 						</div>
 					</div>
 
-					<div class="py-3">
+<!-- 					<div class="py-3">
 						<div class="level mt-2 mb-0">
 							<div class="level-item has-text-centered">
 								<nuxt-link to="/query">
@@ -256,7 +256,7 @@
 								</nuxt-link>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 
 				<div class="column is-4">
