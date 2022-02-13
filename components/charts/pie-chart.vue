@@ -76,7 +76,7 @@ export default {
 			series: [
 				{
 					type: 'pie',
-					top: '20%',
+					top: '30%',
 					radius: ['35%', '70%'],
 					avoidLabelOverlap: true,
 					itemStyle: {
@@ -213,7 +213,7 @@ export default {
 
 <style scoped>
 .chart-desktop {
-	height: 650px;
+	height: 700px;
 }
 .chart-mobile {
 	height: 750px;
