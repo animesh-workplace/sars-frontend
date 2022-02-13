@@ -195,7 +195,7 @@ export default {
 					'en-IN'
 				)}`
 				if(this.$device.isMobileOrTablet) {
-					this.options.series[0].top = '30%'
+					this.options.series[0].top = '40%'
 					this.options.series[0].radius = ['50%', '100%']
 				}
 			}
@@ -216,6 +216,6 @@ export default {
 	height: 700px;
 }
 .chart-mobile {
-	height: 750px;
+	height: 800px;
 }
 </style>
