@@ -177,6 +177,7 @@ export default {
 					'Nov-2021',
 					'Dec-2021',
 					'Jan-2022',
+					'Feb-2022'
 				]
 				if(this.$device.isMobileOrTablet) {
 					this.options.grid.y = '30%'
