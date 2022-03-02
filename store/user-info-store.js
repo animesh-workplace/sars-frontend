@@ -78,12 +78,12 @@ export const actions = {
 		}
 	},
 	async user_logout({ commit, dispatch }) {
+		umami.trackEvent('Logged out', this.$auth.user)
 		this.$auth.logout()
 		this.$cookies.remove('c_uid')
 		this.$auth.$storage.setCookie('token_expiry', false)
 		await commit('SET_TOKEN_EXPIRY', '')
 		await this.dispatch('websocket_disconnect')
-		umami.trackEvent('Logged out', this.$auth.user)
 		Toast.open({
 			type: 'is-info',
 			message:'Logged Out',
