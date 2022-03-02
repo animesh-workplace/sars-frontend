@@ -65,6 +65,7 @@ export const actions = {
 	async get_user_status({ commit, dispatch }) {
 		try {
 			const data = await this.$axios.$post('/auth/user-info/')
+			umami.trackEvent('Logged in', data.username.split('_')[1])
 			this.$auth.setUser(data.username.split('_')[1])
 			await commit('SET_SHOW_EXPORT', data.export)
 			await commit('SET_SHOW_DOWNLOAD', data.download)
@@ -82,6 +83,7 @@ export const actions = {
 		this.$auth.$storage.setCookie('token_expiry', false)
 		await commit('SET_TOKEN_EXPIRY', '')
 		await this.dispatch('websocket_disconnect')
+		umami.trackEvent('Logged out', this.$auth.user)
 		Toast.open({
 			type: 'is-info',
 			message:'Logged Out',
