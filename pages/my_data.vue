@@ -216,6 +216,7 @@ export default {
 		},
 		download_annotated() {
 			if(this.show_export) {
+				umami.trackEvent('Exporting data', this.$auth.user)
 				this.my_notification = this.$vs.notification({
 					type 		: 'border',
 					text		: '<span class="has-text-grey-white">Please wait while we fetch and compile the data. Please do not close this window</span>',
