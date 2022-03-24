@@ -243,7 +243,7 @@
 						</div>
 					</div>
 
-<!-- 					<div class="py-3">
+					<!-- 					<div class="py-3">
 						<div class="level mt-2 mb-0">
 							<div class="level-item has-text-centered">
 								<nuxt-link to="/query">
@@ -391,6 +391,16 @@ export default {
 	mounted() {
 		this.$nextTick(() => {
 			this.page_loaded = true
+			const noti = this.$vs.notification({
+				square: true,
+				color: '#fdba74',
+				buttonClose: false,
+				duration: 'none',
+				title:
+					"<p class='is-size-5 has-text-black'>Scheduled Maintenance</p>",
+				text:
+					"<p class='is-size-6 has-text-weight-semibold has-text-black'>Due to scheduled maintenance activity INSACOG DataHub won't be available from 10am - 5pm on 25th March 2022</p>",
+			})
 		})
 	},
 }
