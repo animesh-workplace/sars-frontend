@@ -399,7 +399,7 @@ export default {
 				title:
 					"<p class='is-size-5 has-text-black'>Scheduled Maintenance</p>",
 				text:
-					"<p class='is-size-6 has-text-weight-semibold has-text-black'>Due to scheduled maintenance activity INSACOG DataHub won't be available from 10am - 5pm on 25th March 2022</p>",
+					"<p class='is-size-6 has-text-weight-semibold has-text-black'>Due to scheduled maintenance activity INSACOG DataHub won't be available from 9am - 5pm on 25th March 2022</p>",
 			})
 		})
 	},
