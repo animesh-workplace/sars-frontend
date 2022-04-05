@@ -143,7 +143,7 @@ export default {
 	/*
 	 ** Nuxt.js dev-modules
 	 */
-	buildModules: ['@nuxtjs/svg', '@nuxtjs/device', '@nuxtjs/style-resources'],
+	buildModules: ['@nuxtjs/svg', '@nuxtjs/device', '@nuxtjs/composition-api/module'],
 	device: {
 		refreshOnResize: true,
 	},
