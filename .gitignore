@@ -1,6 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 
+old_node_modules/
+
 # Temp files
 *.fasta
 *.fa
