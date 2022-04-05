@@ -124,16 +124,16 @@ export default {
 	 */
 	plugins: [
 		'@/plugins/vuesax',
-		'@/plugins/vue-typed',
-		'@/plugins/vue-moment',
+		// '@/plugins/vue-typed',
+		// '@/plugins/vue-moment',
 		'@/plugins/v-clipboard',
-		'@/plugins/vue-composition',
-		'@/plugins/v-click-outside',
-		{ src: '@/plugins/vue-chart', ssr: false },
+		// '@/plugins/vue-composition',
+		// '@/plugins/v-click-outside',
+		// { src: '@/plugins/vue-chart', ssr: false },
 		{ src: '@/plugins/vue-flickity', ssr: false },
 		{ src: '@/plugins/vue-websocket', ssr: false },
-		{ src: '@/plugins/vue-localstorage', ssr: false },
-		{ src: '@/plugins/vue-sessionstorage', ssr: false },
+		// { src: '@/plugins/vue-localstorage', ssr: false },
+		// { src: '@/plugins/vue-sessionstorage', ssr: false },
 	],
 	/*
 	 ** Auto import components
