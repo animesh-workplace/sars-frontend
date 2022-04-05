@@ -350,7 +350,7 @@ import { mapFields } from 'vuex-map-fields'
 import AnimatedNumber from 'animated-number-vue'
 import Tag from '@/components/table/cool-tag.vue'
 import PieChart from '@/components/charts/pie-chart.vue'
-import MapChart from '@/components/charts/map-chart-landing.vue'
+// import MapChart from '@/components/charts/map-chart-landing.vue'
 import StackChart from '@/components/charts/stacked-area-chart.vue'
 import StateChart from '@/components/charts/bar-chart-state.vue'
 import Carousel from '@/components/institutes/institute-carousel.vue'
@@ -367,7 +367,7 @@ export default {
 		Tag,
 		Carousel,
 		PieChart,
-		MapChart,
+		// MapChart,
 		StateChart,
 		StackChart,
 		AnimatedNumber,
