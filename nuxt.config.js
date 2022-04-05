@@ -99,21 +99,21 @@ export default {
 				href: `${process.env.ROUTER_BASE}/favicon.ico`,
 			},
 		],
-		script: [
-			{
-				async: true,
-				defer: true,
-				type: 'text/javascript',
-				src: 'https://research.nibmg.ac.in/umami/umami.js',
-				'data-website-id': '299b2805-f1e4-43a0-b240-e27c7eb5c27b',
-			},
-		],
+		// script: [
+		// 	{
+		// 		async: true,
+		// 		defer: true,
+		// 		type: 'text/javascript',
+		// 		src: 'https://research.nibmg.ac.in/umami/umami.js',
+		// 		'data-website-id': '299b2805-f1e4-43a0-b240-e27c7eb5c27b',
+		// 	},
+		// ],
 	},
 	/*
 	 ** Global CSS
 	 */
 	css: [
-		'animate.css/animate.css',
+		// 'animate.css/animate.css',
 		'vuesax/dist/vuesax.css',
 		'biings-ds/build/bds.css',
 		'static/css/style.css',
