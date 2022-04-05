@@ -7,11 +7,11 @@ export const state = () => ({
 	show_export: false,
 	show_download: false,
 	// uploaded_metadata: {},
-});
+})
 
 export const getters = {
 	getField,
-};
+}
 
 export const mutations = {
 	SET_TOKEN_EXPIRY(state, payload) {
@@ -36,10 +36,13 @@ export const actions = {
 	async user_login({ commit, dispatch }, payload) {
 		try {
 			const data = await this.$axios.$post('/auth/login/', payload)
-			this.$auth.setToken('local', `JWT ${ data.token }`)
+			this.$auth.setToken('local', `JWT ${data.token}`)
 			this.$auth.setRefreshToken('local', data.token)
-			this.$axios.setHeader('Authorization', `JWT ${ data.token }`)
-			this.$auth.ctx.app.$axios.setHeader('Authorization', `JWT ${ data.token }`)
+			this.$axios.setHeader('Authorization', `JWT ${data.token}`)
+			this.$auth.ctx.app.$axios.setHeader(
+				'Authorization',
+				`JWT ${data.token}`
+			)
 			await commit('SET_TOKEN_EXPIRY', data.expires)
 			await commit('SET_SHOW_DOWNLOAD', data.download)
 			this.$auth.$storage.setCookie('token_expiry', data.expires)
@@ -51,13 +54,14 @@ export const actions = {
 			Toast.open({
 				message: `Logged In Successfully`,
 				type: 'is-success',
-				position: 'is-bottom'
+				position: 'is-bottom',
 			})
-		} catch(err) {
+		} catch (err) {
 			Toast.open({
-				message: err.response.data['message'][0] || err.response.data || err,
+				message:
+					err.response.data['message'][0] || err.response.data || err,
 				type: 'is-danger',
-				position: 'is-bottom'
+				position: 'is-bottom',
 			})
 		}
 	},
@@ -68,11 +72,12 @@ export const actions = {
 			this.$auth.setUser(data.username.split('_')[1])
 			await commit('SET_SHOW_EXPORT', data.export)
 			await commit('SET_SHOW_DOWNLOAD', data.download)
-		} catch(err) {
+		} catch (err) {
 			Toast.open({
-				message: err.response.data['message'][0] || err.response.data || err,
+				message:
+					err.response.data['message'][0] || err.response.data || err,
 				type: 'is-danger',
-				position: 'is-bottom'
+				position: 'is-bottom',
 			})
 		}
 	},
@@ -85,8 +90,8 @@ export const actions = {
 		await this.dispatch('websocket_disconnect')
 		Toast.open({
 			type: 'is-info',
-			message:'Logged Out',
-			position: 'is-bottom'
+			message: 'Logged Out',
+			position: 'is-bottom',
 		})
 	},
 	async user_logout_server({ commit, dispatch }) {
@@ -100,8 +105,10 @@ export const actions = {
 	// 	commit('SET_UPLOADED_METADATA', metadata_header)
 	// },
 	async set_download_link({ commit, state }) {
-		if(state.show_download) {
-			const link_api = await this.$axios.$post('/files/metadata-download/')
+		if (state.show_download) {
+			const link_api = await this.$axios.$post(
+				'/files/metadata-download/'
+			)
 			let link = link_api
 			commit('SET_DOWNLOAD_LINK', link)
 		}
