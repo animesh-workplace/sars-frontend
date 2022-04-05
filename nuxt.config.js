@@ -153,10 +153,10 @@ export default {
 	modules: [
 		'@nuxtjs/auth',
 		'@nuxtjs/axios',
-		'nuxt-validate',
+		// 'nuxt-validate',
 		'@nuxtjs/dayjs',
 		'@nuxtjs/dotenv',
-		'cookie-universal-nuxt',
+		// 'cookie-universal-nuxt',
 		['nuxt-buefy', { materialDesignIcons: false }],
 	],
 
