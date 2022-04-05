@@ -39,12 +39,10 @@ import { map, sum, forEach, startCase } from 'lodash'
 import vueFilePond from 'vue-filepond'
 import csv2json from 'csvjson-csv2json'
 import { mapFields } from 'vuex-map-fields'
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+// import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 
 
-let FilePond = vueFilePond(
-	FilePondPluginFileValidateType,
-);
+let FilePond = vueFilePond();
 
 export default {
 	data: () => ({
