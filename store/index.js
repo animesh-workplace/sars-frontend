@@ -95,7 +95,7 @@ export const actions = {
 		this.$socket.send(JSON.stringify(payload))
 	},
 	async set_landing_info({ commit }) {
-		const data = await this.$axios.$post('/files/landing-stats/')
+		const data = await this.$axios.$post('https://research.nibmg.ac.in/insacog/api/files/landing-stats/')
 		commit('SET_LANDING', data)
 	},
 }
